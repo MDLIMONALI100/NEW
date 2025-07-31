@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'IBM Plex Mono', monospace;
-      background: #f8f1e9;
+      background: #f8f1e9 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVQImQXBIQEAAADCoP6/9+4BAPf4BPbXOnjKAAAAAElFTkSuQmCC') repeat;
       color: #2f2f2f;
       overflow-x: hidden;
       line-height: 1.6;
@@ -81,6 +81,7 @@
       justify-content: center;
       position: relative;
       padding-left: 40px;
+      background: linear-gradient(180deg, rgba(176,122,90,0.05) 0%, transparent 100%);
     }
 
     .hero::before {
@@ -105,16 +106,40 @@
       z-index: -1;
     }
 
-    .profile-img {
+    .hero-wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113.64,28.07,1200,56.86V0Z" fill="rgba(176,122,90,0.1)"></path></svg>');
+      background-size: cover;
+      animation: wave 10s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes wave {
+      0% { background-position: 0 0; }
+      100% { background-position: 1200px 0; }
+    }
+
+    .profile-img-container {
       width: 200px;
       height: 200px;
       border-radius: 50%;
-      object-fit: cover;
+      overflow: hidden;
       margin: 0 0 20px;
       transition: transform 0.3s ease;
     }
 
-    .profile-img:hover {
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .profile-img-container:hover {
       transform: scale(1.05);
     }
 
@@ -133,9 +158,18 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: 1.2rem;
       color: #555;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       opacity: 0;
       animation: fadeIn 1s forwards 2s;
+    }
+
+    .hero .tagline {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1s forwards 2.5s;
     }
 
     @keyframes fadeIn {
@@ -189,6 +223,15 @@
       transform: translateY(-2px);
     }
 
+    .hero-divider {
+      width: 60px;
+      height: 2px;
+      background: #b07a5a;
+      margin: 20px 0;
+      opacity: 0;
+      animation: fadeIn 1s forwards 3s;
+    }
+
     .scroll-down {
       margin-top: 40px;
       font-size: 1.5rem;
@@ -222,6 +265,30 @@
         opacity: 1;
         transform: translateX(0);
       }
+    }
+
+    /* Skills Section */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .skill {
+      background: #fff;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: #666;
+      transition: transform 0.3s ease;
+    }
+
+    .skill:hover {
+      transform: translateY(-3px);
+      background: #b07a5a;
+      color: #fff;
     }
 
     /* Sections */
@@ -376,7 +443,7 @@
         font-size: 2rem;
       }
 
-      .profile-img {
+      .profile-img-container {
         width: 160px;
         height: 160px;
       }
@@ -388,6 +455,10 @@
       .social-buttons {
         flex-direction: column;
         gap: 10px;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       }
     }
   </style>
@@ -403,16 +474,21 @@
 
 <!-- Header / Hero -->
 <header class="hero">
-  <img src="profile.png" alt="Profile" class="profile-img">
+  <div class="profile-img-container">
+    <img src="profile.png" alt="Profile" class="profile-img">
+  </div>
   <h1 class="typewriter">MD LIMON ALI</h1>
   <p class="subtitle">Web Developer & Journalist</p>
+  <p class="tagline">Crafting digital experiences with code and storytelling.</p>
   <div class="social-buttons">
     <a href="https://github.com/MDLIMONALI100/LIMON" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
     <a href="https://www.facebook.com/md.limon.112885" class="btn" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
     <a href="https://x.com/mdlimonali100" class="btn" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
     <a href="https://discord.com/users/1261241749443969045" class="btn" target="_blank"><i class="fab fa-discord"></i> Discord</a>
   </div>
+  <div class="hero-divider"></div>
   <a href="#about" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
+  <div class="hero-wave"></div>
 </header>
 
 <!-- About Section -->
@@ -422,6 +498,21 @@
   <p>My journey began on an old laptop, where curiosity met a blank screen — and slowly turned into a purpose. From writing lines of HTML to telling stories as a journalist, I’ve always been drawn to things that make people feel, connect, and think.</p>
   <p>Today, I work as a full stack developer, designing clean and thoughtful websites with a mix of creativity and clarity. I focus on the little details — how things move, how they feel, and how they stay in your mind.</p>
   <p>Whether it’s crafting a personal portfolio, a product site, or an article that means something — I build with intention. With every project, I try to make something that speaks softly… but stays loud in memory.</p>
+</section>
+
+<!-- Skills Section -->
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    <div class="skill">HTML</div>
+    <div class="skill">CSS</div>
+    <div class="skill">JavaScript</div>
+    <div class="skill">React</div>
+    <div class="skill">Node.js</div>
+    <div class="skill">Tailwind CSS</div>
+    <div class="skill">Git</div>
+    <div class="skill">MongoDB</div>
+  </div>
 </section>
 
 <!-- Projects Section -->
