@@ -12,7 +12,7 @@
     
     body {
       font-family: 'IBM Plex Mono', monospace;
-      background: #fffcf7 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVQImQXBIQEAAADCoP6/9+4BAPf4BPbXOnjKAAAAAElFTkSuQmCC') repeat;
+      background: #fffcf7; /* Solid color for reliable rendering */
       color: #2f2f2f;
       overflow-x: hidden;
       line-height: 1.6;
@@ -427,68 +427,61 @@
 
     /* Responsive Design */
     @media (max-width: 768px) {
+      body {
+        background: #fffcf7; /* Ensure background color on mobile */
+      }
       header, section, footer {
         padding: 30px 12px;
       }
-
       .hero {
         padding-left: 15px;
         min-height: 70vh;
       }
-
       .hero h1 {
         font-size: 2.2rem;
       }
-
       h2 {
         font-size: 1.8rem;
       }
-
       .profile-img-container {
         width: 140px;
         height: 140px;
       }
-
       .contact form {
         max-width: 100%;
       }
-
       .social-buttons {
         flex-direction: column;
         gap: 8px;
       }
-
       .skills-grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       }
-
       .hero::before, .hero::after {
         width: 150px;
         height: 150px;
       }
-
       .hero-wave {
         height: 60px;
       }
     }
 
     @media (max-width: 480px) {
+      body {
+        background: #fffcf7; /* Ensure background color on smaller screens */
+      }
       .hero h1 {
         font-size: 1.8rem;
       }
-
       .hero .subtitle {
         font-size: 1rem;
       }
-
       .hero .tagline {
         font-size: 0.9rem;
       }
-
       h2 {
         font-size: 1.6rem;
       }
-
       .profile-img-container {
         width: 120px;
         height: 120px;
