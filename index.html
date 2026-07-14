@@ -9,6 +9,10 @@
   <style>
     /* Base styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
     
     body {
       font-family: 'IBM Plex Mono', monospace;
@@ -36,11 +40,54 @@
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      scroll-margin-top: 60px;
     }
 
     header.reveal, section.reveal, footer.reveal {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(176, 122, 90, 0.08);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(139,92,62,0.18);
+      z-index: 500;
+      padding: 14px 15px;
+    }
+
+    .navbar-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 22px;
+    }
+
+    .navbar a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4a4a4a;
+      letter-spacing: 0.3px;
+      padding: 4px 2px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: #8b5c3e;
+      border-color: #b07a5a;
+    }
+
+    body {
+      padding-top: 52px;
     }
 
     /* Loader */
@@ -75,8 +122,8 @@
     /* Hero */
     .hero {
       text-align: left;
-      padding-top: 80px;
-      min-height: 80vh;
+      padding-top: 30px;
+      min-height: calc(80vh - 52px);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -131,6 +178,9 @@
       overflow: hidden;
       margin: 0 0 15px;
       transition: transform 0.3s ease;
+      border: 4px solid #ffffff;
+      box-shadow: 0 8px 24px rgba(139,92,62,0.18);
+      flex-shrink: 0;
     }
 
     .profile-img {
@@ -150,6 +200,7 @@
       font-weight: 700;
       color: #2f2f2f;
       margin-bottom: 8px;
+      margin-top: 20px;
       opacity: 0;
       animation: fadeIn 1s forwards 1s;
     }
@@ -180,6 +231,7 @@
       display: inline-block;
       overflow: hidden;
       white-space: nowrap;
+      padding-right: 10px;
       border-right: 2px solid #b07a5a;
       animation: typing 2s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
     }
@@ -244,6 +296,10 @@
       50% { transform: translateY(5px); }
     }
 
+    .hero-end-divider {
+      display: none;
+    }
+
     /* About Section */
     #about {
       text-align: left;
@@ -269,26 +325,46 @@
 
     /* Skills Section */
     .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-      gap: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
       margin-top: 15px;
     }
 
     .skill {
       background: #fff;
-      padding: 8px;
-      text-align: center;
-      border-radius: 4px;
-      font-size: 0.85rem;
+      border: 1px solid rgba(139,92,62,0.15);
+      border-radius: 6px;
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
       color: #5a5a5a;
-      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .skill::before {
+      content: "•";
+      color: #b07a5a;
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1;
     }
 
     .skill:hover {
+      color: #8b5c3e;
       transform: translateY(-2px);
-      background: #b07a5a;
-      color: #fff;
+      box-shadow: 0 4px 10px rgba(139,92,62,0.15);
+    }
+
+    .skill i {
+      color: #b07a5a;
+    }
+
+    .skill:hover i {
+      color: #8b5c3e;
     }
 
     /* Sections */
@@ -447,7 +523,7 @@
       }
       .hero {
         padding-left: 15px;
-        min-height: 70vh;
+        min-height: calc(70vh - 52px);
       }
       .hero h1 {
         font-size: 2.2rem;
@@ -465,9 +541,6 @@
       .social-buttons {
         flex-direction: column;
         gap: 8px;
-      }
-      .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       }
       .hero::before, .hero::after {
         width: 150px;
@@ -509,7 +582,46 @@
 
       .hero {
         padding-left: 40px;
-        min-height: 85vh;
+        min-height: calc(100vh - 52px);
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 50px;
+      }
+
+      .hero-end-divider {
+        display: block;
+        width: 100%;
+        max-width: 1200px;
+        height: 1px;
+        margin: 0 auto;
+        background: linear-gradient(90deg, transparent, rgba(139,92,62,0.25), transparent);
+      }
+
+      .hero-divider {
+        width: 140px;
+        height: 3px;
+        margin: 25px 0;
+      }
+
+      .hero-content {
+        order: 1;
+        flex: 1 1 480px;
+      }
+
+      .profile-img-container {
+        order: 2;
+        width: 230px;
+        height: 230px;
+        margin: 0;
+      }
+
+      .scroll-down {
+        order: 3;
+        flex-basis: 100%;
+        text-align: center;
+        margin-top: 10px;
       }
 
       .hero h1 {
@@ -525,11 +637,6 @@
         max-width: 560px;
       }
 
-      .profile-img-container {
-        width: 190px;
-        height: 190px;
-      }
-
       #about p {
         font-size: 1.05rem;
         max-width: 720px;
@@ -537,18 +644,31 @@
 
       h2 {
         font-size: 2.6rem;
+        letter-spacing: 0.3px;
+      }
+
+      #skills {
+        background: rgba(176,122,90,0.05);
+        border-radius: 14px;
+      }
+
+      #projects {
+        background: rgba(139,92,62,0.04);
+        border-radius: 14px;
+      }
+
+      .contact {
+        background: rgba(176,122,90,0.05);
+        border-radius: 14px;
       }
 
       .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-        gap: 14px;
+        gap: 14px 30px;
       }
 
       .skill {
-        padding: 14px;
-        font-size: 0.95rem;
+        font-size: 1rem;
       }
-
       .projects {
         grid-template-columns: repeat(2, 1fr);
         gap: 24px;
@@ -569,6 +689,15 @@
       .contact form {
         max-width: 500px;
       }
+
+      .navbar-inner {
+        max-width: 1200px;
+        gap: 34px;
+      }
+
+      .navbar a {
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
@@ -580,24 +709,40 @@
     <div class="dot"></div>
   </div>
 
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
   <!-- Header / Hero -->
-  <header class="hero">
+  <header class="hero" id="home">
     <div class="profile-img-container">
       <img src="profile.png" alt="Profile" class="profile-img">
     </div>
-    <h1 class="typewriter">MD LIMON ALI</h1>
-    <p class="subtitle">Web Developer & Journalist</p>
-    <p class="tagline">Crafting digital experiences with code and storytelling.</p>
-    <div class="social-buttons">
-      <a href="https://github.com/MDLIMONALI100/LIMON" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-      <a href="https://www.facebook.com/md.limon.112885" class="btn" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
-      <a href="https://x.com/mdlimonali100" class="btn" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-      <a href="https://discord.com/users/1261241749443969045" class="btn" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+    <div class="hero-content">
+      <h1 class="typewriter">MD LIMON ALI</h1>
+      <p class="subtitle">Web Developer & Journalist</p>
+      <p class="tagline">I build brands online and tell their stories — one clean line of code at a time.</p>
+      <div class="social-buttons">
+        <a href="https://github.com/MDLIMONALI100/LIMON" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <a href="https://www.linkedin.com/in/md-limon-ali-2a3457378/" class="btn" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="https://www.facebook.com/md.limon.112885" class="btn" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://x.com/mdlimonali100" class="btn" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+        <a href="https://discord.com/users/1261241749443969045" class="btn" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+      </div>
+      <div class="hero-divider"></div>
     </div>
-    <div class="hero-divider"></div>
     <a href="#about" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
     <div class="hero-wave"></div>
   </header>
+
+  <div class="hero-end-divider"></div>
 
   <!-- About Section -->
   <section id="about">
@@ -612,15 +757,15 @@
   <section id="skills">
     <h2>Skills</h2>
     <div class="skills-grid">
-      <div class="skill">HTML</div>
-      <div class="skill">CSS</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">React</div>
-      <div class="skill">Node.js</div>
-      <div class="skill">Tailwind CSS</div>
-      <div class="skill">GitHub</div>
-      <div class="skill">Shopify</div>
-      <div class="skill">WordPress</div>
+      <div class="skill"><i class="fab fa-html5"></i>HTML</div>
+      <div class="skill"><i class="fab fa-css3-alt"></i>CSS</div>
+      <div class="skill"><i class="fab fa-js"></i>JavaScript</div>
+      <div class="skill"><i class="fab fa-react"></i>React</div>
+      <div class="skill"><i class="fab fa-node-js"></i>Node.js</div>
+      <div class="skill"><i class="fas fa-wind"></i>Tailwind CSS</div>
+      <div class="skill"><i class="fab fa-github"></i>GitHub</div>
+      <div class="skill"><i class="fab fa-shopify"></i>Shopify</div>
+      <div class="skill"><i class="fab fa-wordpress"></i>WordPress</div>
     </div>
   </section>
 
