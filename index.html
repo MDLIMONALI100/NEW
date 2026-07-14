@@ -246,13 +246,13 @@
 
     /* About Section */
     #about {
-      text-align: right;
+      text-align: left;
     }
 
     #about p {
       opacity: 0;
-      transform: translateX(20px);
-      animation: slideInRight 0.8s ease-out forwards;
+      transform: translateX(-20px);
+      animation: slideInLeft 0.8s ease-out forwards;
     }
 
     #about p:nth-child(2) { animation-delay: 0.2s; }
@@ -260,7 +260,7 @@
     #about p:nth-child(4) { animation-delay: 0.6s; }
     #about p:nth-child(5) { animation-delay: 0.8s; }
 
-    @keyframes slideInRight {
+    @keyframes slideInLeft {
       to {
         opacity: 1;
         transform: translateX(0);
@@ -547,8 +547,9 @@
       <div class="skill">React</div>
       <div class="skill">Node.js</div>
       <div class="skill">Tailwind CSS</div>
-      <div class="skill">Git</div>
-      <div class="skill">MongoDB</div>
+      <div class="skill">GitHub</div>
+      <div class="skill">Shopify</div>
+      <div class="skill">WordPress</div>
     </div>
   </section>
 
@@ -557,12 +558,7 @@
     <h2>Projects</h2>
     <div class="projects">
       <div class="project">
-        <h3>My First Portfolio</h3>
-        <p>Minimal dark-themed portfolio built from scratch with love, showcasing my skills in HTML, CSS, and JavaScript.</p>
-        <a href="https://mdlimonali100.github.io/LIMON/" target="_blank">View Project</a>
-      </div>
-      <div class="project">
-        <h3>Premium Clothing Store</h3>
+        <h3>Premium Skin Care Products</h3>
         <p>A Shopify storefront built for a premium clothing brand, featuring a clean product layout and streamlined checkout experience.</p>
         <a href="https://premium-clothing-store-3.myshopify.com" target="_blank">View Project</a>
         <p class="project-password">Store password: <strong>limon</strong></p>
@@ -580,14 +576,14 @@
         <p class="project-password">Store password: <strong>limon</strong></p>
       </div>
       <div class="project">
-        <h3>My Own Agency (Updated Portfolio)</h3>
+        <h3>My Professional Portfolio</h3>
         <p>A custom-coded, updated version of my portfolio built for my own agency, refined with cleaner design and structure.</p>
         <a href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">View Project</a>
       </div>
       <div class="project">
-        <h3>Personal Dashboard</h3>
-        <p>A sleek, minimalist dashboard for task management, built with React and styled with Tailwind CSS.</p>
-        <a href="#" target="_blank">View Project</a>
+        <h3>Home Cleaning Service</h3>
+        <p>A website built for a home cleaning service business, designed to present services clearly and make it easy for customers to get in touch.</p>
+        <a href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank">View Project</a>
       </div>
     </div>
   </section>
