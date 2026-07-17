@@ -43,6 +43,30 @@
       scroll-margin-top: 60px;
     }
 
+    section {
+      border-radius: 14px;
+      border: 1px solid rgba(139,92,62,0.10);
+      box-shadow: 0 4px 20px rgba(139,92,62,0.06);
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    #about {
+      background: #fefaf4;
+    }
+
+    #skills {
+      background: #fdf7ef;
+    }
+
+    #projects {
+      background: #fcf5ec;
+    }
+
+    .contact {
+      background: #fdf7ef;
+    }
+
     header.reveal, section.reveal, footer.reveal {
       opacity: 1;
       transform: translateY(0);
@@ -368,6 +392,16 @@
     }
 
     /* Sections */
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #b07a5a;
+      margin-bottom: 6px;
+    }
+
     h2 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 2.2rem;
@@ -394,6 +428,22 @@
     }
 
     /* Projects */
+    .category-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #8b5c3e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 30px 0 10px;
+      padding-bottom: 6px;
+      border-bottom: 2px dashed rgba(139,92,62,0.3);
+    }
+
+    #projects h3.category-title:first-of-type {
+      margin-top: 5px;
+    }
+
     .projects {
       display: grid;
       gap: 15px;
@@ -401,19 +451,53 @@
     }
 
     .project {
+      display: block;
       background: #fff;
       padding: 15px;
       border-radius: 6px;
+      border: 1px solid rgba(139,92,62,0.08);
       box-shadow: 0 2px 4px rgba(0,0,0,0.08);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
     .project:hover {
       transform: translateY(-3px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+      box-shadow: 0 6px 16px rgba(139,92,62,0.15);
     }
 
-    .project h3 {
+    .project-thumb {
+      width: calc(100% + 30px);
+      margin: -15px -15px 12px -15px;
+      aspect-ratio: 16 / 10;
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(176,122,90,0.18), rgba(139,92,62,0.08));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .project-thumb.img-missing img {
+      display: none;
+    }
+
+    .project-thumb.img-missing::after {
+      content: 'Add project image';
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: #8b5c3e;
+      letter-spacing: 0.3px;
+    }
+
+    .project h4 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.4rem;
       font-weight: 700;
@@ -426,11 +510,17 @@
       color: #5a5a5a;
     }
 
-    .project a {
+    .project .view-project {
       font-size: 0.85rem;
       font-weight: 600;
       display: inline-block;
       margin-top: 8px;
+      color: #8b5c3e;
+    }
+
+    .project:hover .view-project {
+      color: #b07a5a;
+      text-decoration: underline;
     }
 
     .project .project-password {
@@ -647,21 +737,6 @@
         letter-spacing: 0.3px;
       }
 
-      #skills {
-        background: rgba(176,122,90,0.05);
-        border-radius: 14px;
-      }
-
-      #projects {
-        background: rgba(139,92,62,0.04);
-        border-radius: 14px;
-      }
-
-      .contact {
-        background: rgba(176,122,90,0.05);
-        border-radius: 14px;
-      }
-
       .skills-grid {
         gap: 14px 30px;
       }
@@ -678,7 +753,7 @@
         padding: 24px;
       }
 
-      .project h3 {
+      .project h4 {
         font-size: 1.6rem;
       }
 
@@ -746,6 +821,7 @@
 
   <!-- About Section -->
   <section id="about">
+    <p class="eyebrow">01 — About Me</p>
     <h2>About</h2>
     <p>I’m MD Limon Ali — a web developer who builds with code and writes with heart.</p>
     <p>My journey began on an old laptop, where curiosity met a blank screen — and slowly turned into a purpose. From writing lines of HTML to telling stories as a journalist, I’ve always been drawn to things that make people feel, connect, and think.</p>
@@ -755,6 +831,7 @@
 
   <!-- Skills Section -->
   <section id="skills">
+    <p class="eyebrow">02 — Skills</p>
     <h2>Skills</h2>
     <div class="skills-grid">
       <div class="skill"><i class="fab fa-html5"></i>HTML</div>
@@ -771,41 +848,67 @@
 
   <!-- Projects Section -->
   <section id="projects">
+    <p class="eyebrow">03 — Projects</p>
     <h2>Projects</h2>
+
+    <h3 class="category-title">Servicing Websites</h3>
     <div class="projects">
-      <div class="project">
-        <h3>Premium Skin Care Products</h3>
-        <p>A Shopify storefront built for a premium clothing brand, featuring a clean product layout and streamlined checkout experience.</p>
-        <a href="https://premium-clothing-store-3.myshopify.com" target="_blank">View Project</a>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </div>
-      <div class="project">
-        <h3>Football Jersey Store</h3>
-        <p>A Shopify storefront for football jerseys, built with a clean product grid and easy browsing for fans and buyers.</p>
-        <a href="https://nmy4vb-m0.myshopify.com" target="_blank">View Project</a>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </div>
-      <div class="project">
-        <h3>Car Servicing Website</h3>
+      <a class="project" href="https://car-servicing-bvsmop2l.myshopify.com/" target="_blank">
+        <div class="project-thumb">
+          <img src="images/car-servicing.jpg" alt="Car Servicing Website" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <h4>Car Servicing Website</h4>
         <p>A Shopify site for a car servicing business, designed to showcase services and make booking simple for customers.</p>
-        <a href="https://car-servicing-bvsmop2l.myshopify.com/" target="_blank">View Project</a>
+        <span class="view-project">View Project →</span>
         <p class="project-password">Store password: <strong>limon</strong></p>
-      </div>
-      <div class="project">
-        <h3>My Professional Portfolio</h3>
-        <p>A custom-coded, updated version of my portfolio built for my own agency, refined with cleaner design and structure.</p>
-        <a href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">View Project</a>
-      </div>
-      <div class="project">
-        <h3>Home Cleaning Service</h3>
+      </a>
+      <a class="project" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank">
+        <div class="project-thumb">
+          <img src="images/home-cleaning.jpg" alt="Home Cleaning Service" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <h4>Home Cleaning Service</h4>
         <p>A website built for a home cleaning service business, designed to present services clearly and make it easy for customers to get in touch.</p>
-        <a href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank">View Project</a>
-      </div>
+        <span class="view-project">View Project →</span>
+      </a>
+    </div>
+
+    <h3 class="category-title">E-commerce Stores</h3>
+    <div class="projects">
+      <a class="project" href="https://premium-clothing-store-3.myshopify.com" target="_blank">
+        <div class="project-thumb">
+          <img src="images/skin-care.jpg" alt="Premium Skin Care Products" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <h4>Premium Skin Care Products</h4>
+        <p>A Shopify storefront built for a premium skin care brand, featuring a clean product layout and streamlined checkout experience.</p>
+        <span class="view-project">View Project →</span>
+        <p class="project-password">Store password: <strong>limon</strong></p>
+      </a>
+      <a class="project" href="https://dev-mens-clothing-brand.pantheonsite.io/" target="_blank">
+        <div class="project-thumb">
+          <img src="images/clothing-brand.jpg" alt="Clothing Brand" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <h4>Clothing Brand</h4>
+        <p>A storefront built for a men's clothing brand, with a clean layout focused on the product lineup.</p>
+        <span class="view-project">View Project →</span>
+      </a>
+    </div>
+
+    <h3 class="category-title">Portfolio Site</h3>
+    <div class="projects">
+      <a class="project" href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">
+        <div class="project-thumb">
+          <img src="images/my-portfolio.jpg" alt="My Professional Portfolio" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <h4>My Professional Portfolio</h4>
+        <p>A custom-coded, updated version of my portfolio built for my own agency, refined with cleaner design and structure.</p>
+        <span class="view-project">View Project →</span>
+      </a>
     </div>
   </section>
 
   <!-- Contact Section -->
   <section id="contact" class="contact">
+    <p class="eyebrow">04 — Get In Touch</p>
     <h2>Contact</h2>
     <p>Interested in working together? Drop me a message!</p>
     <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form">
