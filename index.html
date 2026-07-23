@@ -38,9 +38,10 @@
       margin: 0 auto;
       padding: 40px 15px;
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      transform: translateY(12px);
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
       scroll-margin-top: 60px;
+      will-change: opacity, transform;
     }
 
     section {
@@ -51,12 +52,28 @@
       margin-bottom: 28px;
       border-top: 4px solid var(--accent, #b07a5a);
       position: relative;
-      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+      transition: transform 0.35s ease;
+      isolation: isolate;
+    }
+
+    section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      box-shadow: 0 20px 46px rgba(139,92,62,0.16), 0 6px 14px rgba(139,92,62,0.09);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: -1;
     }
 
     section:hover {
       transform: translateY(-4px);
-      box-shadow: 0 20px 46px rgba(139,92,62,0.16), 0 6px 14px rgba(139,92,62,0.09);
+    }
+
+    section:hover::after {
+      opacity: 1;
     }
 
     #about {
@@ -409,7 +426,7 @@
       font-size: 0.9rem;
       color: #5a5a5a;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+      transition: color 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
     }
 
     .skill::before {
@@ -418,15 +435,13 @@
       font-weight: 700;
       font-size: 1.1rem;
       line-height: 1;
-      transition: transform 0.3s ease;
+      transition: transform 0.25s ease;
     }
 
     .skill:hover {
       color: #8b5c3e;
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 10px 20px rgba(139,92,62,0.18);
+      transform: translateY(-4px);
       border-color: rgba(139,92,62,0.35);
-      background: #fffdf9;
     }
 
     .skill:hover::before {
@@ -435,7 +450,7 @@
 
     .skill i {
       color: #b07a5a;
-      transition: transform 0.3s ease, color 0.3s ease;
+      transition: transform 0.25s ease, color 0.25s ease;
     }
 
     .skill:hover i {
@@ -509,14 +524,31 @@
       border-radius: 6px;
       border: 1px solid rgba(139,92,62,0.08);
       box-shadow: 0 3px 10px rgba(139,92,62,0.10);
-      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      transition: transform 0.3s ease, border-color 0.3s ease;
       cursor: pointer;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .project::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      box-shadow: 0 16px 34px rgba(139,92,62,0.22);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: -1;
     }
 
     .project:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 16px 34px rgba(139,92,62,0.22);
+      transform: translateY(-6px);
       border-color: rgba(139,92,62,0.2);
+    }
+
+    .project:hover::after {
+      opacity: 1;
     }
 
     .project-thumb {
@@ -602,8 +634,7 @@
     }
 
     .project.upcoming:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 16px 34px rgba(139,92,62,0.22);
+      transform: translateY(-6px);
     }
 
     .project.upcoming .project-thumb {
@@ -1080,14 +1111,14 @@
       <div class="project upcoming">
         <span class="coming-soon-badge">Coming Soon</span>
         <div class="project-thumb" data-icon="🛍️"></div>
-        <h4>Shopify Premium Theme Store</h4>
+        <h4>Premium Theme Store (Shopify)</h4>
         <p>A polished, conversion-focused Shopify theme built for e-commerce brands — fast loading, mobile-first, and ready to customize out of the box.</p>
         <span class="view-project">In Development</span>
       </div>
       <div class="project upcoming">
         <span class="coming-soon-badge">Coming Soon</span>
         <div class="project-thumb" data-icon="💼"></div>
-        <h4>WordPress Premium Theme</h4>
+        <h4>Premium Theme Business Site (WordPress)</h4>
         <p>A premium WordPress theme tailored for businesses — clean layouts, flexible page builder support, and a professional look for any industry.</p>
         <span class="view-project">In Development</span>
       </div>
@@ -1115,7 +1146,9 @@
 
   <!-- WhatsApp Floating Button -->
   <a href="https://wa.me/8801709769235?text=Hi%20Limon%2C%20I%20found%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="fab fa-whatsapp"></i>
+    <svg viewBox="0 0 32 32" width="30" height="30" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16.004 2.667c-7.363 0-13.333 5.97-13.333 13.333 0 2.353.615 4.66 1.784 6.686L2.667 29.333l6.815-1.756a13.27 13.27 0 0 0 6.522 1.723h.006c7.362 0 13.333-5.97 13.333-13.333 0-3.56-1.386-6.906-3.904-9.425A13.25 13.25 0 0 0 16.004 2.667zm0 24.4h-.005a11.05 11.05 0 0 1-5.63-1.541l-.404-.24-4.045 1.043 1.08-3.943-.263-.405a11.04 11.04 0 0 1-1.7-5.881c0-6.106 4.968-11.073 11.072-11.073 2.958 0 5.738 1.153 7.829 3.246a10.995 10.995 0 0 1 3.239 7.833c0 6.105-4.968 11.061-11.173 11.061zm6.073-8.288c-.333-.167-1.966-.97-2.271-1.081-.305-.111-.527-.167-.749.167-.222.333-.86 1.081-1.055 1.303-.194.222-.388.25-.721.083-.333-.167-1.406-.518-2.678-1.652-.99-.883-1.659-1.974-1.853-2.307-.194-.333-.021-.513.146-.679.150-.149.333-.389.5-.583.167-.194.222-.333.333-.555.111-.222.056-.417-.028-.583-.083-.167-.749-1.806-1.026-2.474-.27-.65-.545-.562-.749-.573l-.638-.011c-.222 0-.583.083-.888.417-.305.333-1.166 1.14-1.166 2.780 0 1.639 1.194 3.223 1.361 3.445.167.222 2.352 3.591 5.698 5.035.796.344 1.417.55 1.901.703.799.254 1.526.218 2.101.132.641-.096 1.966-.804 2.243-1.582.278-.777.278-1.443.194-1.582-.083-.139-.305-.222-.638-.389z"/>
+    </svg>
     <span class="whatsapp-tooltip">Chat on WhatsApp</span>
   </a>
 
@@ -1134,10 +1167,13 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add("reveal");
+            entry.target.addEventListener("transitionend", () => {
+              entry.target.style.willChange = "auto";
+            }, { once: true });
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.1 });
+      }, { threshold: 0.05, rootMargin: "0px 0px -12% 0px" });
 
       sections.forEach(section => observer.observe(section));
     }
