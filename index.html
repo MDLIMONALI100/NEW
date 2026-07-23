@@ -46,25 +46,41 @@
     section {
       border-radius: 14px;
       border: 1px solid rgba(139,92,62,0.10);
-      box-shadow: 0 4px 20px rgba(139,92,62,0.06);
-      margin-top: 20px;
-      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(139,92,62,0.09), 0 2px 8px rgba(139,92,62,0.06);
+      margin-top: 28px;
+      margin-bottom: 28px;
+      border-top: 4px solid var(--accent, #b07a5a);
+      position: relative;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+    }
+
+    section:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 46px rgba(139,92,62,0.16), 0 6px 14px rgba(139,92,62,0.09);
     }
 
     #about {
-      background: #fefaf4;
+      background: linear-gradient(160deg, #fdf3e6 0%, #fefaf4 60%);
+      --accent: #cf9a5c;
+      box-shadow: 0 10px 30px rgba(207,154,92,0.14), 0 2px 8px rgba(139,92,62,0.06);
     }
 
     #skills {
-      background: #fdf7ef;
+      background: linear-gradient(160deg, #f6ebe0 0%, #fdf7ef 60%);
+      --accent: #8a6a4f;
+      box-shadow: 0 10px 30px rgba(138,106,79,0.14), 0 2px 8px rgba(139,92,62,0.06);
     }
 
     #projects {
-      background: #fcf5ec;
+      background: linear-gradient(160deg, #fbe4d3 0%, #fcf5ec 55%);
+      --accent: #b0663f;
+      box-shadow: 0 10px 30px rgba(176,102,63,0.16), 0 2px 8px rgba(139,92,62,0.06);
     }
 
     .contact {
-      background: #fdf7ef;
+      background: linear-gradient(160deg, #f5e3d9 0%, #fdf7ef 60%);
+      --accent: #96574a;
+      box-shadow: 0 10px 30px rgba(150,87,74,0.14), 0 2px 8px rgba(139,92,62,0.06);
     }
 
     header.reveal, section.reveal, footer.reveal {
@@ -101,13 +117,26 @@
       color: #4a4a4a;
       letter-spacing: 0.3px;
       padding: 4px 2px;
-      border-bottom: 2px solid transparent;
-      transition: color 0.3s ease, border-color 0.3s ease;
+      position: relative;
+    }
+
+    .navbar a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0%;
+      height: 2px;
+      background: #b07a5a;
+      transition: width 0.3s ease;
     }
 
     .navbar a:hover {
       color: #8b5c3e;
-      border-color: #b07a5a;
+    }
+
+    .navbar a:hover::after {
+      width: 100%;
     }
 
     body {
@@ -153,7 +182,12 @@
       justify-content: center;
       position: relative;
       padding-left: 20px;
-      background: linear-gradient(180deg, rgba(176,122,90,0.08) 0%, transparent 100%);
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(176,122,90,0.16) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(201,138,82,0.14) 0%, transparent 50%),
+        linear-gradient(160deg, rgba(176,122,90,0.10) 0%, rgba(253,247,239,0.4) 55%, transparent 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 12px 34px rgba(139,92,62,0.10);
     }
 
     .hero::before {
@@ -161,10 +195,11 @@
       position: absolute;
       top: 60px;
       left: -30px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle at center, rgba(176,122,90,0.12) 0%, transparent 70%);
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at center, rgba(176,122,90,0.20) 0%, transparent 70%);
       z-index: -1;
+      animation: driftGlow 8s ease-in-out infinite;
     }
 
     .hero::after {
@@ -172,10 +207,16 @@
       position: absolute;
       bottom: 80px;
       right: -30px;
-      width: 150px;
-      height: 150px;
-      background: radial-gradient(circle at center, rgba(139,92,62,0.08) 0%, transparent 70%);
+      width: 170px;
+      height: 170px;
+      background: radial-gradient(circle at center, rgba(201,138,82,0.16) 0%, transparent 70%);
       z-index: -1;
+      animation: driftGlow 9s ease-in-out infinite reverse;
+    }
+
+    @keyframes driftGlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(10px, -10px) scale(1.08); }
     }
 
     .hero-wave {
@@ -215,7 +256,8 @@
     }
 
     .profile-img-container:hover {
-      transform: scale(1.03);
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 14px 34px rgba(139,92,62,0.28);
     }
 
     .hero h1 {
@@ -289,14 +331,15 @@
       border-radius: 4px;
       font-size: 0.85rem;
       font-weight: 600;
-      transition: all 0.3s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
       font-family: 'IBM Plex Mono', monospace;
     }
 
     .social-buttons .btn:hover {
       background: #8b5c3e;
       color: #fff;
-      transform: translateY(-2px);
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 18px rgba(139,92,62,0.3);
     }
 
     .hero-divider {
@@ -366,7 +409,7 @@
       font-size: 0.9rem;
       color: #5a5a5a;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-      transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
     }
 
     .skill::before {
@@ -375,20 +418,29 @@
       font-weight: 700;
       font-size: 1.1rem;
       line-height: 1;
+      transition: transform 0.3s ease;
     }
 
     .skill:hover {
       color: #8b5c3e;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(139,92,62,0.15);
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 10px 20px rgba(139,92,62,0.18);
+      border-color: rgba(139,92,62,0.35);
+      background: #fffdf9;
+    }
+
+    .skill:hover::before {
+      transform: rotate(180deg);
     }
 
     .skill i {
       color: #b07a5a;
+      transition: transform 0.3s ease, color 0.3s ease;
     }
 
     .skill:hover i {
       color: #8b5c3e;
+      transform: scale(1.15);
     }
 
     /* Sections */
@@ -456,14 +508,15 @@
       padding: 15px;
       border-radius: 6px;
       border: 1px solid rgba(139,92,62,0.08);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 3px 10px rgba(139,92,62,0.10);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
       cursor: pointer;
     }
 
     .project:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(139,92,62,0.15);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 16px 34px rgba(139,92,62,0.22);
+      border-color: rgba(139,92,62,0.2);
     }
 
     .project-thumb {
@@ -483,6 +536,11 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .project:hover .project-thumb img {
+      transform: scale(1.08);
     }
 
     .project-thumb.img-missing img {
@@ -535,6 +593,49 @@
       color: #2f2f2f;
     }
 
+    /* Upcoming Projects */
+    .project.upcoming {
+      cursor: default;
+      position: relative;
+      border: 1px dashed rgba(139,92,62,0.35);
+      background: repeating-linear-gradient(135deg, #ffffff, #ffffff 10px, #fdf6ee 10px, #fdf6ee 20px);
+    }
+
+    .project.upcoming:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 16px 34px rgba(139,92,62,0.22);
+    }
+
+    .project.upcoming .project-thumb {
+      background: linear-gradient(135deg, rgba(176,122,90,0.25), rgba(139,92,62,0.12));
+    }
+
+    .project.upcoming .project-thumb::after {
+      content: attr(data-icon);
+      font-size: 2rem;
+      color: rgba(139,92,62,0.55);
+    }
+
+    .coming-soon-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #b0663f;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      box-shadow: 0 3px 8px rgba(176,102,63,0.35);
+      z-index: 2;
+    }
+
+    .project.upcoming .view-project {
+      color: #a8a8a8;
+    }
+
     /* Contact */
     .contact {
       text-align: center;
@@ -577,11 +678,13 @@
       font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .contact button:hover {
       background: #8b5c3e;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(139,92,62,0.3);
     }
 
     #form-message {
@@ -601,6 +704,72 @@
       color: #5a5a5a;
       padding: 30px 15px;
       border-top: 1px solid #eee;
+    }
+
+    /* WhatsApp Floating Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      width: 56px;
+      height: 56px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.6rem;
+      box-shadow: 0 6px 18px rgba(37,211,102,0.45);
+      z-index: 600;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: whatsapp-pulse 2.4s infinite;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.08);
+      color: #fff;
+      box-shadow: 0 8px 22px rgba(37,211,102,0.6);
+    }
+
+    .whatsapp-tooltip {
+      position: absolute;
+      right: 66px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #2f2f2f;
+      color: #fff;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .whatsapp-float:hover .whatsapp-tooltip {
+      opacity: 1;
+    }
+
+    @keyframes whatsapp-pulse {
+      0% { box-shadow: 0 6px 18px rgba(37,211,102,0.45), 0 0 0 0 rgba(37,211,102,0.5); }
+      70% { box-shadow: 0 6px 18px rgba(37,211,102,0.45), 0 0 0 14px rgba(37,211,102,0); }
+      100% { box-shadow: 0 6px 18px rgba(37,211,102,0.45), 0 0 0 0 rgba(37,211,102,0); }
+    }
+
+    @media (max-width: 480px) {
+      .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4rem;
+        bottom: 16px;
+        right: 16px;
+      }
+      .whatsapp-tooltip {
+        display: none;
+      }
     }
 
     /* Responsive Design */
@@ -843,6 +1012,7 @@
       <div class="skill"><i class="fab fa-github"></i>GitHub</div>
       <div class="skill"><i class="fab fa-shopify"></i>Shopify</div>
       <div class="skill"><i class="fab fa-wordpress"></i>WordPress</div>
+      <div class="skill"><i class="fas fa-language"></i>English Proficiency — Fluent</div>
     </div>
   </section>
 
@@ -904,6 +1074,24 @@
         <span class="view-project">View Project →</span>
       </a>
     </div>
+
+    <h3 class="category-title">Upcoming Websites</h3>
+    <div class="projects">
+      <div class="project upcoming">
+        <span class="coming-soon-badge">Coming Soon</span>
+        <div class="project-thumb" data-icon="🛍️"></div>
+        <h4>Shopify Premium Theme Store</h4>
+        <p>A polished, conversion-focused Shopify theme built for e-commerce brands — fast loading, mobile-first, and ready to customize out of the box.</p>
+        <span class="view-project">In Development</span>
+      </div>
+      <div class="project upcoming">
+        <span class="coming-soon-badge">Coming Soon</span>
+        <div class="project-thumb" data-icon="💼"></div>
+        <h4>WordPress Premium Theme</h4>
+        <p>A premium WordPress theme tailored for businesses — clean layouts, flexible page builder support, and a professional look for any industry.</p>
+        <span class="view-project">In Development</span>
+      </div>
+    </div>
   </section>
 
   <!-- Contact Section -->
@@ -924,6 +1112,12 @@
   <footer>
     <p>Made with ☕ and focus. Reach me at <a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></p>
   </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/8801709769235?text=Hi%20Limon%2C%20I%20found%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-tooltip">Chat on WhatsApp</span>
+  </a>
 
   <!-- Scripts -->
   <script>
