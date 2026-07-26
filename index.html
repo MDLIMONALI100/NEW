@@ -641,7 +641,7 @@
       background: linear-gradient(135deg, rgba(176,122,90,0.25), rgba(139,92,62,0.12));
     }
 
-    .project.upcoming .project-thumb::after {
+    .project.upcoming .project-thumb.img-missing::after {
       content: attr(data-icon);
       font-size: 2rem;
       color: rgba(139,92,62,0.55);
@@ -664,7 +664,12 @@
     }
 
     .project.upcoming .view-project {
-      color: #a8a8a8;
+      color: #b0663f;
+    }
+
+    .project.upcoming:hover .view-project {
+      color: #8b5c3e;
+      text-decoration: underline;
     }
 
     /* Contact */
@@ -1108,20 +1113,25 @@
 
     <h3 class="category-title">Upcoming Websites</h3>
     <div class="projects">
-      <div class="project upcoming">
+      <a class="project upcoming" href="https://demo-theme-osm8fzl9.myshopify.com/" target="_blank" rel="noopener">
         <span class="coming-soon-badge">Coming Soon</span>
-        <div class="project-thumb" data-icon="🛍️"></div>
+        <div class="project-thumb" data-icon="🛍️">
+          <img src="images/shopify-premium-theme-store.jpg" alt="Shopify Premium Theme Store" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
         <h4>Premium Theme Store (Shopify)</h4>
         <p>A polished, conversion-focused Shopify theme built for e-commerce brands — fast loading, mobile-first, and ready to customize out of the box.</p>
-        <span class="view-project">In Development</span>
-      </div>
-      <div class="project upcoming">
+        <span class="view-project">In Development — View Preview →</span>
+        <p class="project-password">Store password: <strong>limon</strong></p>
+      </a>
+      <a class="project upcoming" href="https://dev-aura-clothing-01.pantheonsite.io/" target="_blank" rel="noopener">
         <span class="coming-soon-badge">Coming Soon</span>
-        <div class="project-thumb" data-icon="💼"></div>
+        <div class="project-thumb" data-icon="💼">
+          <img src="images/wordpress-business-theme.jpg" alt="WordPress Premium Business Theme" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
         <h4>Premium Theme Business Site (WordPress)</h4>
         <p>A premium WordPress theme tailored for businesses — clean layouts, flexible page builder support, and a professional look for any industry.</p>
-        <span class="view-project">In Development</span>
-      </div>
+        <span class="view-project">In Development — View Preview →</span>
+      </a>
     </div>
   </section>
 
