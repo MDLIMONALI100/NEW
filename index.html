@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MD LIMON ALI • Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     /* Base styles */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1038,7 +1040,7 @@
   <!-- Header / Hero -->
   <header class="hero" id="home">
     <div class="profile-img-container">
-      <img src="profile.png" alt="Profile" class="profile-img">
+      <img src="profile.png" alt="Profile" class="profile-img" fetchpriority="high">
     </div>
     <div class="hero-content">
       <h1 class="typewriter">MD LIMON ALI</h1>
@@ -1102,7 +1104,7 @@
     <div class="projects">
       <a class="project" href="https://car-servicing-bvsmop2l.myshopify.com/" target="_blank">
         <div class="project-thumb">
-          <img src="images/car-servicing.jpg" alt="Car Servicing Website" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/car-servicing.jpg" alt="Car Servicing Website" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>Car Servicing Website</h4>
         <p>A Shopify site for a car servicing business, designed to showcase services and make booking simple for customers.</p>
@@ -1111,7 +1113,7 @@
       </a>
       <a class="project" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank">
         <div class="project-thumb">
-          <img src="images/home-cleaning.jpg" alt="Home Cleaning Service" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/home-cleaning.jpg" alt="Home Cleaning Service" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>Home Cleaning Service</h4>
         <p>A website built for a home cleaning service business, designed to present services clearly and make it easy for customers to get in touch.</p>
@@ -1123,7 +1125,7 @@
     <div class="projects">
       <a class="project" href="https://premium-clothing-store-3.myshopify.com" target="_blank">
         <div class="project-thumb">
-          <img src="images/skin-care.jpg" alt="Premium Skin Care Products" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/skin-care.jpg" alt="Premium Skin Care Products" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>Premium Skin Care Products</h4>
         <p>A Shopify storefront built for a premium skin care brand, featuring a clean product layout and streamlined checkout experience.</p>
@@ -1132,7 +1134,7 @@
       </a>
       <a class="project" href="https://dev-mens-clothing-brand.pantheonsite.io/" target="_blank">
         <div class="project-thumb">
-          <img src="images/clothing-brand.jpg" alt="Clothing Brand" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/clothing-brand.jpg" alt="Clothing Brand" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>Clothing Brand</h4>
         <p>A storefront built for a men's clothing brand, with a clean layout focused on the product lineup.</p>
@@ -1144,7 +1146,7 @@
     <div class="projects">
       <a class="project" href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">
         <div class="project-thumb">
-          <img src="images/my-portfolio.jpg" alt="My Professional Portfolio" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/my-portfolio.jpg" alt="My Professional Portfolio" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>My Professional Portfolio</h4>
         <p>A custom-coded, updated version of my portfolio built for my own agency, refined with cleaner design and structure.</p>
@@ -1157,7 +1159,7 @@
       <a class="project upcoming" href="https://demo-theme-osm8fzl9.myshopify.com/" target="_blank" rel="noopener">
         <span class="coming-soon-badge">Coming Soon</span>
         <div class="project-thumb" data-icon="🛍️">
-          <img src="images/shopify-premium-theme-store.jpg" alt="Shopify Premium Theme Store" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/shopify-premium-theme-store.jpg" alt="Shopify Premium Theme Store" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>Premium Theme Store (Shopify)</h4>
         <p>A polished, conversion-focused Shopify theme built for e-commerce brands — fast loading, mobile-first, and ready to customize out of the box.</p>
@@ -1167,7 +1169,7 @@
       <a class="project upcoming" href="https://dev-aura-clothing-01.pantheonsite.io/" target="_blank" rel="noopener">
         <span class="coming-soon-badge">Coming Soon</span>
         <div class="project-thumb" data-icon="💼">
-          <img src="images/wordpress-business-theme.jpg" alt="WordPress Premium Business Theme" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/wordpress-business-theme.jpg" alt="WordPress Premium Business Theme" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
         <h4>Premium Theme Business Site (WordPress)</h4>
         <p>A premium WordPress theme tailored for businesses — clean layouts, flexible page builder support, and a professional look for any industry.</p>
@@ -1206,7 +1208,7 @@
   <!-- Scripts -->
   <script>
     // Loader
-    window.addEventListener("load", () => {
+    document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("loader").style.display = "none";
       revealSections();
     });
