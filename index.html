@@ -258,14 +258,10 @@
     }
 
     .profile-img-container {
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      overflow: hidden;
+      width: 220px;
+      height: 220px;
       margin: 0 0 15px;
-      transition: transform 0.3s ease;
-      border: 4px solid #ffffff;
-      box-shadow: 0 8px 24px rgba(139,92,62,0.18);
+      transition: transform 0.4s ease;
       flex-shrink: 0;
     }
 
@@ -274,11 +270,17 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
+      display: block;
+      -webkit-mask-image: radial-gradient(circle at center, #000 45%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 68%, transparent 82%);
+      mask-image: radial-gradient(circle at center, #000 45%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 68%, transparent 82%);
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
     }
 
     .profile-img-container:hover {
-      transform: scale(1.05) rotate(1deg);
-      box-shadow: 0 14px 34px rgba(139,92,62,0.28);
+      transform: scale(1.05);
     }
 
     .hero h1 {
