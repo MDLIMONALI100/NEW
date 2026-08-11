@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MD LIMON ALI • Portfolio</title>
   <link rel="icon" type="image/png" href="profile.png">
   <link rel="apple-touch-icon" href="profile.png">
@@ -16,6 +16,8 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
+      width: 100%;
     }
     
     body {
@@ -111,15 +113,37 @@
 
     /* Navbar */
     .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(176, 122, 90, 0.08);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid rgba(139,92,62,0.18);
-      z-index: 500;
-      padding: 14px 15px;
+      max-width: 800px;
+      margin: 10px auto 0;
+      background: linear-gradient(160deg, #fdf3e6 0%, #fefaf4 60%);
+      border: 1px solid rgba(139,92,62,0.10);
+      border-top: 3px solid #cf9a5c;
+      border-radius: 14px;
+      box-shadow: 0 8px 22px rgba(207,154,92,0.14), 0 2px 8px rgba(139,92,62,0.06);
+      padding: 12px 15px;
+      position: relative;
+      isolation: isolate;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      box-shadow: 0 16px 34px rgba(139,92,62,0.16), 0 4px 10px rgba(139,92,62,0.08);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .navbar:hover {
+      transform: translateY(-2px);
+    }
+
+    .navbar:hover::after {
+      opacity: 1;
     }
 
     .navbar-inner {
@@ -158,10 +182,6 @@
 
     .navbar a:hover::after {
       width: 100%;
-    }
-
-    body {
-      padding-top: 52px;
     }
 
     /* Loader */
@@ -258,10 +278,14 @@
     }
 
     .profile-img-container {
-      width: 220px;
-      height: 220px;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      overflow: hidden;
       margin: 0 0 15px;
-      transition: transform 0.4s ease;
+      transition: transform 0.3s ease;
+      border: 4px solid #ffffff;
+      box-shadow: 0 8px 24px rgba(139,92,62,0.18);
       flex-shrink: 0;
     }
 
@@ -271,16 +295,11 @@
       object-fit: cover;
       object-position: center;
       display: block;
-      -webkit-mask-image: radial-gradient(circle at center, #000 45%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 68%, transparent 82%);
-      mask-image: radial-gradient(circle at center, #000 45%, rgba(0,0,0,0.85) 55%, rgba(0,0,0,0.4) 68%, transparent 82%);
-      -webkit-mask-size: 100% 100%;
-      mask-size: 100% 100%;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
     }
 
     .profile-img-container:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
+      box-shadow: 0 14px 34px rgba(139,92,62,0.28);
     }
 
     .hero h1 {
@@ -439,6 +458,8 @@
     #about p:nth-child(3) { animation-delay: 0.4s; }
     #about p:nth-child(4) { animation-delay: 0.6s; }
     #about p:nth-child(5) { animation-delay: 0.8s; }
+    #about p:nth-child(6) { animation-delay: 1s; }
+    #about p:nth-child(7) { animation-delay: 1.2s; }
 
     @keyframes slideInLeft {
       to {
@@ -632,7 +653,29 @@
       font-size: 1.4rem;
       font-weight: 700;
       color: #2f2f2f;
+      margin: 0;
+    }
+
+    .project-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       margin-bottom: 8px;
+    }
+
+    .platform-tag {
+      flex-shrink: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(139,92,62,0.10);
+      color: #8b5c3e;
+      border: 1px solid rgba(139,92,62,0.2);
     }
 
     .project p {
@@ -785,8 +828,8 @@
     /* WhatsApp Floating Button */
     .whatsapp-float {
       position: fixed;
-      bottom: 22px;
-      right: 22px;
+      bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+      right: calc(22px + env(safe-area-inset-right, 0px));
       width: 56px;
       height: 56px;
       background: #25D366;
@@ -799,7 +842,18 @@
       box-shadow: 0 6px 18px rgba(37,211,102,0.45);
       z-index: 600;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: whatsapp-pulse 2.4s infinite;
+    }
+
+    .whatsapp-float::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #25D366;
+      opacity: 0.55;
+      transform: scale(1);
+      animation: whatsapp-ring 2.4s ease-out infinite;
+      pointer-events: none;
     }
 
     .whatsapp-float:hover {
@@ -829,10 +883,10 @@
       opacity: 1;
     }
 
-    @keyframes whatsapp-pulse {
-      0% { box-shadow: 0 6px 18px rgba(37,211,102,0.45), 0 0 0 0 rgba(37,211,102,0.5); }
-      70% { box-shadow: 0 6px 18px rgba(37,211,102,0.45), 0 0 0 14px rgba(37,211,102,0); }
-      100% { box-shadow: 0 6px 18px rgba(37,211,102,0.45), 0 0 0 0 rgba(37,211,102,0); }
+    @keyframes whatsapp-ring {
+      0% { transform: scale(1); opacity: 0.55; }
+      70% { transform: scale(1.7); opacity: 0; }
+      100% { transform: scale(1.7); opacity: 0; }
     }
 
     @media (max-width: 480px) {
@@ -840,8 +894,8 @@
         width: 50px;
         height: 50px;
         font-size: 1.4rem;
-        bottom: 16px;
-        right: 16px;
+        bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+        right: calc(18px + env(safe-area-inset-right, 0px));
       }
       .whatsapp-tooltip {
         display: none;
@@ -947,9 +1001,27 @@
 
       .profile-img-container {
         order: 2;
-        width: 270px;
-        height: 270px;
+        width: 360px;
+        height: 360px;
         margin: 0;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        overflow: visible;
+      }
+
+      .profile-img-container:hover {
+        transform: scale(1.04);
+        box-shadow: none;
+      }
+
+      .profile-img {
+        -webkit-mask-image: radial-gradient(circle at center, #000 55%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.22) 100%);
+        mask-image: radial-gradient(circle at center, #000 55%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.22) 100%);
+        -webkit-mask-size: 100% 100%;
+        mask-size: 100% 100%;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
       }
 
       .scroll-down {
@@ -1010,6 +1082,12 @@
         max-width: 500px;
       }
 
+      .navbar {
+        max-width: 1200px;
+        margin: 16px auto 0;
+        padding: 16px 30px;
+      }
+
       .navbar-inner {
         max-width: 1200px;
         gap: 34px;
@@ -1037,7 +1115,6 @@
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
-      <a href="Md-Limon-Ali-Resume.pdf" download>Resume</a>
     </div>
   </nav>
 
@@ -1048,14 +1125,13 @@
     </div>
     <div class="hero-content">
       <h1 class="typewriter">MD LIMON ALI</h1>
-      <p class="subtitle">Web Developer & Journalist</p>
-      <p class="tagline">I build brands online and tell their stories — one clean line of code at a time.</p>
+      <p class="subtitle">Web Developer</p>
+      <p class="tagline">I build modern, responsive, and high-performing websites for businesses, brands, and individuals — from WordPress and Shopify stores to fully custom-coded websites.</p>
       <div class="social-buttons">
         <a href="https://github.com/MDLIMONALI100/LIMON" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub</a>
         <a href="https://www.linkedin.com/in/md-limon-ali-2a3457378/" class="btn" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
-        <a href="https://www.facebook.com/md.limon.112885" class="btn" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+        <a href="https://www.facebook.com/mdlimonalibd" class="btn" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
         <a href="https://x.com/mdlimonali100" class="btn" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
-        <a href="https://discord.com/users/1261241749443969045" class="btn" target="_blank"><i class="fab fa-discord"></i> Discord</a>
       </div>
       <div class="resume-row">
         <a href="Md-Limon-Ali-Resume.pdf" class="btn-resume" download>
@@ -1075,10 +1151,11 @@
   <section id="about">
     <p class="eyebrow">01 — About Me</p>
     <h2>About</h2>
-    <p>I’m MD Limon Ali — a web developer who builds with code and writes with heart.</p>
-    <p>My journey began on an old laptop, where curiosity met a blank screen — and slowly turned into a purpose. From writing lines of HTML to telling stories as a journalist, I’ve always been drawn to things that make people feel, connect, and think.</p>
-    <p>Today, I work as a full stack developer, designing clean and thoughtful websites with a mix of creativity and clarity. I focus on the little details — how things move, how they feel, and how they stay in your mind.</p>
-    <p>Whether it’s crafting a personal portfolio, a product site, or an article that means something — I build with intention. With every project, I try to make something that speaks softly… but stays loud in memory.</p>
+    <p>I’m a web developer focused on building modern, responsive, and user-friendly websites that help businesses and individuals build a stronger presence online.</p>
+    <p>I work across WordPress, Shopify, and custom-coded websites, combining clean design with reliable functionality to create websites that look professional and work smoothly across devices.</p>
+    <p>Whether it’s a business website, an e-commerce store, or a completely custom web project, I focus on understanding what you need and turning that idea into a website that is fast, functional, and easy to use.</p>
+    <p>I’m constantly improving my skills, exploring new technologies, and learning better ways to create digital experiences that deliver real value.</p>
+    <p>Let’s turn your idea into a website you’re proud to share.</p>
   </section>
 
   <!-- Skills Section -->
@@ -1104,13 +1181,43 @@
     <p class="eyebrow">03 — Projects</p>
     <h2>Projects</h2>
 
-    <h3 class="category-title">Servicing Websites</h3>
+    <h3 class="category-title">E-commerce Stores</h3>
+    <div class="projects">
+      <a class="project" href="https://premium-clothing-store-3.myshopify.com" target="_blank">
+        <div class="project-thumb">
+          <img src="images/skin-care.jpg" alt="Vira Skin Care" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <div class="project-title-row">
+          <h4>Vira Skin Care</h4>
+          <span class="platform-tag">Shopify</span>
+        </div>
+        <p>A Shopify storefront built for a premium skin care brand, featuring a clean product layout and streamlined checkout experience.</p>
+        <span class="view-project">View Project →</span>
+        <p class="project-password">Store password: <strong>limon</strong></p>
+      </a>
+      <a class="project" href="https://demo-theme-osm8fzl9.myshopify.com/" target="_blank">
+        <div class="project-thumb">
+          <img src="images/shopify-premium-theme-store.jpg" alt="Premium Theme Store (Shopify)" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        </div>
+        <div class="project-title-row">
+          <h4>Premium Theme Store (Shopify)</h4>
+        </div>
+        <p>A polished, conversion-focused Shopify theme built for e-commerce brands — fast loading, mobile-first, and ready to customize out of the box.</p>
+        <span class="view-project">View Project →</span>
+        <p class="project-password">Store password: <strong>limon</strong></p>
+      </a>
+    </div>
+
+    <h3 class="category-title">Service Based Websites</h3>
     <div class="projects">
       <a class="project" href="https://car-servicing-bvsmop2l.myshopify.com/" target="_blank">
         <div class="project-thumb">
           <img src="images/car-servicing.jpg" alt="Car Servicing Website" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
-        <h4>Car Servicing Website</h4>
+        <div class="project-title-row">
+          <h4>Car Servicing Website</h4>
+          <span class="platform-tag">Shopify</span>
+        </div>
         <p>A Shopify site for a car servicing business, designed to showcase services and make booking simple for customers.</p>
         <span class="view-project">View Project →</span>
         <p class="project-password">Store password: <strong>limon</strong></p>
@@ -1119,65 +1226,32 @@
         <div class="project-thumb">
           <img src="images/home-cleaning.jpg" alt="Home Cleaning Service" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
-        <h4>Home Cleaning Service</h4>
+        <div class="project-title-row">
+          <h4>Home Cleaning Service</h4>
+          <span class="platform-tag">WordPress</span>
+        </div>
         <p>A website built for a home cleaning service business, designed to present services clearly and make it easy for customers to get in touch.</p>
         <span class="view-project">View Project →</span>
       </a>
-    </div>
-
-    <h3 class="category-title">E-commerce Stores</h3>
-    <div class="projects">
-      <a class="project" href="https://premium-clothing-store-3.myshopify.com" target="_blank">
+      <a class="project" href="https://dev-aura-clothing-01.pantheonsite.io/" target="_blank">
         <div class="project-thumb">
-          <img src="images/skin-care.jpg" alt="Premium Skin Care Products" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+          <img src="images/wordpress-business-theme.jpg" alt="Premium Theme Site (WordPress)" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
-        <h4>Premium Skin Care Products</h4>
-        <p>A Shopify storefront built for a premium skin care brand, featuring a clean product layout and streamlined checkout experience.</p>
-        <span class="view-project">View Project →</span>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </a>
-      <a class="project" href="https://dev-mens-clothing-brand.pantheonsite.io/" target="_blank">
-        <div class="project-thumb">
-          <img src="images/clothing-brand.jpg" alt="Clothing Brand" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
+        <div class="project-title-row">
+          <h4>Premium Theme Site (WordPress)</h4>
         </div>
-        <h4>Clothing Brand</h4>
-        <p>A storefront built for a men's clothing brand, with a clean layout focused on the product lineup.</p>
+        <p>A premium WordPress theme tailored for businesses — clean layouts, flexible page builder support, and a professional look for any industry.</p>
         <span class="view-project">View Project →</span>
       </a>
-    </div>
-
-    <h3 class="category-title">Portfolio Site</h3>
-    <div class="projects">
       <a class="project" href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">
         <div class="project-thumb">
           <img src="images/my-portfolio.jpg" alt="My Professional Portfolio" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
         </div>
-        <h4>My Professional Portfolio</h4>
+        <div class="project-title-row">
+          <h4>My Professional Portfolio</h4>
+        </div>
         <p>A custom-coded, updated version of my portfolio built for my own agency, refined with cleaner design and structure.</p>
         <span class="view-project">View Project →</span>
-      </a>
-    </div>
-
-    <h3 class="category-title">Upcoming Websites</h3>
-    <div class="projects">
-      <a class="project upcoming" href="https://demo-theme-osm8fzl9.myshopify.com/" target="_blank" rel="noopener">
-        <span class="coming-soon-badge">Coming Soon</span>
-        <div class="project-thumb" data-icon="🛍️">
-          <img src="images/shopify-premium-theme-store.jpg" alt="Shopify Premium Theme Store" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <h4>Premium Theme Store (Shopify)</h4>
-        <p>A polished, conversion-focused Shopify theme built for e-commerce brands — fast loading, mobile-first, and ready to customize out of the box.</p>
-        <span class="view-project">In Development — View Preview →</span>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </a>
-      <a class="project upcoming" href="https://dev-aura-clothing-01.pantheonsite.io/" target="_blank" rel="noopener">
-        <span class="coming-soon-badge">Coming Soon</span>
-        <div class="project-thumb" data-icon="💼">
-          <img src="images/wordpress-business-theme.jpg" alt="WordPress Premium Business Theme" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <h4>Premium Theme Business Site (WordPress)</h4>
-        <p>A premium WordPress theme tailored for businesses — clean layouts, flexible page builder support, and a professional look for any industry.</p>
-        <span class="view-project">In Development — View Preview →</span>
       </a>
     </div>
   </section>
