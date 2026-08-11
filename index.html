@@ -15,9 +15,14 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html {
-      scroll-behavior: smooth;
       overflow-x: hidden;
       width: 100%;
+    }
+
+    @media (min-width: 769px) {
+      html {
+        scroll-behavior: smooth;
+      }
     }
     
     body {
@@ -114,7 +119,7 @@
     /* Navbar */
     .navbar {
       max-width: 800px;
-      margin: 10px auto 0;
+      margin: 0 auto;
       background: linear-gradient(160deg, #fdf3e6 0%, #fefaf4 60%);
       border: 1px solid rgba(139,92,62,0.10);
       border-top: 3px solid #cf9a5c;
@@ -1001,8 +1006,8 @@
 
       .profile-img-container {
         order: 2;
-        width: 360px;
-        height: 360px;
+        width: 420px;
+        height: 420px;
         margin: 0;
         border: none;
         box-shadow: none;
@@ -1013,15 +1018,6 @@
       .profile-img-container:hover {
         transform: scale(1.04);
         box-shadow: none;
-      }
-
-      .profile-img {
-        -webkit-mask-image: radial-gradient(circle at center, #000 55%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.22) 100%);
-        mask-image: radial-gradient(circle at center, #000 55%, rgba(0,0,0,0.9) 68%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.22) 100%);
-        -webkit-mask-size: 100% 100%;
-        mask-size: 100% 100%;
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
       }
 
       .scroll-down {
@@ -1084,7 +1080,7 @@
 
       .navbar {
         max-width: 1200px;
-        margin: 16px auto 0;
+        margin: 0 auto;
         padding: 16px 30px;
       }
 
