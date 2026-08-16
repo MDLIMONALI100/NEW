@@ -204,43 +204,26 @@
         <p>A hand-coded portfolio built for my own agency — custom layout and structure, no theme.</p>
         <span class="view-project">View Project →</span>
       </a>
-      <a class="project" href="#contact" data-inprogress="true">
-        <div class="project-thumb">
-          <img src="assets/projects/aurora-skincare.jpg" alt="Aurora Skincare Store" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Aurora Skincare Store</h4>
-          <span class="platform-tag">Shopify</span>
-        </div>
-        <p>A new Shopify build for a skincare brand — in active development.</p>
-        <span class="view-project">In Progress — Get in Touch →</span>
-      </a>
-      <a class="project" href="#contact" data-inprogress="true">
-        <div class="project-thumb">
-          <img src="assets/projects/analytics-site.jpg" alt="Custom Analytics Business Site" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Custom Analytics Business Site</h4>
-          <span class="platform-tag">HTML/CSS/JS</span>
-        </div>
-        <p>A fully custom-coded business website with a data/analytics focus.</p>
-        <span class="view-project">In Progress — Get in Touch →</span>
-      </a>
     </div>
   </section>
 
   <!-- Contact -->
   <section id="contact" class="contact">
-    <p class="eyebrow">Get in touch</p>
-    <h2>Let's build something.</h2>
-    <p class="contact-sub">Have a project in mind? Send a message and I'll get back to you.</p>
-    <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <textarea name="message" placeholder="Your Message" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-    <div id="form-message" role="status"></div>
+    <div class="contact-main">
+      <p class="eyebrow">Get in touch</p>
+      <h2>Let's build something.</h2>
+      <p class="contact-sub">Have a project in mind? Send a message and I'll get back to you.</p>
+      <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <div id="form-message" role="status"></div>
+    </div>
+    <div class="contact-scene-wrap" aria-hidden="true">
+      <canvas id="contact-canvas"></canvas>
+    </div>
   </section>
 
   <!-- Footer -->
@@ -256,6 +239,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="three-scene.js"></script>
+  <script src="contact-scene.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
