@@ -1,245 +1,868 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>MD LIMON ALI • Web Developer</title>
-  <meta name="description" content="MD Limon Ali — Web Developer building Shopify, WordPress, and custom-coded websites.">
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#b0663f">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Md Limon Ali — Web Developer</title>
+<meta name="description" content="Md Limon Ali — Shopify, WordPress & custom-coded website developer based in Kushtia, Bangladesh." />
+<link rel="icon" type="image/png" href="profile.png">
+<link rel="apple-touch-icon" href="profile.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --bg:#FAFAFD;
+  --ink:#14152B;
+  --ink-soft:#54566F;
+  --white:#FFFFFF;
+  --violet:#6C4CFF;
+  --violet-deep:#4E32D6;
+  --coral:#FF5470;
+  --cyan:#22B8E8;
+  --mint:#1FCB94;
+  --yellow:#FFC93F;
+  --violet-tint:#EEEAFF;
+  --coral-tint:#FFE9EE;
+  --cyan-tint:#E4F6FD;
+  --mint-tint:#E1FAF0;
+  --yellow-tint:#FFF6DE;
+  --navy:#14152B;
+  --navy-soft:#20223F;
+  --border:rgba(20,21,43,0.10);
+  --radius:20px;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --ease-bounce:cubic-bezier(.34,1.56,.64,1);
+  --ease-smooth:cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{overflow-x:hidden;width:100%;}
+@media(min-width:769px){html{scroll-behavior:smooth;}}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.6;
+  overflow-x:hidden;
+  position:relative;
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+::selection{background:var(--violet);color:#fff;}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;scroll-behavior:auto !important;}
+}
+
+/* ---- scroll progress ---- */
+#scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--violet),var(--coral),var(--mint));
+  z-index:2000;transition:width .1s ease-out;
+}
+
+/* ---- loader ---- */
+#loader{
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;justify-content:center;align-items:center;z-index:3000;
+  transition:opacity .4s ease, visibility .4s ease;
+}
+#loader.hide{opacity:0;visibility:hidden;}
+.dot{width:10px;height:10px;border-radius:50%;margin:5px;animation:bounceDot 1s infinite var(--ease-bounce);}
+.dot:nth-child(1){background:var(--violet);}
+.dot:nth-child(2){background:var(--coral);animation-delay:.15s;}
+.dot:nth-child(3){background:var(--mint);animation-delay:.3s;}
+@keyframes bounceDot{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+/* ---- layout blocks ---- */
+header,section,footer{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .6s var(--ease-smooth), transform .6s var(--ease-smooth);
+  will-change:opacity,transform;
+}
+header.reveal,section.reveal,footer.reveal{opacity:1;transform:translateY(0);}
+
+.block-inner{max-width:1180px;margin:0 auto;padding:90px 24px;}
+@media(max-width:768px){.block-inner{padding:64px 20px;}}
+
+.tint-violet{background:var(--violet-tint);}
+.tint-coral{background:var(--coral-tint);}
+.tint-cyan{background:var(--cyan-tint);}
+.tint-mint{background:var(--mint-tint);}
+.tint-yellow{background:var(--yellow-tint);}
+.tint-navy{background:var(--navy);color:#fff;}
+
+.eyebrow{
+  font-family:var(--font-mono);font-size:.72rem;font-weight:600;
+  letter-spacing:2.5px;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;
+}
+.eyebrow::before{content:'';width:20px;height:2px;background:currentColor;display:inline-block;}
+
+h2{
+  font-family:var(--font-display);font-weight:700;
+  font-size:2.4rem;line-height:1.1;margin-bottom:18px;letter-spacing:-.5px;
+}
+@media(min-width:769px){h2{font-size:3.2rem;}}
+
+.lede{font-size:1.02rem;color:var(--ink-soft);max-width:640px;}
+.tint-navy .lede{color:rgba(255,255,255,.72);}
+
+/* ---- nav ---- */
+.navbar{
+  position:sticky;top:0;z-index:1500;
+  background:rgba(250,250,253,0.82);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.navbar-inner{
+  max-width:1180px;margin:0 auto;padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{font-family:var(--font-mono);font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:8px;}
+.nav-logo .dotmark{width:9px;height:9px;border-radius:50%;background:var(--coral);animation:pulseDot 2s infinite;}
+@keyframes pulseDot{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.6;}}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{
+  font-family:var(--font-mono);font-size:.82rem;font-weight:500;color:var(--ink-soft);
+  position:relative;padding:4px 0;
+}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0%;height:2px;background:var(--violet);transition:width .3s var(--ease-bounce);}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{width:100%;}
+@media(max-width:640px){.nav-links{gap:16px;}.nav-links a{font-size:.72rem;}}
+
+/* ---- hero ---- */
+.hero{position:relative;overflow:hidden;}
+.hero .block-inner{padding-top:52px;padding-bottom:70px;}
+.hero-blob{
+  position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;pointer-events:none;z-index:0;
+}
+.hero-blob.b1{width:380px;height:380px;background:var(--violet);top:-120px;left:-100px;animation:drift 10s ease-in-out infinite;}
+.hero-blob.b2{width:300px;height:300px;background:var(--coral);bottom:-100px;right:-80px;animation:drift 12s ease-in-out infinite reverse;}
+.hero-blob.b3{width:220px;height:220px;background:var(--mint);top:40%;right:10%;animation:drift 9s ease-in-out infinite;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(24px,-18px) scale(1.08);}}
+
+.cursor-glow{
+  position:absolute;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,76,255,.16),transparent 70%);
+  pointer-events:none;z-index:0;transform:translate(-50%,-50%);
+  transition:opacity .3s ease;opacity:0;
+}
+
+/* browser chrome window */
+.browser-window{
+  position:relative;z-index:1;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(20,21,43,.10), 0 4px 16px rgba(20,21,43,.06);
+  overflow:hidden;
+}
+.browser-bar{
+  display:flex;align-items:center;gap:14px;
+  padding:12px 16px;background:#F4F3FA;border-bottom:1px solid var(--border);
+}
+.traffic{display:flex;gap:7px;flex-shrink:0;}
+.traffic span{width:11px;height:11px;border-radius:50%;display:inline-block;}
+.traffic span:nth-child(1){background:var(--coral);}
+.traffic span:nth-child(2){background:var(--yellow);}
+.traffic span:nth-child(3){background:var(--mint);}
+.address-bar{
+  flex:1;background:#fff;border:1px solid var(--border);border-radius:20px;
+  padding:6px 14px;font-family:var(--font-mono);font-size:.75rem;color:var(--ink-soft);
+  display:flex;align-items:center;gap:7px;overflow:hidden;white-space:nowrap;
+}
+.address-bar i{color:var(--mint);font-size:.7rem;flex-shrink:0;}
+.loadbar-track{height:2px;background:transparent;position:relative;overflow:hidden;}
+.loadbar-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,var(--violet),var(--coral),var(--mint));animation:loadFill 1.4s var(--ease-smooth) .3s forwards;}
+@keyframes loadFill{0%{width:0%;opacity:1;}85%{width:100%;opacity:1;}100%{width:100%;opacity:0;}}
+
+.browser-body{
+  padding:44px 40px;
+  display:flex;flex-direction:column-reverse;gap:32px;align-items:center;
+}
+@media(min-width:769px){
+  .browser-body{flex-direction:row;align-items:center;justify-content:space-between;padding:60px;gap:50px;}
+}
+
+.hero-photo-wrap{position:relative;flex-shrink:0;}
+.hero-photo{
+  width:150px;height:150px;
+  border-radius:42% 58% 65% 35% / 45% 45% 55% 55%;
+  overflow:hidden;position:relative;z-index:1;
+  border:4px solid #fff;
+  box-shadow:0 12px 30px rgba(108,76,255,.25);
+  animation:morph 8s ease-in-out infinite;
+}
+@keyframes morph{
+  0%,100%{border-radius:42% 58% 65% 35% / 45% 45% 55% 55%;}
+  50%{border-radius:58% 42% 38% 62% / 55% 62% 38% 45%;}
+}
+.hero-photo img{width:100%;height:100%;object-fit:cover;}
+.hero-photo .avatar-fallback{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--violet),var(--coral));
+  color:#fff;font-family:var(--font-display);font-weight:700;font-size:2.4rem;
+}
+.hero-photo-ring{
+  position:absolute;inset:-10px;border-radius:50%;
+  border:2px dashed var(--violet);opacity:.5;
+  animation:spin 18s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+@media(min-width:769px){.hero-photo,.hero-photo-ring{width:220px;height:220px;}}
+
+.hero-text{max-width:600px;}
+.location-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--font-mono);font-size:.72rem;font-weight:600;
+  background:var(--mint-tint);color:#0E8F66;padding:5px 12px;border-radius:20px;margin-bottom:16px;
+}
+.hero-text h1{
+  font-family:var(--font-display);font-weight:700;
+  font-size:2.3rem;line-height:1.06;letter-spacing:-1px;margin-bottom:10px;
+  background:linear-gradient(90deg,var(--ink) 40%,var(--violet));
+  -webkit-background-clip:text;background-clip:text;
+}
+@media(min-width:769px){.hero-text h1{font-size:3.4rem;}}
+.role-line{
+  font-family:var(--font-mono);font-size:1rem;font-weight:600;color:var(--violet-deep);
+  margin-bottom:14px;min-height:1.4em;
+}
+.role-line .cursor-blink{border-right:2px solid var(--coral);animation:blinkCaret .8s step-end infinite;padding-right:2px;}
+@keyframes blinkCaret{50%{border-color:transparent;}}
+.hero-tagline{color:var(--ink-soft);font-size:.98rem;margin-bottom:26px;}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:26px;}
+.btn{
+  font-family:var(--font-mono);font-size:.85rem;font-weight:600;
+  padding:12px 22px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;
+  transition:transform .25s var(--ease-bounce), box-shadow .25s ease;
+  cursor:pointer;border:2px solid transparent;
+}
+.btn-primary{background:var(--violet);color:#fff;box-shadow:0 8px 20px rgba(108,76,255,.35);}
+.btn-primary:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 14px 28px rgba(108,76,255,.45);}
+.btn-outline{border-color:var(--ink);color:var(--ink);background:#fff;}
+.btn-outline:hover{transform:translateY(-4px) scale(1.03);background:var(--ink);color:#fff;}
+.btn:active{transform:scale(.94);}
+
+.social-row{display:flex;flex-wrap:wrap;gap:10px;}
+.social-icon{
+  width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;background:#fff;
+  transition:transform .25s var(--ease-bounce), background .25s ease, color .25s ease, border-color .25s ease;
+}
+.social-icon:nth-child(1):hover{background:var(--ink);color:#fff;}
+.social-icon:nth-child(2):hover{background:#0A66C2;color:#fff;border-color:#0A66C2;}
+.social-icon:nth-child(3):hover{background:#1877F2;color:#fff;border-color:#1877F2;}
+.social-icon:nth-child(4):hover{background:#000;color:#fff;border-color:#000;}
+.social-icon:nth-child(5):hover{background:#14A800;color:#fff;border-color:#14A800;}
+.social-icon:hover{transform:translateY(-5px) rotate(-6deg);}
+
+.scroll-cue{
+  display:flex;justify-content:center;margin-top:44px;position:relative;z-index:1;
+}
+.scroll-cue a{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;color:var(--violet);
+  animation:bob 2s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+
+/* ---- about ---- */
+.about-grid{display:grid;gap:40px;grid-template-columns:1fr;}
+@media(min-width:769px){.about-grid{grid-template-columns:1.1fr .9fr;align-items:start;}}
+.about-grid p{color:var(--ink-soft);margin-bottom:14px;font-size:.98rem;}
+.fact-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fact-card{
+  background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px;
+  transition:transform .3s var(--ease-bounce), box-shadow .3s ease;
+}
+.fact-card:hover{transform:translateY(-5px) rotate(-1deg);box-shadow:0 12px 24px rgba(108,76,255,.14);}
+.fact-card i{color:var(--violet);font-size:1.1rem;margin-bottom:8px;display:block;}
+.fact-card .fact-title{font-family:var(--font-mono);font-weight:600;font-size:.82rem;}
+.fact-card .fact-sub{font-size:.78rem;color:var(--ink-soft);margin-top:2px;}
+
+/* ---- services ---- */
+.services-grid{display:grid;gap:22px;grid-template-columns:1fr;margin-top:36px;}
+@media(min-width:769px){.services-grid{grid-template-columns:repeat(3,1fr);}}
+.service-card{
+  background:var(--navy-soft);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px;
+  transition:transform .35s var(--ease-bounce), border-color .35s ease, background .35s ease;
+  position:relative;overflow:hidden;
+}
+.service-card:hover{transform:translateY(-8px);}
+.service-icon{
+  width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:18px;color:#fff;
+}
+.service-card:nth-child(1) .service-icon{background:var(--mint);}
+.service-card:nth-child(2) .service-icon{background:var(--cyan);}
+.service-card:nth-child(3) .service-icon{background:var(--violet);}
+.service-card:nth-child(1):hover{border-color:var(--mint);box-shadow:0 16px 34px rgba(31,203,148,.2);}
+.service-card:nth-child(2):hover{border-color:var(--cyan);box-shadow:0 16px 34px rgba(34,184,232,.2);}
+.service-card:nth-child(3):hover{border-color:var(--violet);box-shadow:0 16px 34px rgba(108,76,255,.25);}
+.service-card h3{font-family:var(--font-display);font-size:1.25rem;margin-bottom:10px;}
+.service-card p{font-size:.88rem;color:rgba(255,255,255,.65);}
+
+/* ---- skills ---- */
+.skills-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;}
+.skill{
+  font-family:var(--font-mono);font-size:.85rem;font-weight:500;
+  background:#fff;border:1.5px solid var(--violet);color:var(--violet-deep);
+  padding:9px 16px;border-radius:9px;display:inline-flex;align-items:center;gap:8px;
+  transition:transform .3s var(--ease-bounce), background .25s ease, color .25s ease;
+}
+.skill i{font-size:.95rem;}
+.skill:hover{transform:translateY(-5px) rotate(-3deg) scale(1.05);background:var(--violet);color:#fff;}
+.skill:nth-child(5n+2){border-color:var(--coral);color:#C23B54;}
+.skill:nth-child(5n+2):hover{background:var(--coral);color:#fff;transform:translateY(-5px) rotate(3deg) scale(1.05);}
+.skill:nth-child(5n+3){border-color:var(--cyan);color:#1387AC;}
+.skill:nth-child(5n+3):hover{background:var(--cyan);color:#fff;}
+.skill:nth-child(5n+4){border-color:var(--mint);color:#0E8F66;}
+.skill:nth-child(5n+4):hover{background:var(--mint);color:#fff;}
+.skill:nth-child(5n+5){border-color:var(--yellow);color:#8A6A10;}
+.skill:nth-child(5n+5):hover{background:var(--yellow);color:#3a2c05;}
+
+/* ---- process ---- */
+.process-track{
+  display:grid;gap:28px;margin-top:40px;grid-template-columns:1fr;position:relative;
+}
+@media(min-width:769px){
+  .process-track{grid-template-columns:repeat(4,1fr);}
+  .process-track::before{
+    content:'';position:absolute;top:26px;left:12%;right:12%;height:2px;
+    background:repeating-linear-gradient(90deg,var(--border) 0 8px,transparent 8px 16px);z-index:0;
+  }
+}
+.process-step{position:relative;z-index:1;}
+.process-num{
+  width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:#fff;margin-bottom:16px;
+  transition:transform .4s var(--ease-bounce);
+}
+.process-step:nth-child(1) .process-num{background:var(--violet);}
+.process-step:nth-child(2) .process-num{background:var(--coral);}
+.process-step:nth-child(3) .process-num{background:var(--cyan);}
+.process-step:nth-child(4) .process-num{background:var(--mint);}
+.process-step:hover .process-num{transform:scale(1.15) rotate(-8deg);}
+.process-step h4{font-family:var(--font-display);font-size:1.1rem;margin-bottom:6px;}
+.process-step p{font-size:.85rem;color:var(--ink-soft);}
+
+/* ---- projects ---- */
+.projects-grid{display:grid;gap:22px;margin-top:36px;grid-template-columns:1fr;}
+@media(min-width:769px){.projects-grid{grid-template-columns:repeat(2,1fr);}}
+.project-card{
+  background:#fff;border-radius:18px;border:1px solid var(--border);overflow:hidden;
+  box-shadow:0 6px 18px rgba(20,21,43,.06);
+  transition:box-shadow .35s ease;
+  transform-style:preserve-3d;perspective:800px;
+}
+.project-card:hover{box-shadow:0 22px 44px rgba(20,21,43,.14);}
+.project-thumb{
+  aspect-ratio:16/10;background:linear-gradient(135deg,var(--violet-tint),var(--cyan-tint));
+  display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
+}
+.project-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.project-card:hover .project-thumb img{transform:scale(1.08);}
+.project-thumb.img-missing img{display:none;}
+.project-thumb.img-missing::after{content:'Add project image';font-family:var(--font-mono);font-size:.75rem;color:var(--violet-deep);}
+.project-body{padding:22px;}
+.project-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.project-body h3{font-family:var(--font-display);font-size:1.3rem;}
+.platform-tag{
+  flex-shrink:0;font-family:var(--font-mono);font-size:.65rem;font-weight:700;
+  letter-spacing:.4px;text-transform:uppercase;padding:4px 11px;border-radius:20px;color:#fff;
+}
+.platform-tag.shopify{background:var(--mint);}
+.platform-tag.wordpress{background:var(--cyan);}
+.platform-tag.custom{background:var(--violet);}
+.project-body p{font-size:.86rem;color:var(--ink-soft);margin-bottom:12px;}
+.view-project{font-family:var(--font-mono);font-size:.82rem;font-weight:600;color:var(--violet-deep);display:inline-flex;align-items:center;gap:6px;}
+.project-card:hover .view-project{gap:10px;}
+.view-project i{transition:transform .25s ease;}
+.project-password{font-size:.76rem;color:var(--ink-soft);margin-top:8px;font-style:italic;}
+.project-password strong{font-style:normal;color:var(--ink);font-family:var(--font-mono);}
+
+/* ---- credentials ---- */
+.cred-grid{display:grid;gap:32px;margin-top:32px;grid-template-columns:1fr;}
+@media(min-width:769px){.cred-grid{grid-template-columns:1fr 1fr;}}
+.cred-col h4{font-family:var(--font-mono);font-size:.78rem;text-transform:uppercase;letter-spacing:1.5px;color:#0E8F66;margin-bottom:16px;}
+.cred-item{border-left:3px solid var(--mint);padding-left:16px;margin-bottom:18px;}
+.cred-item .cred-role{font-family:var(--font-display);font-weight:700;font-size:1.02rem;}
+.cred-item .cred-place{font-size:.85rem;color:var(--ink-soft);}
+.cred-item .cred-time{font-family:var(--font-mono);font-size:.72rem;color:#0E8F66;margin-top:2px;}
+.lang-row{display:flex;gap:10px;margin-top:8px;}
+.lang-pill{font-family:var(--font-mono);font-size:.72rem;background:#fff;border:1px solid var(--border);padding:5px 12px;border-radius:20px;}
+
+/* ---- contact ---- */
+.contact-wrap{display:grid;gap:40px;grid-template-columns:1fr;}
+@media(min-width:769px){.contact-wrap{grid-template-columns:1fr 1fr;align-items:start;}}
+.contact-info-item{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.contact-info-item i{
+  width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;color:var(--mint);flex-shrink:0;
+}
+.contact-info-item a,.contact-info-item span{font-size:.92rem;color:rgba(255,255,255,.85);}
+.contact-form{display:flex;flex-direction:column;gap:14px;}
+.contact-form input,.contact-form textarea{
+  padding:13px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);color:#fff;font-family:var(--font-body);font-size:.9rem;
+  transition:border-color .25s ease, background .25s ease;
+}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.4);}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--violet);background:rgba(255,255,255,.1);}
+.contact-form textarea{min-height:110px;resize:vertical;}
+.contact-form button{
+  padding:13px 20px;border:none;border-radius:10px;cursor:pointer;
+  background:linear-gradient(90deg,var(--violet),var(--coral));color:#fff;
+  font-family:var(--font-mono);font-weight:600;font-size:.88rem;
+  transition:transform .25s var(--ease-bounce), box-shadow .25s ease;
+}
+.contact-form button:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 12px 26px rgba(108,76,255,.4);}
+.contact-form button:active{transform:scale(.95);}
+#form-message{
+  display:none;margin-top:6px;padding:10px 14px;border-radius:8px;
+  background:rgba(31,203,148,.15);color:#5EEBB8;font-size:.85rem;text-align:center;
+}
+
+footer{text-align:center;font-size:.82rem;color:var(--ink-soft);padding:36px 20px;font-family:var(--font-mono);}
+footer a{color:var(--violet-deep);font-weight:600;}
+
+/* ---- whatsapp float ---- */
+.whatsapp-float{
+  position:fixed;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:calc(22px + env(safe-area-inset-right,0px));
+  width:56px;height:56px;background:#25D366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;
+  box-shadow:0 8px 22px rgba(37,211,102,.45);z-index:600;
+  transition:transform .3s var(--ease-bounce);
+}
+.whatsapp-float::before{
+  content:'';position:absolute;inset:0;border-radius:50%;background:#25D366;opacity:.55;
+  animation:ring 2.4s ease-out infinite;
+}
+@keyframes ring{0%{transform:scale(1);opacity:.55;}70%{transform:scale(1.7);opacity:0;}100%{transform:scale(1.7);opacity:0;}}
+.whatsapp-float:hover{transform:scale(1.1) rotate(8deg);}
+@media(max-width:480px){.whatsapp-float{width:48px;height:48px;font-size:1.3rem;}}
+</style>
 </head>
 <body>
 
-  <!-- Loader -->
-  <div id="loader" aria-hidden="true">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+<div id="scroll-progress"></div>
+
+<div id="loader">
+  <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+</div>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="nav-logo"><span class="dotmark"></span>LIMON.DEV</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </div>
   </div>
+</nav>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="navbar-inner">
-      <a href="#home" class="nav-mark">ML<span>/</span></a>
-      <div class="navbar-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+<!-- HERO -->
+<header class="hero" id="home">
+  <div class="hero-blob b1"></div>
+  <div class="hero-blob b2"></div>
+  <div class="hero-blob b3"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="block-inner">
+    <div class="browser-window">
+      <div class="browser-bar">
+        <div class="traffic"><span></span><span></span><span></span></div>
+        <div class="address-bar"><i class="fas fa-lock"></i>mdlimonali.com</div>
+        <i class="fas fa-ellipsis-vertical" style="color:var(--ink-soft);font-size:.75rem;"></i>
+      </div>
+      <div class="loadbar-track"><div class="loadbar-fill"></div></div>
+      <div class="browser-body">
+        <div class="hero-text">
+          <div class="location-pill"><i class="fas fa-location-dot"></i>Kushtia, Bangladesh</div>
+          <h1>MD LIMON ALI</h1>
+          <div class="role-line"><span class="cursor-blink" id="roleText"></span></div>
+          <p class="hero-tagline">I design and build fast, responsive websites — Shopify stores, WordPress sites, and fully custom-coded projects — for businesses that want to look as good online as they do in person.</p>
+          <div class="cta-row">
+            <a href="#work" class="btn btn-primary magnetic"><i class="fas fa-arrow-down"></i>View Work</a>
+            <a href="Md-Limon-Ali-Resume.pdf" class="btn btn-outline magnetic" download><i class="fas fa-download"></i>Resume</a>
+          </div>
+          <div class="social-row">
+            <a href="https://github.com/MDLIMONALI100/LIMON" class="social-icon" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/md-limon-ali-2a3457378/" class="social-icon" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.facebook.com/mdlimonalibd" class="social-icon" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://x.com/mdlimonali100" class="social-icon" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.upwork.com/freelancers/~01fad5e7c367f29102" class="social-icon" target="_blank" aria-label="Upwork"><i class="fab fa-upwork"></i></a>
+          </div>
+        </div>
+        <div class="hero-photo-wrap">
+          <div class="hero-photo-ring"></div>
+          <div class="hero-photo">
+            <img src="profile.png" alt="Md Limon Ali" id="heroPhoto" fetchpriority="high">
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
+    <div class="scroll-cue"><a href="#about" aria-label="Scroll down"><i class="fas fa-chevron-down"></i></a></div>
+  </div>
+</header>
 
-  <!-- Hero -->
-  <header class="hero" id="home">
-    <canvas id="hero-canvas" aria-hidden="true"></canvas>
-    <div class="hero-content">
-      <p class="eyebrow">Web Developer — Bangladesh</p>
-      <h1>MD LIMON ALI</h1>
-      <p class="tagline">I build fast, responsive websites — Shopify stores, WordPress sites, and fully custom-coded builds — for businesses and brands that need a real online presence.</p>
-      <div class="hero-actions">
-        <a href="#projects" class="btn btn-solid">View Projects</a>
-        <a href="Md-Limon-Ali-Resume.pdf" class="btn btn-outline" download>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
-          Resume
-        </a>
-      </div>
-      <div class="hero-socials">
-        <a href="https://github.com/limon-dev1" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com/in/md-limon-ali-bd/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="https://www.facebook.com/mdlimonalibd" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="https://x.com/mdlimonali100" target="_blank" rel="noopener" aria-label="Twitter/X"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.upwork.com/freelancers/~01fad5e7c367f29102" target="_blank" rel="noopener" aria-label="Upwork"><i class="fab fa-upwork"></i></a>
-      </div>
-    </div>
-    <a href="#about" class="scroll-cue" aria-label="Scroll down"><i class="fas fa-chevron-down"></i></a>
-  </header>
-
-  <!-- About -->
-  <section id="about">
-    <p class="eyebrow">About</p>
-    <h2>Building things that work, on every screen.</h2>
+<!-- ABOUT -->
+<section id="about" class="tint-violet">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:var(--violet-deep);">About</p>
+    <h2>I build the web,<br>one clean line at a time.</h2>
     <div class="about-grid">
-      <div class="about-photo">
-        <img src="assets/profile.jpg" alt="MD Limon Ali" loading="lazy" onerror="this.closest('.about-photo').classList.add('img-missing')">
+      <div>
+        <p>I'm a web developer focused on building modern, responsive, and user-friendly websites that help businesses and individuals build a stronger presence online.</p>
+        <p>I work across WordPress, WooCommerce, Shopify, and custom-coded builds — combining clean design with reliable functionality so every site looks professional and runs smoothly on any device.</p>
+        <p>Whether it's a business website, an e-commerce store, or a fully custom project, I focus on understanding what you actually need and turning that into something fast, functional, and easy to use.</p>
+        <p>Let's turn your idea into a website you're proud to share.</p>
       </div>
-      <div class="about-main">
-        <div class="about-text">
-          <p>I'm a web developer based in Khulna, Bangladesh, focused on building modern, responsive, user-friendly websites that help businesses build a stronger presence online.</p>
-          <p>I work across Shopify, WordPress, WooCommerce, and fully custom-coded builds — combining clean design with reliable functionality so the sites I ship look professional and run smoothly across devices.</p>
-          <p>Whether it's an e-commerce store, a service-based business site, or a custom front-end project, I focus on understanding what's needed and turning that into something fast, functional, and easy to use.</p>
+      <div class="fact-cards">
+        <div class="fact-card"><i class="fas fa-location-dot"></i><div class="fact-title">Based in</div><div class="fact-sub">Kushtia, Bangladesh</div></div>
+        <div class="fact-card"><i class="fas fa-code"></i><div class="fact-title">Building since</div><div class="fact-sub">Jan 2025</div></div>
+        <div class="fact-card"><i class="fas fa-layer-group"></i><div class="fact-title">Platforms</div><div class="fact-sub">Shopify · WordPress · Custom</div></div>
+        <div class="fact-card"><i class="fas fa-comments"></i><div class="fact-title">English</div><div class="fact-sub">Fluent, client-ready</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="tint-navy">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:var(--mint);">What I Build</p>
+    <h2>Three ways I can<br>help your business.</h2>
+    <p class="lede">Pick the platform that fits your goals — or let me recommend one after we talk through what you need.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><i class="fab fa-shopify"></i></div>
+        <h3>Shopify Stores</h3>
+        <p>Conversion-focused storefronts with clean product layouts, fast checkout, and themes tailored to your brand.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fab fa-wordpress"></i></div>
+        <h3>WordPress &amp; WooCommerce</h3>
+        <p>Flexible business sites and online stores built with WordPress, WooCommerce, and Elementor for easy content control.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><i class="fas fa-code"></i></div>
+        <h3>Custom-Coded Websites</h3>
+        <p>Hand-built with HTML, CSS, and JavaScript when you need full control over performance, design, and behavior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="tint-yellow">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:#8A6A10;">Toolbox</p>
+    <h2>Skills &amp; tools</h2>
+    <p class="lede">The stack I reach for most, across design, development, and deployment.</p>
+    <div class="skills-grid">
+      <div class="skill"><i class="fab fa-html5"></i>HTML5</div>
+      <div class="skill"><i class="fab fa-css3-alt"></i>CSS3</div>
+      <div class="skill"><i class="fab fa-js"></i>JavaScript</div>
+      <div class="skill"><i class="fab fa-shopify"></i>Shopify Liquid</div>
+      <div class="skill"><i class="fab fa-wordpress"></i>WordPress</div>
+      <div class="skill"><i class="fas fa-cart-shopping"></i>WooCommerce</div>
+      <div class="skill"><i class="fas fa-pen-ruler"></i>Elementor</div>
+      <div class="skill"><i class="fas fa-wind"></i>Tailwind CSS</div>
+      <div class="skill"><i class="fab fa-react"></i>React</div>
+      <div class="skill"><i class="fab fa-node-js"></i>Node.js</div>
+      <div class="skill"><i class="fas fa-mobile-screen"></i>Responsive Design</div>
+      <div class="skill"><i class="fab fa-github"></i>GitHub</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:var(--violet-deep);">How I Work</p>
+    <h2>From idea to launch,<br>in four steps.</h2>
+    <div class="process-track">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <h4>Discover</h4>
+        <p>We talk through your goals, audience, and what the site needs to do for your business.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <h4>Design</h4>
+        <p>I plan the layout and look — clean, on-brand, and built around how people will actually use it.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <h4>Build</h4>
+        <p>Development happens in Shopify, WordPress, or hand-written code — tested across devices as I go.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <h4>Launch</h4>
+        <p>Your site goes live fast and smooth, with room to grow and support after handoff.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="work" class="tint-cyan">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:#1387AC;">Selected Work</p>
+    <h2>Projects</h2>
+    <p class="lede">A mix of e-commerce, service-based, and custom-coded builds.</p>
+    <div class="projects-grid">
+
+      <a class="project-card tilt" href="https://premium-clothing-store-3.myshopify.com/" target="_blank">
+        <div class="project-thumb"><img src="images/skin-care.jpg" alt="Vira Skin Care" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
+        <div class="project-body">
+          <div class="project-title-row"><h3>Vira Skin Care</h3><span class="platform-tag shopify">Shopify</span></div>
+          <p>A Shopify storefront for a premium skin care brand, with a clean product layout and streamlined checkout.</p>
+          <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+          <p class="project-password">Store password: <strong>limon</strong></p>
         </div>
-        <div class="stats" id="stats">
-          <div class="stat">
-            <span class="stat-number" data-target="7">0</span>
-            <span class="stat-label">Projects Shipped</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number" data-target="3">0</span>
-            <span class="stat-label">Platforms — Shopify / WordPress / Custom</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number" data-target="100" data-suffix="%">0%</span>
-            <span class="stat-label">Responsive by Default</span>
-          </div>
+      </a>
+
+      <a class="project-card tilt" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank">
+        <div class="project-thumb"><img src="images/home-cleaning.jpg" alt="Home Cleaning Service" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
+        <div class="project-body">
+          <div class="project-title-row"><h3>Home Cleaning Service</h3><span class="platform-tag wordpress">WordPress</span></div>
+          <p>A service business site built to present offerings clearly and make it easy for customers to get in touch.</p>
+          <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a class="project-card tilt" href="https://dev-aura-clothing-01.pantheonsite.io/" target="_blank">
+        <div class="project-thumb"><img src="images/wordpress-business-theme.jpg" alt="Business Site (WordPress)" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
+        <div class="project-body">
+          <div class="project-title-row"><h3>Business Site (WordPress)</h3><span class="platform-tag wordpress">WordPress</span></div>
+          <p>A clean, flexible WordPress build with page-builder support — a professional look for any industry.</p>
+          <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+      <a class="project-card tilt" href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">
+        <div class="project-thumb"><img src="images/my-portfolio.jpg" alt="Professional Portfolio" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
+        <div class="project-body">
+          <div class="project-title-row"><h3>Professional Portfolio</h3><span class="platform-tag custom">Custom-Coded</span></div>
+          <p>A custom-coded portfolio built for my own agency, with a refined structure and hand-written design.</p>
+          <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section id="background" class="tint-mint">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:#0E8F66;">Background</p>
+    <h2>Education &amp; training</h2>
+    <div class="cred-grid">
+      <div class="cred-col">
+        <h4>Education</h4>
+        <div class="cred-item">
+          <div class="cred-role">Bachelor of Arts (B.A.)</div>
+          <div class="cred-place">Kushtia Government College</div>
+          <div class="cred-time">2025 – Present · Expected 2029</div>
+        </div>
+        <div class="cred-item">
+          <div class="cred-role">HSC (Science)</div>
+          <div class="cred-place">Amla Government Degree College</div>
+          <div class="cred-time">Completed 2025</div>
+        </div>
+      </div>
+      <div class="cred-col">
+        <h4>Training</h4>
+        <div class="cred-item">
+          <div class="cred-role">Professional Web Development</div>
+          <div class="cred-place">Shopify &amp; WordPress — Venus IT Institute</div>
+          <div class="cred-time">2025 – 2026</div>
+        </div>
+        <div class="cred-item">
+          <div class="cred-role">Self-Taught Front-End Development</div>
+          <div class="cred-place">Independent study &amp; project work</div>
+          <div class="cred-time">Jan 2025 – Jul 2026</div>
+        </div>
+        <div class="lang-row">
+          <span class="lang-pill">Bengali — Native</span>
+          <span class="lang-pill">English — Fluent</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Skills -->
-  <section id="skills">
-    <p class="eyebrow">Skills</p>
-    <h2>Tools of the trade.</h2>
-    <div class="skills-columns">
-      <div class="skill-group">
-        <h3><i class="fab fa-html5"></i> Front-End</h3>
-        <ul class="skill-list">
-          <li><span>HTML5</span><div class="bar"><i style="--w:95%"></i></div></li>
-          <li><span>CSS3</span><div class="bar"><i style="--w:92%"></i></div></li>
-          <li><span>JavaScript</span><div class="bar"><i style="--w:85%"></i></div></li>
-          <li><span>Responsive Design</span><div class="bar"><i style="--w:95%"></i></div></li>
-        </ul>
+<!-- CONTACT -->
+<section id="contact" class="tint-navy">
+  <div class="block-inner">
+    <p class="eyebrow" style="color:var(--coral);">Get In Touch</p>
+    <h2>Let's build<br>something great.</h2>
+    <p class="lede">Have a project in mind? Send a message or reach out directly — I usually reply within a day.</p>
+    <div class="contact-wrap">
+      <div>
+        <div class="contact-info-item"><i class="fas fa-envelope"></i><a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></div>
+        <div class="contact-info-item"><i class="fas fa-phone"></i><a href="tel:+8801709769235">+880 1709-769235</a></div>
+        <div class="contact-info-item"><i class="fas fa-location-dot"></i><span>Mirpur, Kushtia, Khulna, Bangladesh</span></div>
       </div>
-      <div class="skill-group">
-        <h3><i class="fab fa-shopify"></i> Platforms</h3>
-        <ul class="skill-list">
-          <li><span>Shopify / Liquid</span><div class="bar"><i style="--w:90%"></i></div></li>
-          <li><span>WordPress</span><div class="bar"><i style="--w:88%"></i></div></li>
-          <li><span>WooCommerce</span><div class="bar"><i style="--w:82%"></i></div></li>
-          <li><span>Elementor</span><div class="bar"><i style="--w:85%"></i></div></li>
-        </ul>
-      </div>
-      <div class="skill-group">
-        <h3><i class="fas fa-toolbox"></i> Tools &amp; Other</h3>
-        <ul class="skill-list">
-          <li><span>GitHub</span><div class="bar"><i style="--w:80%"></i></div></li>
-          <li><span>English — Fluent</span><div class="bar"><i style="--w:95%"></i></div></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects">
-    <p class="eyebrow">Projects</p>
-    <h2>Recent work.</h2>
-
-    <div class="projects">
-      <a class="project" href="https://premium-clothing-store-3.myshopify.com" target="_blank" rel="noopener">
-        <div class="project-thumb">
-          <img src="assets/projects/vira-skincare.jpg" alt="Vira Skin Care storefront" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Vira Skin Care</h4>
-          <span class="platform-tag">Shopify</span>
-        </div>
-        <p>A Shopify storefront for a premium skin care brand — clean product layout, streamlined checkout.</p>
-        <span class="view-project">View Project →</span>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </a>
-      <a class="project" href="https://demo-theme-osm8fzl9.myshopify.com/" target="_blank" rel="noopener">
-        <div class="project-thumb">
-          <img src="assets/projects/fashion-trends.jpg" alt="Fashion Trends clothing store" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Fashion Trends Clothing Store</h4>
-          <span class="platform-tag">Shopify</span>
-        </div>
-        <p>A conversion-focused Shopify theme for e-commerce brands — fast loading, mobile-first, ready to customize.</p>
-        <span class="view-project">View Project →</span>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </a>
-      <a class="project" href="https://car-servicing-bvsmop2l.myshopify.com/" target="_blank" rel="noopener">
-        <div class="project-thumb">
-          <img src="assets/projects/car-servicing.jpg" alt="Car servicing website" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Car Servicing Website</h4>
-          <span class="platform-tag">Shopify</span>
-        </div>
-        <p>A Shopify site for a car servicing business — clear service listings, simple booking flow.</p>
-        <span class="view-project">View Project →</span>
-        <p class="project-password">Store password: <strong>limon</strong></p>
-      </a>
-      <a class="project" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener">
-        <div class="project-thumb">
-          <img src="assets/projects/home-cleaning.jpg" alt="Home cleaning service website" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Home Cleaning Service</h4>
-          <span class="platform-tag">WordPress</span>
-        </div>
-        <p>A WordPress site for a home cleaning business — services presented clearly, easy to get in touch.</p>
-        <span class="view-project">View Project →</span>
-      </a>
-      <a class="project" href="https://dev-aura-clothing-01.pantheonsite.io/" target="_blank" rel="noopener">
-        <div class="project-thumb">
-          <img src="assets/projects/woocommerce-store.jpg" alt="WooCommerce WordPress store" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>WooCommerce WordPress Store</h4>
-          <span class="platform-tag">WooCommerce</span>
-        </div>
-        <p>A WooCommerce build on WordPress — flexible layouts, page-builder support, clean checkout.</p>
-        <span class="view-project">View Project →</span>
-      </a>
-      <a class="project" href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank" rel="noopener">
-        <div class="project-thumb">
-          <img src="assets/projects/portfolio.jpg" alt="Custom portfolio website" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')">
-        </div>
-        <div class="project-title-row">
-          <h4>Custom Portfolio Website</h4>
-          <span class="platform-tag">HTML/CSS/JS</span>
-        </div>
-        <p>A hand-coded portfolio built for my own agency — custom layout and structure, no theme.</p>
-        <span class="view-project">View Project →</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="contact">
-    <div class="contact-main">
-      <p class="eyebrow">Get in touch</p>
-      <h2>Let's build something.</h2>
-      <p class="contact-sub">Have a project in mind? Send a message and I'll get back to you.</p>
-      <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form">
+      <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form" class="contact-form">
         <input type="text" name="name" placeholder="Your Name" required>
         <input type="email" name="email" placeholder="Your Email" required>
         <textarea name="message" placeholder="Your Message" required></textarea>
         <button type="submit">Send Message</button>
+        <div id="form-message">Message sent successfully!</div>
       </form>
-      <div id="form-message" role="status"></div>
     </div>
-    <div class="contact-scene-wrap" aria-hidden="true">
-      <canvas id="contact-canvas"></canvas>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    <p>Made with focus in Khulna, Bangladesh. Reach me at <a href="mailto:mdlimonali0011@gmail.com">mdlimonali0011@gmail.com</a></p>
-  </footer>
+<footer>
+  <p>Made with ☕ and focus by Md Limon Ali · <a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></p>
+</footer>
 
-  <!-- WhatsApp -->
-  <a href="https://wa.me/8801709769235?text=Hi%20Limon%2C%20I%20found%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-    <span class="whatsapp-tooltip">Chat on WhatsApp</span>
-  </a>
+<a href="https://wa.me/8801709769235?text=Hi%20Limon%2C%20I%20found%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.004 2.667c-7.363 0-13.333 5.97-13.333 13.333 0 2.353.615 4.66 1.784 6.686L2.667 29.333l6.815-1.756a13.27 13.27 0 0 0 6.522 1.723h.006c7.362 0 13.333-5.97 13.333-13.333 0-3.56-1.386-6.906-3.904-9.425A13.25 13.25 0 0 0 16.004 2.667zm0 24.4h-.005a11.05 11.05 0 0 1-5.63-1.541l-.404-.24-4.045 1.043 1.08-3.943-.263-.405a11.04 11.04 0 0 1-1.7-5.881c0-6.106 4.968-11.073 11.072-11.073 2.958 0 5.738 1.153 7.829 3.246a10.995 10.995 0 0 1 3.239 7.833c0 6.105-4.968 11.061-11.173 11.061z"/>
+  </svg>
+</a>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="three-scene.js"></script>
-  <script src="contact-scene.js"></script>
-  <script src="script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(()=>{ document.getElementById("loader").classList.add("hide"); }, 350);
+  revealSections();
+  typeRoles();
+});
+
+// avatar fallback
+document.getElementById('heroPhoto').addEventListener('error', function(){
+  const wrap = this.closest('.hero-photo');
+  wrap.innerHTML = '<div class="avatar-fallback">ML</div>';
+});
+
+// scroll reveal
+function revealSections(){
+  const els = document.querySelectorAll("header, section, footer");
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("reveal");
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.08, rootMargin:"0px 0px -10% 0px"});
+  els.forEach(el=>io.observe(el));
+}
+
+// scroll progress bar
+const bar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  bar.style.width = pct + '%';
+}, {passive:true});
+
+// role typewriter
+function typeRoles(){
+  const roles = ["Shopify Developer","WordPress Developer","Custom Web Developer"];
+  const el = document.getElementById('roleText');
+  let ri=0, ci=0, deleting=false;
+  function tick(){
+    const word = roles[ri];
+    if(!deleting){
+      ci++;
+      el.textContent = word.slice(0,ci);
+      if(ci===word.length){ deleting=true; setTimeout(tick, 1200); return; }
+    } else {
+      ci--;
+      el.textContent = word.slice(0,ci);
+      if(ci===0){ deleting=false; ri=(ri+1)%roles.length; }
+    }
+    setTimeout(tick, deleting?45:80);
+  }
+  tick();
+}
+
+// cursor glow (desktop only)
+if(window.matchMedia('(pointer:fine)').matches){
+  const hero = document.querySelector('.hero');
+  const glow = document.getElementById('cursorGlow');
+  let raf=null, mx=0, my=0;
+  hero.addEventListener('mousemove', e=>{
+    const r = hero.getBoundingClientRect();
+    mx = e.clientX - r.left; my = e.clientY - r.top;
+    glow.style.opacity = '1';
+    if(!raf){
+      raf = requestAnimationFrame(()=>{
+        glow.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+        raf = null;
+      });
+    }
+  });
+  hero.addEventListener('mouseleave', ()=>{ glow.style.opacity='0'; });
+
+  // magnetic buttons
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove', e=>{
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width/2) * 0.25;
+      const y = (e.clientY - r.top - r.height/2) * 0.25;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    btn.addEventListener('mouseleave', ()=>{ btn.style.transform=''; });
+  });
+
+  // project card tilt
+  document.querySelectorAll('.tilt').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left)/r.width - 0.5;
+      const py = (e.clientY - r.top)/r.height - 0.5;
+      card.style.transform = `perspective(800px) rotateY(${px*6}deg) rotateX(${-py*6}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
+  });
+}
+
+// contact form
+const form = document.getElementById("contact-form");
+const formMessage = document.getElementById("form-message");
+form.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const formData = new FormData(form);
+  try{
+    const res = await fetch(form.action, {method:"POST", body:formData, headers:{'Accept':'application/json'}});
+    if(res.ok){
+      formMessage.style.background = 'rgba(31,203,148,.15)';
+      formMessage.style.color = '#5EEBB8';
+      formMessage.textContent = "Message sent successfully!";
+      formMessage.style.display = "block";
+      form.reset();
+      setTimeout(()=>{ formMessage.style.display="none"; }, 3000);
+    } else {
+      formMessage.style.background = 'rgba(255,84,112,.15)';
+      formMessage.style.color = '#FF8FA0';
+      formMessage.textContent = "Failed to send message. Please try again.";
+      formMessage.style.display = "block";
+    }
+  } catch(err){
+    formMessage.style.background = 'rgba(255,84,112,.15)';
+    formMessage.style.color = '#FF8FA0';
+    formMessage.textContent = "An error occurred. Please try again.";
+    formMessage.style.display = "block";
+  }
+});
+</script>
 </body>
 </html>
