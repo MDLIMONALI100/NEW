@@ -135,7 +135,7 @@ h2{
 
 .hero-photo-wrap{flex-shrink:0;}
 .hero-photo{
-  width:170px;height:170px;
+  width:min(425px, 78vw);height:min(425px, 78vw);
   background:transparent;
 }
 .hero-photo img{width:100%;height:100%;object-fit:contain;background:transparent;}
@@ -144,7 +144,7 @@ h2{
   border:1px solid rgba(255,255,255,.2);
   color:#fff;font-family:var(--font-display);font-weight:700;font-size:2.2rem;
 }
-@media(min-width:769px){.hero-photo{width:220px;height:220px;}}
+@media(min-width:769px){.hero-photo{width:550px;height:550px;}}
 
 .hero-text{max-width:600px;}
 .location-pill{
@@ -219,15 +219,15 @@ h2{
 .service-card p{font-size:.88rem;color:rgba(255,255,255,.6);}
 
 /* ---- skills ---- */
-.skills-grid{display:flex;flex-wrap:wrap;gap:1px;margin-top:28px;background:var(--border);border:1px solid var(--border);}
+.skills-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
 .skill{
   font-family:var(--font-mono);font-size:.82rem;font-weight:500;
-  background:var(--panel);color:var(--ink);
+  background:var(--panel);color:var(--ink);border:1px solid var(--border);
   padding:10px 16px;display:inline-flex;align-items:center;gap:8px;
-  transition:background .2s ease, color .2s ease;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
 }
 .skill i{font-size:.92rem;}
-.skill:hover{background:var(--ink);color:#fff;}
+.skill:hover{background:var(--ink);color:#fff;border-color:var(--ink);}
 
 /* ---- process ---- */
 .process-track{display:grid;gap:1px;margin-top:36px;grid-template-columns:1fr;background:var(--border);border:1px solid var(--border);}
@@ -250,7 +250,7 @@ h2{
 
 /* ---- projects ---- */
 .projects-grid{display:grid;gap:1px;margin-top:32px;grid-template-columns:1fr;background:var(--border);border:1px solid var(--border);}
-@media(min-width:769px){.projects-grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:769px){.projects-grid{grid-template-columns:repeat(3,1fr);}}
 .project-card{background:var(--panel);}
 .project-thumb{
   aspect-ratio:16/10;background:var(--gray-100);
@@ -334,8 +334,11 @@ h2{
 
 footer{
   width:100%;text-align:center;font-size:.82rem;color:var(--ink-soft);
-  padding:32px 20px;font-family:var(--font-mono);
-  background:var(--bg);border-top:1px solid var(--border);
+  padding:24px 20px;font-family:var(--font-mono);
+  background:var(--bg);
+}
+.footer-inner{
+  max-width:1180px;margin:0 auto;border-top:1px solid var(--border);padding-top:20px;
 }
 footer a{color:var(--ink);font-weight:600;}
 
@@ -564,15 +567,6 @@ footer a{color:var(--ink);font-weight:600;}
         </div>
       </a>
 
-      <a class="project-card" href="https://limon-dev1.github.io/MY-OWN-AGENCY/" target="_blank">
-        <div class="project-thumb"><img src="images/my-portfolio.jpg" alt="Professional Portfolio" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
-        <div class="project-body">
-          <div class="project-title-row"><h3>Professional Portfolio</h3><span class="platform-tag">Custom-Coded</span></div>
-          <p>A custom-coded portfolio built for my own agency, with a refined structure and hand-written design.</p>
-          <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
-        </div>
-      </a>
-
     </div>
   </div>
 </section>
@@ -581,7 +575,7 @@ footer a{color:var(--ink);font-weight:600;}
 <section id="faq" class="band-b">
   <div class="block-inner">
     <p class="eyebrow">FAQ</p>
-    <h2>Common questions.</h2>
+    <h2>Frequently Asked Questions</h2>
     <div class="faq-list">
       <div class="faq-item">
         <button class="faq-q">How long does a typical project take? <i class="fas fa-plus"></i></button>
@@ -598,6 +592,18 @@ footer a{color:var(--ink);font-weight:600;}
       <div class="faq-item">
         <button class="faq-q">Can you work with an existing site? <i class="fas fa-plus"></i></button>
         <div class="faq-a"><p>Yes, I can take over, redesign, or extend an existing WordPress or Shopify site rather than starting from scratch.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How much does a website cost? <i class="fas fa-plus"></i></button>
+        <div class="faq-a"><p>It depends on scope — a simple business site costs less than a full e-commerce store with custom features. Send me the details and I'll give you a clear quote.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you handle hosting and domains? <i class="fas fa-plus"></i></button>
+        <div class="faq-a"><p>I can guide you through choosing and setting up hosting and a domain, or work within an existing setup you already have.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How many revisions are included? <i class="fas fa-plus"></i></button>
+        <div class="faq-a"><p>Each project includes a set number of revision rounds during the design and build phase so the site matches what you had in mind before launch.</p></div>
       </div>
     </div>
   </div>
@@ -667,7 +673,9 @@ footer a{color:var(--ink);font-weight:600;}
 </section>
 
 <footer>
-  <p>Made with ☕ and focus by Md Limon Ali · <a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></p>
+  <div class="footer-inner">
+    <p>© 2026 Md Limon Ali</p>
+  </div>
 </footer>
 
 <a href="https://wa.me/8801709769235?text=Hi%20Limon%2C%20I%20found%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
