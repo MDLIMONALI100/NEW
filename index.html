@@ -45,7 +45,6 @@ body{
   background:var(--bg);
   color:var(--ink);
   line-height:1.65;
-  overflow-x:hidden;
   min-height:100vh;
   display:flex;
   flex-direction:column;
@@ -207,10 +206,6 @@ h2{
 }
 
 .hero-photo-wrap{flex-shrink:0;position:relative;}
-.hero-photo-wrap::before{
-  content:'';position:absolute;inset:6%;border-radius:50%;
-  background:var(--grad);opacity:.42;filter:blur(46px);z-index:0;
-}
 .hero-photo{
   width:min(280px, 62vw);height:min(280px, 62vw);
   position:relative;z-index:1;
