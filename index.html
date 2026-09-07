@@ -13,21 +13,21 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{
-  --bg:#08080b;
-  --bg-elev:#101014;
-  --panel:#131317;
-  --panel-2:#17171d;
-  --ink:#f6f6f8;
-  --ink-soft:#9d9da8;
-  --ink-faint:#6c6c76;
-  --border:rgba(255,255,255,0.09);
-  --border-strong:rgba(255,255,255,0.16);
-  --violet:#8b7bff;
-  --violet-2:#5b4fe0;
-  --indigo:#6d6afc;
-  --emerald:#3ddc97;
-  --grad:linear-gradient(120deg,#8b7bff 0%, #6a6bff 45%, #4f7dff 100%);
-  --grad-soft:linear-gradient(120deg, rgba(139,123,255,.16), rgba(79,125,255,.10));
+  --bg:#F5F0E4;
+  --bg-elev:#EEE7D6;
+  --panel:#FFFFFF;
+  --panel-2:#FBF7EC;
+  --ink:#1B1912;
+  --ink-soft:#6E6656;
+  --ink-faint:#9C9482;
+  --border:rgba(27,25,18,0.10);
+  --border-strong:rgba(27,25,18,0.20);
+  --violet:#5C4AE6;
+  --violet-2:#4636C4;
+  --indigo:#5750E0;
+  --emerald:#0FA968;
+  --grad:linear-gradient(120deg,#6E5BF0 0%, #5750E0 45%, #3E68E0 100%);
+  --grad-soft:linear-gradient(120deg, rgba(92,74,230,.14), rgba(62,104,224,.09));
   --font-display:'Space Grotesk',sans-serif;
   --font-body:'Inter',sans-serif;
   --font-mono:'JetBrains Mono',monospace;
@@ -35,6 +35,7 @@
   --radius-lg:22px;
   --radius-md:14px;
   --radius-sm:9px;
+  --line-hairline: repeating-linear-gradient(135deg, rgba(27,25,18,.05) 0px, rgba(27,25,18,.05) 1px, transparent 1px, transparent 27px);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -58,8 +59,8 @@ img{max-width:100%;display:block;}
 
 ::-webkit-scrollbar{width:10px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:#28282f;border-radius:20px;}
-::-webkit-scrollbar-thumb:hover{background:#38383f;}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:20px;}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-faint);}
 
 :focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:4px;}
 
@@ -80,13 +81,17 @@ img{max-width:100%;display:block;}
 @keyframes bounceDot{0%,100%{transform:translateY(0);opacity:.35;}50%{transform:translateY(-9px);opacity:1;}}
 
 /* ---- shared blocks ---- */
-header,section,footer{background:var(--bg);position:relative;}
+header,section,footer{
+  background-color:var(--bg);
+  background-image:var(--line-hairline);
+  position:relative;
+}
 .block-inner{max-width:1180px;margin:0 auto;padding:110px 32px;position:relative;z-index:2;}
 @media(max-width:768px){.block-inner{padding:76px 22px;}}
 
-.band-a{background:var(--bg);}
-.band-b{background:var(--bg-elev);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.band-c{background:var(--bg);}
+.band-a{background-color:var(--bg);}
+.band-b{background-color:var(--bg-elev);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.band-c{background-color:var(--bg);}
 
 .eyebrow{
   font-family:var(--font-mono);font-size:.78rem;font-weight:500;
@@ -108,7 +113,7 @@ h2{
 /* ---- nav ---- */
 .navbar{
   position:sticky;top:0;z-index:1500;width:100%;
-  background:rgba(8,8,11,0);
+  background:rgba(245,240,228,0);
   backdrop-filter:blur(0px) saturate(140%);
   -webkit-backdrop-filter:blur(0px) saturate(140%);
   border-bottom:1px solid transparent;
@@ -116,11 +121,11 @@ h2{
   transition:background .45s var(--ease), backdrop-filter .45s var(--ease), -webkit-backdrop-filter .45s var(--ease), border-color .45s var(--ease), box-shadow .45s var(--ease);
 }
 .navbar.scrolled{
-  background:rgba(8,8,11,0.72);
+  background:rgba(245,240,228,0.78);
   backdrop-filter:blur(16px) saturate(140%);
   -webkit-backdrop-filter:blur(16px) saturate(140%);
   border-bottom-color:var(--border);
-  box-shadow:0 10px 30px -14px rgba(0,0,0,.6);
+  box-shadow:0 10px 30px -14px rgba(27,25,18,.18);
 }
 .navbar-inner{
   position:relative;max-width:1180px;margin:0 auto;padding:18px 32px;
@@ -168,21 +173,21 @@ h2{
   position:relative;width:100%;
   min-height:100svh;
   display:flex;flex-direction:column;justify-content:center;
-  background:var(--bg);color:var(--ink);
+  background-color:var(--bg);background-image:var(--line-hairline);color:var(--ink);
   overflow:hidden;
 }
 .hero-mesh{
   position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(620px 620px at 82% 12%, rgba(139,123,255,.20), transparent 60%),
-    radial-gradient(560px 560px at 8% 85%, rgba(79,125,255,.14), transparent 60%),
-    radial-gradient(900px 500px at 50% 100%, rgba(61,220,151,.05), transparent 70%);
+    radial-gradient(620px 620px at 82% 12%, rgba(92,74,230,.16), transparent 60%),
+    radial-gradient(560px 560px at 8% 85%, rgba(62,104,224,.13), transparent 60%),
+    radial-gradient(900px 500px at 50% 100%, rgba(15,169,104,.06), transparent 70%);
 }
 .hero-grid{
-  position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.35;
+  position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.6;
   background-image:
-    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    linear-gradient(rgba(27,25,18,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,25,18,.05) 1px, transparent 1px);
   background-size:64px 64px;
   mask-image:radial-gradient(ellipse 80% 60% at 50% 30%, #000 40%, transparent 100%);
 }
@@ -216,7 +221,7 @@ h2{
 .hero-photo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 40px rgba(0,0,0,.45));}
 .hero-photo .avatar-fallback{
   width:88%;height:88%;display:flex;align-items:center;justify-content:center;
-  color:#fff;font-family:var(--font-display);font-weight:700;font-size:2.4rem;
+  color:var(--ink);font-family:var(--font-display);font-weight:700;font-size:2.4rem;
   background:var(--grad-soft);border:1px solid var(--border-strong);border-radius:50%;
 }
 @media(min-width:769px){.hero-photo{width:360px;height:360px;}}
@@ -799,7 +804,6 @@ footer a{color:var(--ink-soft);font-weight:600;}
   <div class="block-inner">
     <p class="eyebrow">Get In Touch</p>
     <h2>Let's build<br>something great.</h2>
-    <p class="lede">Have a project in mind? Send a message or reach out directly — I usually reply within a day.</p>
     <div class="contact-wrap">
       <div>
         <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></span><a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></div>
