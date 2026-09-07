@@ -203,20 +203,21 @@ h2{
 
 .hero-photo-wrap{flex-shrink:0;position:relative;}
 .hero-photo-wrap::before{
-  content:'';position:absolute;inset:-14px;border-radius:32px;
-  background:var(--grad);opacity:.5;filter:blur(30px);z-index:0;
+  content:'';position:absolute;inset:6%;border-radius:50%;
+  background:var(--grad);opacity:.42;filter:blur(46px);z-index:0;
 }
 .hero-photo{
   width:min(280px, 62vw);height:min(280px, 62vw);
-  border-radius:28px;position:relative;z-index:1;
-  background:var(--panel);border:1px solid var(--border-strong);
-  overflow:hidden;
+  position:relative;z-index:1;
+  background:transparent;border:none;
+  overflow:visible;
+  display:flex;align-items:center;justify-content:center;
 }
-.hero-photo img{width:100%;height:100%;object-fit:cover;}
+.hero-photo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 18px 40px rgba(0,0,0,.45));}
 .hero-photo .avatar-fallback{
-  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  width:88%;height:88%;display:flex;align-items:center;justify-content:center;
   color:#fff;font-family:var(--font-display);font-weight:700;font-size:2.4rem;
-  background:var(--grad-soft);
+  background:var(--grad-soft);border:1px solid var(--border-strong);border-radius:50%;
 }
 @media(min-width:769px){.hero-photo{width:360px;height:360px;}}
 
@@ -281,7 +282,8 @@ h2{
   transition:border-color .25s ease, transform .25s ease, background .25s ease;
 }
 .fact-card:hover{border-color:var(--border-strong);transform:translateY(-3px);background:var(--panel-2);}
-.fact-card i{color:var(--violet);font-size:1.05rem;margin-bottom:12px;display:block;}
+.fact-card i, .fact-card .fact-icon{color:var(--violet);font-size:1.05rem;margin-bottom:12px;display:block;}
+.fact-card .fact-icon{width:19px;height:19px;}
 .fact-card .fact-title{font-family:var(--font-mono);font-weight:600;font-size:.82rem;color:var(--ink);}
 .fact-card .fact-sub{font-size:.82rem;color:var(--ink-soft);margin-top:4px;}
 
@@ -425,10 +427,11 @@ h2{
 .contact-wrap{display:grid;gap:44px;grid-template-columns:1fr;}
 @media(min-width:769px){.contact-wrap{grid-template-columns:.85fr 1.15fr;align-items:start;}}
 .contact-info-item{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
-.contact-info-item i{
+.contact-info-item .icon-box{
   width:44px;height:44px;border:1px solid var(--border);border-radius:var(--radius-sm);
   display:flex;align-items:center;justify-content:center;color:var(--violet);flex-shrink:0;background:var(--panel);
 }
+.contact-info-item .icon-box svg{width:19px;height:19px;}
 .contact-info-item a,.contact-info-item span{font-size:.95rem;color:var(--ink-soft);}
 .contact-info-item a:hover{color:var(--ink);}
 .contact-form{display:flex;flex-direction:column;gap:14px;}
@@ -559,7 +562,7 @@ footer a{color:var(--ink-soft);font-weight:600;}
         <p>Let's turn your idea into a website you're proud to share.</p>
       </div>
       <div class="fact-cards">
-        <div class="fact-card"><i class="fas fa-location-dot"></i><div class="fact-title">Based in</div><div class="fact-sub">Kushtia, Bangladesh</div></div>
+        <div class="fact-card"><svg class="fact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.5 7-12A7 7 0 0 0 5 9.5c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9.5" r="2.5"/></svg><div class="fact-title">Based in</div><div class="fact-sub">Kushtia, Bangladesh</div></div>
         <div class="fact-card"><i class="fas fa-code"></i><div class="fact-title">Building since</div><div class="fact-sub">Jan 2025</div></div>
         <div class="fact-card"><i class="fas fa-layer-group"></i><div class="fact-title">Platforms</div><div class="fact-sub">Shopify · WordPress · Custom</div></div>
         <div class="fact-card"><i class="fas fa-comments"></i><div class="fact-title">English</div><div class="fact-sub">Fluent, client-ready</div></div>
@@ -799,9 +802,9 @@ footer a{color:var(--ink-soft);font-weight:600;}
     <p class="lede">Have a project in mind? Send a message or reach out directly — I usually reply within a day.</p>
     <div class="contact-wrap">
       <div>
-        <div class="contact-info-item"><i class="fas fa-envelope"></i><a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></div>
-        <div class="contact-info-item"><i class="fas fa-phone"></i><a href="tel:+8801709769235">+880 1709-769235</a></div>
-        <div class="contact-info-item"><i class="fas fa-location-dot"></i><span>Mirpur, Kushtia, Khulna, Bangladesh</span></div>
+        <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></span><a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></div>
+        <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8Z"/></svg></span><a href="tel:+8801709769235">+880 1709-769235</a></div>
+        <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.5 7-12A7 7 0 0 0 5 9.5c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span>Mirpur, Kushtia, Khulna, Bangladesh</span></div>
       </div>
       <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form" class="contact-form">
         <input type="text" name="name" placeholder="Your Name" required>
