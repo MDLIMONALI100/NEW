@@ -668,6 +668,8 @@ h2{font-family:var(--font-display);font-weight:700;font-size:1.9rem;line-height:
 </a>
 
 <script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(()=>{ document.getElementById("loader").classList.add("hide"); }, 200);
   typeRoles();
