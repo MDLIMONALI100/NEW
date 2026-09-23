@@ -100,6 +100,10 @@ button{font:inherit;}
 .nav-logo:hover{opacity:.75;}
 .nav-logo .dotmark{width:7px;height:7px;border-radius:50%;background:var(--violet);}
 .nav-links{display:flex;gap:26px;}
+@media(min-width:901px) and (max-width:1080px){
+  .nav-links{gap:15px;}
+  .nav-links button{font-size:.7rem;}
+}
 .nav-links button{
   background:none;border:none;cursor:pointer;
   font-family:var(--font-mono);font-size:.76rem;font-weight:500;color:var(--ink-soft);
@@ -241,16 +245,20 @@ button{font:inherit;}
 @media(max-width:900px){
   .side-panel{
     padding-left:calc(var(--rail-w) + 6px);padding-top:var(--nav-h);
-    height:calc(var(--nav-h) + 118px);border-right:none;border-bottom:1px solid var(--border);
+    height:calc(var(--nav-h) + 104px);border-right:none;border-bottom:1px solid var(--border);
   }
-  .side-label{font-size:2.1rem;top:38%;}
-  .side-panel-inner{padding:0 20px;flex-direction:row;align-items:center;justify-content:flex-start;gap:16px;}
+  .side-label{top:auto;bottom:10px;font-size:1.8rem;}
+  .side-panel-inner{padding:0 20px;flex-direction:row;align-items:center;justify-content:flex-start;gap:12px;}
+  .side-index-current{font-size:1rem;}
+  .side-index-total{font-size:.66rem;}
+  .side-divider{width:18px;}
   .side-caption{display:none;}
 }
 @media(max-width:420px){
-  .side-panel{height:calc(var(--nav-h) + 96px);}
-  .side-label{font-size:1.6rem;}
-  .side-index-current{font-size:1.2rem;}
+  .side-panel{height:calc(var(--nav-h) + 84px);}
+  .side-label{font-size:1.4rem;bottom:8px;}
+  .side-index-current{font-size:.92rem;}
+  .side-index-total{font-size:.62rem;}
   .navbar-inner{padding-left:14px;padding-right:14px;}
   .nav-logo{font-size:.82rem;}
 }
@@ -261,10 +269,10 @@ button{font:inherit;}
   padding:calc(var(--nav-h) + 30px) calc(40px + var(--follow-w)) 50px 40px;
 }
 @media(max-width:900px){
-  .content-panel{max-height:calc(100svh - var(--nav-h) - 118px);padding:26px 20px 44px;}
+  .content-panel{max-height:calc(100svh - var(--nav-h) - 104px);padding:26px 20px 44px;}
 }
 @media(max-width:420px){
-  .content-panel{max-height:calc(100svh - var(--nav-h) - 96px);padding:22px 16px 40px;}
+  .content-panel{max-height:calc(100svh - var(--nav-h) - 84px);padding:22px 16px 40px;}
 }
 @media(min-width:901px){
   #sec-about .content-panel{padding-left:14px;}
@@ -380,13 +388,18 @@ h2{
 .process-step h4{font-family:var(--font-display);font-size:1.02rem;margin-bottom:6px;}
 .process-step p{font-size:.83rem;color:var(--ink-soft);}
 
-/* ---- testimonials ---- */
-.testimonial-grid{display:grid;gap:14px;margin-top:26px;grid-template-columns:1fr;}
-@media(min-width:701px){.testimonial-grid{grid-template-columns:repeat(3,1fr);}}
-.testimonial-card{background:var(--panel);padding:22px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--border);border-radius:var(--radius-lg);}
-.testimonial-stars{font-size:.8rem;color:var(--violet);letter-spacing:2px;}
-.testimonial-quote{font-size:.88rem;color:var(--ink);}
-.testimonial-who{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-soft);border-top:1px solid var(--border);padding-top:10px;}
+/* ---- background / credentials ---- */
+.cred-grid{display:grid;gap:18px;margin-top:26px;grid-template-columns:1fr;}
+@media(min-width:701px){.cred-grid{grid-template-columns:1fr 1fr;}}
+.cred-col{background:var(--panel);padding:26px;border-radius:var(--radius-lg);border:1px solid var(--border);}
+.cred-col h4{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.6px;text-transform:uppercase;color:var(--terracotta);margin-bottom:18px;}
+.cred-item{border-left:2px solid var(--clay);padding-left:16px;margin-bottom:20px;}
+.cred-item:last-of-type{margin-bottom:0;}
+.cred-item .cred-role{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--ink);}
+.cred-item .cred-place{font-size:.85rem;color:var(--ink-soft);margin-top:2px;}
+.cred-item .cred-time{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-faint);margin-top:4px;}
+.lang-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;}
+.lang-pill{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-soft);background:var(--bg-elev);padding:8px 14px;border-radius:100px;border:1px solid var(--border);}
 
 /* ---- projects ---- */
 .projects-grid{display:grid;gap:14px;margin-top:26px;grid-template-columns:1fr;}
@@ -421,8 +434,6 @@ h2{
 .faq-item.open .faq-a p{padding:0 20px 18px;}
 
 /* ---- credentials (folded into contact side) ---- */
-.cred-mini{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;}
-.cred-chip{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-soft);background:var(--bg-elev);padding:8px 13px;border-radius:100px;border:1px solid var(--border);}
 
 /* ---- contact ---- */
 .contact-wrap{display:grid;gap:30px;grid-template-columns:1fr;margin-top:24px;}
@@ -466,7 +477,7 @@ h2{
       <button data-target="sec-services">Services</button>
       <button data-target="sec-skills">Skills</button>
       <button data-target="sec-process">Process</button>
-      <button data-target="sec-testimonials">Reviews</button>
+      <button data-target="sec-background">Background</button>
       <button data-target="sec-work">Work</button>
       <button data-target="sec-faq">FAQ</button>
       <button data-target="sec-contact">Contact</button>
@@ -480,7 +491,7 @@ h2{
   <button class="rail-num" data-target="sec-services">02</button>
   <button class="rail-num" data-target="sec-skills">03</button>
   <button class="rail-num" data-target="sec-process">04</button>
-  <button class="rail-num" data-target="sec-testimonials">05</button>
+  <button class="rail-num" data-target="sec-background">05</button>
   <button class="rail-num" data-target="sec-work">06</button>
   <button class="rail-num" data-target="sec-faq">07</button>
   <button class="rail-num" data-target="sec-contact">08</button>
@@ -605,21 +616,55 @@ h2{
     </div>
   </section>
 
-  <!-- 05 TESTIMONIALS -->
-  <section class="page" id="sec-testimonials" data-label="REVIEWS">
+  <!-- 05 BACKGROUND -->
+  <section class="page" id="sec-background" data-label="BACKGROUND">
     <div class="page-grid">
-      <div class="side-panel"><div class="wavy"></div><span class="side-label">REVIEWS</span><div class="side-panel-inner"><div class="side-index"><span class="side-index-current">05</span><span class="side-index-total">/ 08</span></div><div class="side-divider"></div><p class="side-caption">Feedback from real clients.</p></div></div>
+      <div class="side-panel"><div class="wavy"></div><span class="side-label">BACKGROUND</span><div class="side-panel-inner"><div class="side-index"><span class="side-index-current">05</span><span class="side-index-total">/ 08</span></div><div class="side-divider"></div><p class="side-caption">Experience, education & training.</p></div></div>
       <div class="content-panel">
-        <p class="eyebrow">Client Feedback</p>
-        <h2>What clients say.</h2>
-        <div class="testimonial-grid">
-          <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">Limon set up our whole Shopify store and handled every revision quickly. Communication was clear from start to finish.</p><div class="testimonial-who">Skin care brand owner</div></div>
-          <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">Our WordPress site needed a full rebuild. He understood exactly what we needed and delivered ahead of schedule.</p><div class="testimonial-who">Service business owner</div></div>
-          <div class="testimonial-card"><div class="testimonial-stars">★★★★★</div><p class="testimonial-quote">Great attention to detail on a fairly complex WooCommerce build. Would work with him again.</p><div class="testimonial-who">E-commerce client</div></div>
+        <p class="eyebrow">Background</p>
+        <h2>Experience &amp; education.</h2>
+        <p class="lede">The path so far — hands-on work, formal study, and the training behind the skills.</p>
+        <div class="cred-grid">
+          <div class="cred-col">
+            <h4>Experience &amp; Education</h4>
+            <div class="cred-item">
+              <div class="cred-role">Web Developer</div>
+              <div class="cred-place">E Code Craft</div>
+              <div class="cred-time">3 months</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-role">Bachelor of Arts (B.A.)</div>
+              <div class="cred-place">Kushtia Government College</div>
+              <div class="cred-time">2025 – Present · Expected 2029</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-role">HSC (Science)</div>
+              <div class="cred-place">Amla Government Degree College</div>
+              <div class="cred-time">Completed 2025</div>
+            </div>
+          </div>
+          <div class="cred-col">
+            <h4>Certification &amp; Languages</h4>
+            <div class="cred-item">
+              <div class="cred-role">Web Development Certification</div>
+              <div class="cred-place">Shopify &amp; WordPress — Venus IT Institute</div>
+              <div class="cred-time">Completed</div>
+            </div>
+            <div class="cred-item">
+              <div class="cred-role">Self-Taught Front-End Development</div>
+              <div class="cred-place">Independent study &amp; project work</div>
+              <div class="cred-time">Jan 2025 – Jul 2026</div>
+            </div>
+            <div class="lang-row">
+              <span class="lang-pill">Bengali — Native</span>
+              <span class="lang-pill">English — Fluent</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
 
   <!-- 06 WORK -->
   <section class="page" id="sec-work" data-label="WORK">
@@ -678,11 +723,6 @@ h2{
             <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg></span><a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></div>
             <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8Z"/></svg></span><a href="tel:+8801709769235">+880 1709-769235</a></div>
             <div class="contact-info-item"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.5 7-12A7 7 0 0 0 5 9.5c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span>Mirpur, Kushtia, Khulna, Bangladesh</span></div>
-            <div class="cred-mini">
-              <span class="cred-chip">B.A. — Kushtia Govt. College, 2025–2029</span>
-              <span class="cred-chip">Shopify &amp; WordPress Training — Venus IT</span>
-              <span class="cred-chip">Bengali (Native) · English (Fluent)</span>
-            </div>
           </div>
           <form action="https://formspree.io/f/mzzvvbwp" method="POST" id="contact-form" class="contact-form">
             <input type="text" name="name" placeholder="Your Name" required>
@@ -712,7 +752,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupPager();
 });
 
-const PAGE_IDS = ["sec-about","sec-services","sec-skills","sec-process","sec-testimonials","sec-work","sec-faq","sec-contact"];
+const PAGE_IDS = ["sec-about","sec-services","sec-skills","sec-process","sec-background","sec-work","sec-faq","sec-contact"];
 let currentIndex = 0;
 let isAnimating = false;
 
