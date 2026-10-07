@@ -1098,6 +1098,19 @@ form.addEventListener('submit',async e=>{
   const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
   const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const safeUrl=u=>/^https?:\/\//i.test(u)?u:'#';
+  /* active profile photo (managed from admin.html); falls back to profile.png */
+  (async function(){
+    try{
+      const {data}=await sb.from('profile_photos').select('image_url').eq('is_active',true).order('created_at',{ascending:false}).limit(1);
+      if(!data||!data[0]||!data[0].image_url)return;
+      const url=data[0].image_url,pre=new Image();
+      pre.onload=function(){
+        const h=document.getElementById('heroPhoto');if(h)h.src=url;
+        document.querySelectorAll('link[rel="icon"],link[rel="apple-touch-icon"]').forEach(function(l){l.href=url;});
+      };
+      pre.src=url;
+    }catch(e){/* keep profile.png */}
+  })();
   (async function(){
     try{
       const {data,error}=await sb.from('projects').select('*').order('sort_order').order('created_at',{ascending:false});
