@@ -215,6 +215,28 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
 .modal .row{display:flex;gap:10px;margin-top:20px}
 .modal .row .btn{flex:1;margin:0}
 
+/* profile photo manager */
+.profile{position:relative}
+.avatar-edit{position:absolute;top:64px;left:calc(50% + 18px);width:32px;height:32px;border-radius:50%;background:var(--grad);color:#fff;border:2px solid #fff;
+  display:flex;align-items:center;justify-content:center;font-size:.72rem;box-shadow:0 8px 14px -8px rgba(162,89,46,.9);transition:transform .2s var(--ease)}
+.avatar-edit:hover{transform:scale(1.1)}
+.hint{font-size:.82rem;color:var(--soft);margin:4px 0 0}
+.photo-stage{display:flex;justify-content:center;margin:16px 0 6px}
+.photo-circle{width:200px;height:250px;position:relative}
+.photo-circle::before{content:'';position:absolute;left:0;bottom:0;width:200px;height:200px;border-radius:50%;background:var(--grad)}
+.photo-circle img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 10px 12px rgba(42,39,30,.25))}
+.gal-title{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:24px 0 4px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:10px}
+.g-item{border:2px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.g-item.active{border-color:var(--terra);box-shadow:0 14px 24px -16px rgba(194,107,56,.8)}
+.g-thumb{position:relative;aspect-ratio:4/5;background:linear-gradient(135deg,#DB8D51,#A2592E)}
+.g-thumb img{width:100%;height:100%;object-fit:contain;object-position:bottom}
+.g-badge{position:absolute;left:8px;top:8px;background:#fff!important}
+.g-actions{display:flex;gap:6px;padding:8px}
+.g-actions .mini:disabled{opacity:.45;cursor:not-allowed}
+.g-actions .mini:disabled:hover{border-color:var(--line-strong);color:inherit;background:none}
+.g-actions .mini.del{flex:0 0 40px}
+
 /* toast */
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);opacity:0;pointer-events:none;z-index:200;
   background:var(--ink);color:#fff;padding:12px 20px;border-radius:100px;font-size:.88rem;font-weight:500;transition:all .35s var(--ease);max-width:90vw}
@@ -260,7 +282,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
 <div id="loginView" class="hidden">
   <div class="login-card">
     <div class="login-photo">
-      <div class="avatar"><img src="profile.png" alt="Md Limon Ali" onerror="this.replaceWith(document.createTextNode('ML'))"></div>
+      <div class="avatar"><img data-photo src="profile.png" alt="Md Limon Ali" onerror="this.replaceWith(document.createTextNode('ML'))"></div>
     </div>
     <h1>Welcome back, <em>Limon</em></h1>
     <p class="sub">Sign in to manage your portfolio projects.</p>
@@ -286,6 +308,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
         <button class="nav-btn active" id="navHome" title="Dashboard" aria-label="Dashboard"><i class="fas fa-house"></i></button>
         <button class="nav-btn" id="navProjects" title="Projects" aria-label="Projects"><i class="fas fa-folder-open"></i></button>
         <button class="nav-btn" id="navAdd" title="Add project" aria-label="Add project"><i class="fas fa-plus"></i></button>
+        <button class="nav-btn" id="navPhoto" title="Profile photo" aria-label="Profile photo"><i class="fas fa-user"></i></button>
         <a class="nav-btn" href="./" target="_blank" rel="noopener" title="View site" aria-label="View site"><i class="fas fa-arrow-up-right-from-square"></i></a>
         <span class="nav-spacer"></span>
         <button class="nav-btn" id="navLogout" title="Sign out" aria-label="Sign out"><i class="fas fa-right-from-bracket"></i></button>
@@ -301,7 +324,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
         </div>
         <div class="top-actions">
           <label class="search" aria-label="Search projects"><i class="fas fa-magnifying-glass"></i><input type="search" id="q" placeholder="Search projects"></label>
-          <div class="avatar" id="topAvatar"><img src="profile.png" alt="Profile" onerror="this.replaceWith(document.createTextNode('ML'))"></div>
+          <div class="avatar" id="topAvatar"><img data-photo src="profile.png" alt="Profile" onerror="this.replaceWith(document.createTextNode('ML'))"></div>
         </div>
       </div>
 
@@ -337,7 +360,8 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
     <!-- right panel -->
     <aside class="aside">
       <div class="profile">
-        <div class="avatar"><img src="profile.png" alt="Md Limon Ali" onerror="this.replaceWith(document.createTextNode('ML'))"></div>
+        <div class="avatar"><img data-photo src="profile.png" alt="Md Limon Ali" onerror="this.replaceWith(document.createTextNode('ML'))"></div>
+        <button class="avatar-edit" id="editPhoto" title="Change profile photo" aria-label="Change profile photo"><i class="fas fa-camera"></i></button>
         <h3>Md Limon Ali</h3>
         <p id="who">—</p>
         <span class="role">Site Owner</span>
@@ -383,6 +407,21 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
   </div>
 </div>
 
+<!-- ======================= PHOTO MODAL ======================= -->
+<div class="overlay hidden" id="photoOverlay" role="dialog" aria-modal="true" aria-labelledby="photoTitle">
+  <div class="modal">
+    <div class="modal-head"><h3 id="photoTitle">Profile photo</h3><button class="x" id="closePhoto" aria-label="Close"><i class="fas fa-xmark"></i></button></div>
+    <p class="hint">Best results: a transparent PNG cut-out (background removed). It is shown over your terracotta circle on the site. Every photo you upload is saved below so you can reuse it.</p>
+    <div class="photo-stage"><div class="photo-circle"><img id="photoPreview" src="profile.png" alt="Preview"></div></div>
+    <label for="photoFile">Upload new photo</label>
+    <input type="file" id="photoFile" accept="image/*">
+    <div class="row"><button type="button" class="btn btn-primary" id="photoUpload">Upload &amp; use</button></div>
+    <div class="form-msg" id="photoMsg" role="alert"></div>
+    <h5 class="gal-title">Your saved photos</h5>
+    <div class="gallery" id="gallery"><div class="empty">Loading…</div></div>
+  </div>
+</div>
+
 <div id="toast" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -403,6 +442,7 @@ const platIcon=p=>p==='Shopify'?'fab fa-shopify':p==='WordPress'?'fab fa-wordpre
 
 /* ---------- auth ---------- */
 async function init(){
+  loadActivePhoto(); // public read, so it also shows on the login screen
   const {data:{session}}=await sb.auth.getSession();
   session?showApp(session.user):showLogin();
 }
@@ -581,6 +621,101 @@ $('projForm').addEventListener('submit',async e=>{
   }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
   btn.disabled=false;btn.textContent='Save project';
 });
+
+/* ---------- profile photo manager ---------- */
+let photos=[],activePhoto=null;
+function applyPhoto(url){document.querySelectorAll('img[data-photo]').forEach(i=>{i.src=url;});}
+async function loadActivePhoto(){
+  const {data}=await sb.from('profile_photos').select('*').eq('is_active',true).order('created_at',{ascending:false}).limit(1);
+  if(data&&data[0]){activePhoto=data[0];applyPhoto(data[0].image_url);}
+}
+function openPhotoModal(){
+  $('photoFile').value='';$('photoMsg').textContent='';
+  $('photoPreview').src=activePhoto?activePhoto.image_url:'profile.png';
+  $('photoOverlay').classList.remove('hidden');document.body.style.overflow='hidden';
+  loadPhotos();
+}
+function closePhotoModal(){$('photoOverlay').classList.add('hidden');document.body.style.overflow='';}
+async function loadPhotos(){
+  const {data,error}=await sb.from('profile_photos').select('*').order('created_at',{ascending:false});
+  if(error){$('gallery').replaceChildren(el('div','empty',error.message+' — did you run the profile_photos SQL?'));return;}
+  photos=data||[];renderGallery();
+}
+function renderGallery(){
+  const g=$('gallery');g.replaceChildren();
+  if(!photos.length){g.appendChild(el('div','empty','No saved photos yet. Upload one above.'));return;}
+  photos.forEach(ph=>{
+    const it=el('div','g-item'+(ph.is_active?' active':''));
+    const th=el('div','g-thumb');
+    const im=document.createElement('img');im.src=ph.image_url;im.alt='';im.loading='lazy';th.appendChild(im);
+    if(ph.is_active)th.appendChild(el('span','pill live g-badge','In use'));
+    const act=el('div','g-actions');
+    const use=el('button','mini',ph.is_active?'Current':'Use');use.type='button';use.disabled=!!ph.is_active;
+    use.addEventListener('click',()=>usePhoto(ph));
+    const del=el('button','mini del');del.type='button';del.title='Delete';del.setAttribute('aria-label','Delete photo');
+    del.appendChild(el('i','fas fa-trash'));del.disabled=!!ph.is_active;
+    del.addEventListener('click',()=>deletePhoto(ph));
+    act.append(use,del);it.append(th,act);g.appendChild(it);
+  });
+}
+async function usePhoto(ph){
+  const {error}=await sb.rpc('set_active_photo',{photo_id:ph.id});
+  if(error)return toast(error.message,true);
+  activePhoto={...ph,is_active:true};applyPhoto(ph.image_url);$('photoPreview').src=ph.image_url;
+  toast('Profile photo updated ✓');loadPhotos();
+}
+async function deletePhoto(ph){
+  if(ph.is_active)return;
+  if(!confirm('Delete this saved photo permanently?'))return;
+  const {error}=await sb.from('profile_photos').delete().eq('id',ph.id);
+  if(error)return toast(error.message,true);
+  if(ph.storage_path)await sb.storage.from('images').remove([ph.storage_path]);
+  toast('Photo deleted');loadPhotos();
+}
+/* resize but keep transparency (webp where supported, otherwise png) */
+function resizeKeepAlpha(file,maxW=720){
+  return new Promise((res,rej)=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const s=Math.min(1,maxW/img.width),c=document.createElement('canvas');
+      c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+      c.toBlob(b=>b?res(b):rej(new Error('Could not process image')),'image/webp',.92);
+    };
+    img.onerror=()=>rej(new Error('Not a valid image'));img.src=url;
+  });
+}
+$('photoFile').addEventListener('change',()=>{
+  const f=$('photoFile').files[0];
+  if(f)$('photoPreview').src=URL.createObjectURL(f);
+  else $('photoPreview').src=activePhoto?activePhoto.image_url:'profile.png';
+});
+$('photoUpload').addEventListener('click',async()=>{
+  const f=$('photoFile').files[0],m=$('photoMsg'),btn=$('photoUpload');
+  m.className='form-msg';m.textContent='';
+  if(!f){m.className='form-msg err';m.textContent='Please choose a photo first.';return;}
+  btn.disabled=true;btn.textContent='Uploading…';
+  try{
+    const blob=await resizeKeepAlpha(f);
+    const ext=blob.type==='image/webp'?'webp':'png';
+    const path='profile/'+Date.now()+'.'+ext;
+    const {error:upErr}=await sb.storage.from('images').upload(path,blob,{contentType:blob.type});
+    if(upErr)throw upErr;
+    const image_url=sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+    const {data:row,error:insErr}=await sb.from('profile_photos').insert({image_url,storage_path:path,is_active:false}).select().single();
+    if(insErr)throw insErr;
+    const {error:rpcErr}=await sb.rpc('set_active_photo',{photo_id:row.id});
+    if(rpcErr)throw rpcErr;
+    activePhoto={...row,is_active:true};applyPhoto(image_url);$('photoPreview').src=image_url;
+    $('photoFile').value='';toast('New profile photo is live ✓');loadPhotos();
+  }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
+  btn.disabled=false;btn.textContent='Upload & use';
+});
+$('navPhoto').addEventListener('click',openPhotoModal);
+$('editPhoto').addEventListener('click',openPhotoModal);
+$('closePhoto').addEventListener('click',closePhotoModal);
+$('photoOverlay').addEventListener('mousedown',e=>{if(e.target===$('photoOverlay'))closePhotoModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('photoOverlay').classList.contains('hidden'))closePhotoModal();});
 
 init();
 </script>
