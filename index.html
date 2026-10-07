@@ -623,8 +623,16 @@ h2{
 /* ---- phones only: smaller photo + tighter spacing so the text shows sooner (desktop untouched) ---- */
 @media(max-width:600px){
   .content-panel{padding-top:20px;}
-  .about-flex{gap:18px;}
-  .hero-photo-wrap{width:min(190px,52vw);margin:2px auto 0;}
+  .about-flex{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;row-gap:0;align-items:start;}
+  .hero-text{display:contents;}
+  .hero-text>*{grid-column:1/-1;}
+  .hero-text>.hello,.hero-text>.hero-name,.hero-text>.role-line{grid-column:1;}
+  .hero-text>.hello{grid-row:2;}
+  .hero-text>.hero-name{grid-row:3;}
+  .hero-text>.role-line{grid-row:4;}
+  .hero-photo-wrap{grid-column:2;grid-row:2/5;align-self:end;width:min(118px,31vw);margin:0 4px 18px 0;}
+  .hero-name{font-size:clamp(2rem,10.5vw,2.5rem);}
+  .role-line{font-size:.66rem;letter-spacing:.12em;line-height:1.5;}
   .location-pill{font-size:.58rem;letter-spacing:.08em;padding:6px 12px;margin-bottom:14px;}
 }
 </style>
