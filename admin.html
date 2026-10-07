@@ -225,6 +225,16 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
 .photo-circle{width:200px;height:250px;position:relative}
 .photo-circle::before{content:'';position:absolute;left:0;bottom:0;width:200px;height:200px;border-radius:50%;background:var(--grad)}
 .photo-circle img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 10px 12px rgba(42,39,30,.25))}
+/* favicon manager */
+.fav-stage{display:flex;align-items:center;justify-content:center;gap:22px;margin:16px 0 6px;flex-wrap:wrap}
+.fav-tab{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px 12px 0 0;padding:9px 14px;font-size:.78rem;color:var(--soft);min-width:190px;box-shadow:0 10px 18px -14px rgba(42,39,30,.5)}
+.fav-tab img{width:16px;height:16px;border-radius:3px;object-fit:cover;flex-shrink:0}
+.fav-tab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fav-big{width:84px;height:84px;border-radius:22px;background:#fff;border:1px solid var(--line);padding:8px;box-shadow:0 14px 22px -16px rgba(162,89,46,.7)}
+.fav-big img{width:100%;height:100%;object-fit:cover;border-radius:14px;display:block}
+.fav-gallery{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+.fav-gallery .g-thumb{aspect-ratio:1;background:#fff;padding:12px}
+.fav-gallery .g-thumb img{object-fit:cover;border-radius:12px}
 .gal-title{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin:24px 0 4px}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:10px}
 .g-item{border:2px solid var(--line);border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
@@ -313,6 +323,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
         <button class="nav-btn" id="navProjects" title="Projects" aria-label="Projects"><i class="fas fa-folder-open"></i></button>
         <button class="nav-btn" id="navAdd" title="Add project" aria-label="Add project"><i class="fas fa-plus"></i></button>
         <button class="nav-btn" id="navPhoto" title="Profile photo" aria-label="Profile photo"><i class="fas fa-user"></i></button>
+        <button class="nav-btn" id="navFav" title="Site icon (favicon)" aria-label="Site icon"><i class="fas fa-star"></i></button>
         <a class="nav-btn" href="./" target="_blank" rel="noopener" title="View site" aria-label="View site"><i class="fas fa-arrow-up-right-from-square"></i></a>
         <span class="nav-spacer"></span>
         <button class="nav-btn" id="navLogout" title="Sign out" aria-label="Sign out"><i class="fas fa-right-from-bracket"></i></button>
@@ -380,6 +391,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
       </div>
       <div class="links">
         <a class="link-row" href="./" target="_blank" rel="noopener"><i class="fas fa-globe"></i>Open portfolio</a>
+        <button class="link-row" id="linkFav"><i class="fas fa-star"></i>Change site icon</button>
         <button class="link-row" id="linkLogout"><i class="fas fa-right-from-bracket"></i>Sign out</button>
       </div>
     </aside>
@@ -426,6 +438,24 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--terra);b
   </div>
 </div>
 
+<!-- ======================= FAVICON MODAL ======================= -->
+<div class="overlay hidden" id="favOverlay" role="dialog" aria-modal="true" aria-labelledby="favTitle">
+  <div class="modal">
+    <div class="modal-head"><h3 id="favTitle">Site icon (favicon)</h3><button class="x" id="closeFav" aria-label="Close"><i class="fas fa-xmark"></i></button></div>
+    <p class="hint">The small icon shown in the browser tab, bookmarks and phone home screen. Use a simple square image (a logo or letter works best). It is cropped to a square automatically, and every icon you upload is saved below to reuse.</p>
+    <div class="fav-stage">
+      <div class="fav-tab"><img id="favTabImg" src="profile.png" alt=""><span>Md Limon Ali — Web Developer</span></div>
+      <div class="fav-big"><img id="favBigImg" src="profile.png" alt="Preview"></div>
+    </div>
+    <label for="favFile">Upload new icon</label>
+    <input type="file" id="favFile" accept="image/*">
+    <div class="row"><button type="button" class="btn btn-primary" id="favUpload">Upload &amp; use</button></div>
+    <div class="form-msg" id="favMsg" role="alert"></div>
+    <h5 class="gal-title">Your saved icons</h5>
+    <div class="gallery fav-gallery" id="favGallery"><div class="empty">Loading…</div></div>
+  </div>
+</div>
+
 <div id="toast" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -446,6 +476,7 @@ const platIcon=p=>p==='Shopify'?'fab fa-shopify':p==='WordPress'?'fab fa-wordpre
 
 /* ---------- auth ---------- */
 async function init(){
+  loadActiveFav();
   loadActivePhoto(); // public read, so it also shows on the login screen
   const {data:{session}}=await sb.auth.getSession();
   session?showApp(session.user):showLogin();
@@ -720,6 +751,98 @@ $('editPhoto').addEventListener('click',openPhotoModal);
 $('closePhoto').addEventListener('click',closePhotoModal);
 $('photoOverlay').addEventListener('mousedown',e=>{if(e.target===$('photoOverlay'))closePhotoModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('photoOverlay').classList.contains('hidden'))closePhotoModal();});
+
+/* ---------- favicon manager ---------- */
+let favs=[],activeFav=null;
+function setFavPreview(url){$('favTabImg').src=url;$('favBigImg').src=url;}
+async function loadActiveFav(){
+  const {data}=await sb.from('favicons').select('*').eq('is_active',true).order('created_at',{ascending:false}).limit(1);
+  if(data&&data[0])activeFav=data[0];
+}
+function openFavModal(){
+  $('favFile').value='';$('favMsg').textContent='';
+  setFavPreview(activeFav?activeFav.image_url:(activePhoto?activePhoto.image_url:'profile.png'));
+  $('favOverlay').classList.remove('hidden');document.body.style.overflow='hidden';
+  loadFavs();
+}
+function closeFavModal(){$('favOverlay').classList.add('hidden');document.body.style.overflow='';}
+async function loadFavs(){
+  const {data,error}=await sb.from('favicons').select('*').order('created_at',{ascending:false});
+  if(error){$('favGallery').replaceChildren(el('div','empty',error.message+' — did you run the favicons SQL?'));return;}
+  favs=data||[];activeFav=favs.find(f=>f.is_active)||null;renderFavs();
+}
+function renderFavs(){
+  const g=$('favGallery');g.replaceChildren();
+  if(!favs.length){g.appendChild(el('div','empty','No saved icons yet. Upload one above.'));return;}
+  favs.forEach(f=>{
+    const it=el('div','g-item'+(f.is_active?' active':''));
+    const th=el('div','g-thumb');
+    const im=document.createElement('img');im.src=f.image_url;im.alt='';im.loading='lazy';th.appendChild(im);
+    if(f.is_active)th.appendChild(el('span','pill live g-badge','In use'));
+    const act=el('div','g-actions');
+    const use=el('button','mini',f.is_active?'Current':'Use');use.type='button';use.disabled=!!f.is_active;
+    use.addEventListener('click',()=>useFav(f));
+    const del=el('button','mini del');del.type='button';del.title='Delete';del.setAttribute('aria-label','Delete icon');
+    del.appendChild(el('i','fas fa-trash'));del.disabled=!!f.is_active;
+    del.addEventListener('click',()=>deleteFav(f));
+    act.append(use,del);it.append(th,act);g.appendChild(it);
+  });
+}
+async function useFav(f){
+  const {error}=await sb.rpc('set_active_favicon',{fav_id:f.id});
+  if(error)return toast(error.message,true);
+  setFavPreview(f.image_url);toast('Site icon updated ✓');loadFavs();
+}
+async function deleteFav(f){
+  if(f.is_active)return;
+  if(!confirm('Delete this saved icon permanently?'))return;
+  const {error}=await sb.from('favicons').delete().eq('id',f.id);
+  if(error)return toast(error.message,true);
+  if(f.storage_path)await sb.storage.from('images').remove([f.storage_path]);
+  toast('Icon deleted');loadFavs();
+}
+/* centre-crop to a square and shrink to 256px PNG (keeps transparency) */
+function squareIcon(file,size=256){
+  return new Promise((res,rej)=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const side=Math.min(img.width,img.height),sx=(img.width-side)/2,sy=(img.height-side)/2;
+      const out=Math.min(size,side),c=document.createElement('canvas');c.width=c.height=out;
+      c.getContext('2d').drawImage(img,sx,sy,side,side,0,0,out,out);URL.revokeObjectURL(url);
+      c.toBlob(b=>b?res(b):rej(new Error('Could not process image')),'image/png');
+    };
+    img.onerror=()=>rej(new Error('Not a valid image'));img.src=url;
+  });
+}
+$('favFile').addEventListener('change',()=>{
+  const f=$('favFile').files[0];
+  if(f)setFavPreview(URL.createObjectURL(f));
+  else setFavPreview(activeFav?activeFav.image_url:'profile.png');
+});
+$('favUpload').addEventListener('click',async()=>{
+  const f=$('favFile').files[0],m=$('favMsg'),btn=$('favUpload');
+  m.className='form-msg';m.textContent='';
+  if(!f){m.className='form-msg err';m.textContent='Please choose an image first.';return;}
+  btn.disabled=true;btn.textContent='Uploading…';
+  try{
+    const blob=await squareIcon(f);
+    const path='favicon/'+Date.now()+'.png';
+    const {error:upErr}=await sb.storage.from('images').upload(path,blob,{contentType:'image/png'});
+    if(upErr)throw upErr;
+    const image_url=sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+    const {data:row,error:insErr}=await sb.from('favicons').insert({image_url,storage_path:path,is_active:false}).select().single();
+    if(insErr)throw insErr;
+    const {error:rpcErr}=await sb.rpc('set_active_favicon',{fav_id:row.id});
+    if(rpcErr)throw rpcErr;
+    setFavPreview(image_url);$('favFile').value='';toast('New site icon is live ✓');loadFavs();
+  }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
+  btn.disabled=false;btn.textContent='Upload & use';
+});
+$('navFav').addEventListener('click',openFavModal);
+$('linkFav').addEventListener('click',openFavModal);
+$('closeFav').addEventListener('click',closeFavModal);
+$('favOverlay').addEventListener('mousedown',e=>{if(e.target===$('favOverlay'))closeFavModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('favOverlay').classList.contains('hidden'))closeFavModal();});
 
 init();
 </script>
