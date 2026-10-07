@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin — Limon.dev</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F1E1;--panel:#FAF8ED;--ink:#2A271E;--soft:#6C614F;--line:rgba(42,39,30,.14);--accent:#C26B38;--clay:#A2592E;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:24px 16px 80px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:4px}
+h2{font-family:'Playfair Display',serif;font-size:1.25rem;margin:0 0 14px}
+.sub{color:var(--soft);font-size:.9rem;margin-bottom:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px}
+label{display:block;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:12px 0 5px}
+input,textarea,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;font-size:16px;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+button{font:inherit;font-weight:600;cursor:pointer;border:none;border-radius:100px;padding:12px 22px;background:linear-gradient(120deg,#DB8D51,#C26B38 55%,#A2592E);color:#fff;margin-top:16px}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);margin-top:0;padding:8px 14px;font-size:.85rem}
+button.danger{background:transparent;color:#b3261e;border:1px solid #b3261e55;margin-top:0;padding:8px 14px;font-size:.85rem}
+button:disabled{opacity:.5;cursor:wait}
+.msg{margin-top:12px;font-size:.9rem;font-weight:500}
+.msg.err{color:#b3261e}.msg.ok{color:#4F6E45}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.between{justify-content:space-between}
+.item{display:flex;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.item:first-of-type{border-top:none}
+.item img{width:86px;height:54px;object-fit:cover;border-radius:8px;background:#eadbc9;flex-shrink:0}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;font-family:'Playfair Display',serif;font-size:1.02rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .t span{font-size:.8rem;color:var(--soft)}
+.badge{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:#76986b22;color:#4F6E45}
+.badge.off{background:#0001;color:var(--soft)}
+#preview{max-width:240px;border-radius:10px;margin-top:10px;display:none}
+.hidden{display:none!important}
+@media(max-width:520px){.item{flex-wrap:wrap}.item .row{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Limon.dev Admin</h1>
+  <p class="sub">Add and manage the projects shown on your portfolio.</p>
+
+  <!-- LOGIN -->
+  <div class="card" id="loginCard">
+    <h2>Sign in</h2>
+    <form id="loginForm">
+      <label>Email</label><input type="email" id="email" autocomplete="username" required>
+      <label>Password</label><input type="password" id="password" autocomplete="current-password" required>
+      <button type="submit">Sign in</button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dash" class="hidden">
+    <div class="row between" style="margin-bottom:14px">
+      <span class="sub" style="margin:0" id="who"></span>
+      <button class="ghost" id="logout">Sign out</button>
+    </div>
+
+    <div class="card">
+      <h2 id="formTitle">Add project</h2>
+      <form id="projForm">
+        <label>Title *</label><input id="title" required maxlength="80">
+        <label>Subtitle (e.g. Football jersey store)</label><input id="subtitle" maxlength="80">
+        <label>Description</label><textarea id="description" maxlength="400"></textarea>
+        <label>Platform</label>
+        <select id="platform"><option>WordPress</option><option>Shopify</option><option>Custom</option></select>
+        <label>Project link *</label><input type="url" id="url" placeholder="https://" required>
+        <label>Sort order (smaller = first)</label><input type="number" id="sort_order" value="0">
+        <label>Screenshot image <span id="imgHint" style="text-transform:none;letter-spacing:0;font-weight:400">(required)</span></label>
+        <input type="file" id="image" accept="image/*">
+        <img id="preview" alt="Preview">
+        <div class="row">
+          <button type="submit" id="saveBtn">Save project</button>
+          <button type="button" class="ghost" id="cancelEdit" style="margin-top:16px" hidden>Cancel edit</button>
+        </div>
+        <div class="msg" id="saveMsg"></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Your projects</h2>
+      <div id="list"><p class="sub">Loading…</p></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://ppxloknpydrodtfclowh.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_ZV4M9EtX3_1BcqTncOl3NA_nLKcX_lJ';
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const $=id=>document.getElementById(id);
+let editing=null; // project row being edited
+
+/* ---------- auth ---------- */
+async function init(){
+  const {data:{session}}=await sb.auth.getSession();
+  session?showDash(session.user):showLogin();
+}
+function showLogin(){$('loginCard').classList.remove('hidden');$('dash').classList.add('hidden');}
+function showDash(user){
+  $('loginCard').classList.add('hidden');$('dash').classList.remove('hidden');
+  $('who').textContent='Signed in as '+user.email;
+  loadList();
+}
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const m=$('loginMsg');m.className='msg';m.textContent='Signing in…';
+  const {data,error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});
+  if(error){m.className='msg err';m.textContent=error.message;return;}
+  $('password').value='';m.textContent='';showDash(data.user);
+});
+$('logout').addEventListener('click',async()=>{await sb.auth.signOut();showLogin();});
+
+/* ---------- image resize (keeps uploads small) ---------- */
+function resizeImage(file,maxW=1400,quality=.82){
+  return new Promise((res,rej)=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const scale=Math.min(1,maxW/img.width);
+      const c=document.createElement('canvas');
+      c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(b=>b?res(b):rej(new Error('Could not process image')),'image/jpeg',quality);
+    };
+    img.onerror=()=>rej(new Error('Not a valid image'));
+    img.src=url;
+  });
+}
+$('image').addEventListener('change',()=>{
+  const f=$('image').files[0],p=$('preview');
+  if(f){p.src=URL.createObjectURL(f);p.style.display='block';}else p.style.display='none';
+});
+
+/* ---------- save (add or edit) ---------- */
+$('projForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const m=$('saveMsg'),btn=$('saveBtn');
+  const file=$('image').files[0];
+  if(!editing&&!file){m.className='msg err';m.textContent='Please choose an image.';return;}
+  btn.disabled=true;m.className='msg';m.textContent='Saving…';
+  try{
+    let image_url=editing?editing.image_url:null;
+    if(file){
+      const blob=await resizeImage(file);
+      const path='projects/'+Date.now()+'.jpg';
+      const {error:upErr}=await sb.storage.from('images').upload(path,blob,{contentType:'image/jpeg'});
+      if(upErr)throw upErr;
+      image_url=sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+    }
+    const row={
+      title:$('title').value.trim(),subtitle:$('subtitle').value.trim(),
+      description:$('description').value.trim(),platform:$('platform').value,
+      url:$('url').value.trim(),sort_order:parseInt($('sort_order').value)||0,image_url
+    };
+    const q=editing?sb.from('projects').update(row).eq('id',editing.id):sb.from('projects').insert(row);
+    const {error}=await q;if(error)throw error;
+    m.className='msg ok';m.textContent=editing?'Updated ✓':'Saved ✓ — it is now live on your site.';
+    resetForm();loadList();
+  }catch(err){m.className='msg err';m.textContent=err.message||'Something went wrong';}
+  btn.disabled=false;
+});
+function resetForm(){
+  editing=null;$('projForm').reset();$('preview').style.display='none';
+  $('formTitle').textContent='Add project';$('imgHint').textContent='(required)';$('cancelEdit').hidden=true;
+}
+$('cancelEdit').addEventListener('click',()=>{resetForm();$('saveMsg').textContent='';});
+
+/* ---------- list / edit / delete / publish ---------- */
+async function loadList(){
+  const box=$('list');
+  const {data,error}=await sb.from('projects').select('*').order('sort_order').order('created_at',{ascending:false});
+  if(error){box.innerHTML='';const p=document.createElement('p');p.className='msg err';p.textContent=error.message;box.appendChild(p);return;}
+  box.innerHTML='';
+  if(!data.length){box.innerHTML='<p class="sub">No projects yet.</p>';return;}
+  data.forEach(p=>{
+    const it=document.createElement('div');it.className='item';
+    const img=document.createElement('img');img.src=p.image_url||'';img.alt='';
+    const t=document.createElement('div');t.className='t';
+    const b=document.createElement('b');b.textContent=p.title;
+    const s=document.createElement('span');s.textContent=(p.platform||'')+' · order '+p.sort_order+' ';
+    const badge=document.createElement('span');badge.className='badge'+(p.published?'':' off');badge.textContent=p.published?'Live':'Hidden';
+    s.appendChild(badge);t.append(b,s);
+    const row=document.createElement('div');row.className='row';
+    const mk=(txt,cls,fn)=>{const x=document.createElement('button');x.className=cls;x.textContent=txt;x.onclick=fn;return x;};
+    row.append(
+      mk(p.published?'Hide':'Show','ghost',async()=>{await sb.from('projects').update({published:!p.published}).eq('id',p.id);loadList();}),
+      mk('Edit','ghost',()=>startEdit(p)),
+      mk('Delete','danger',async()=>{
+        if(!confirm('Delete "'+p.title+'"?'))return;
+        const {error}=await sb.from('projects').delete().eq('id',p.id);
+        if(error)alert(error.message);else loadList();
+      })
+    );
+    it.append(img,t,row);box.appendChild(it);
+  });
+}
+function startEdit(p){
+  editing=p;
+  $('title').value=p.title||'';$('subtitle').value=p.subtitle||'';$('description').value=p.description||'';
+  $('platform').value=p.platform||'WordPress';$('url').value=p.url||'';$('sort_order').value=p.sort_order||0;
+  $('formTitle').textContent='Edit: '+p.title;$('imgHint').textContent='(leave empty to keep current image)';
+  $('cancelEdit').hidden=false;window.scrollTo({top:0,behavior:'smooth'});
+}
+init();
+</script>
+</body>
+</html>
