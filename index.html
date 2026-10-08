@@ -623,11 +623,17 @@ h2{
 /* ---- phones only: smaller photo + tighter spacing so the text shows sooner (desktop untouched) ---- */
 /* Mac / laptop screens (901-1799px wide): ease the "zoomed-in" feel. Phones and big desktops (1800px+) keep their sizes. */
 @media(min-width:901px) and (max-width:1799px){
-  html{font-size:90%;}
+  html{font-size:86%;}
+  .projects-grid{grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px;}
+  .project-head{flex-wrap:wrap;gap:6px 10px;}
+  .project-head>div{flex:1 1 calc(100% - 3.4rem);min-width:0;}
+  .platform-tag{margin-left:0;order:3;flex:0 0 auto;}
+  .project-body{padding:14px 14px 16px;}
   .hero-name{font-size:clamp(2.2rem,7.4cqi,4.6rem);}
   .hero-photo-wrap{width:clamp(230px,32cqi,340px);}
 }
-@media(min-width:1600px) and (max-width:1799px){html{font-size:95%;}}
+@media(min-width:1600px) and (max-width:1799px){html{font-size:92%;}}
+@media(min-width:901px) and (max-width:1799px) and (max-height:820px){html{font-size:80%;}}
 @media(min-width:2200px){html{font-size:106.25%;}}
 @media(max-width:600px){
   .content-panel{padding-top:20px;}
