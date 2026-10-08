@@ -1108,7 +1108,6 @@ function renderLibrary(){
     const isUsed=used.has(i.url);
     const card=el('div','lib-item'),th=el('div','lib-thumb');
     const im=document.createElement('img');im.src=i.url;im.alt='';im.loading='lazy';th.appendChild(im);
-    th.appendChild(el('span','pill '+(isUsed?'live':''),isUsed?'Used on site':'Not used'));
     const info=el('div','lib-info');
     const kind=(LIB_FOLDERS.find(x=>x[0]===i.folder)||[])[1]||'';
     info.append(el('b',null,i.name),el('span',null,[kind,i.created?new Date(i.created).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'}):'',fmtSize(i.size)].filter(Boolean).join(' · ')));
