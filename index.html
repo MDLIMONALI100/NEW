@@ -621,6 +621,14 @@ h2{
 @media(max-width:480px){.whatsapp-float{width:46px;height:46px;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;}}
 
 /* ---- phones only: smaller photo + tighter spacing so the text shows sooner (desktop untouched) ---- */
+/* Mac / laptop screens (901-1799px wide): ease the "zoomed-in" feel. Phones and big desktops (1800px+) keep their sizes. */
+@media(min-width:901px) and (max-width:1799px){
+  html{font-size:90%;}
+  .hero-name{font-size:clamp(2.2rem,7.4cqi,4.6rem);}
+  .hero-photo-wrap{width:clamp(230px,32cqi,340px);}
+}
+@media(min-width:1600px) and (max-width:1799px){html{font-size:95%;}}
+@media(min-width:2200px){html{font-size:106.25%;}}
 @media(max-width:600px){
   .content-panel{padding-top:20px;}
   .about-flex{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;row-gap:0;align-items:start;}
