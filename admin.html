@@ -85,6 +85,8 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .avwrap::after{content:'';position:absolute;right:0;bottom:0;width:13px;height:13px;border-radius:50%;background:#22c55e;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .usercard .avwrap::after{border-color:var(--soft-bg)}
 .mbar{display:none}
+.navwrap{display:contents}
+.mtoggle{display:none}
 .signed{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;color:var(--ok)}
 /* image library */
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
@@ -103,6 +105,30 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .lib-actions .mini{flex:1;text-decoration:none}
 .note{background:var(--soft-bg);border-radius:14px;padding:14px 16px;font-size:.84rem;color:var(--soft);margin-bottom:14px}
 .note code{display:block;margin-top:8px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-size:.76rem;color:var(--ink);white-space:pre-wrap;word-break:break-word;user-select:all}
+/* donut analytics */
+.donut-wrap{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.donut{position:relative;width:170px;height:170px;flex-shrink:0}
+.donut svg{width:100%;height:100%;display:block;transform:rotate(-90deg)}
+.donut .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut .mid b{font-size:2.4rem;font-weight:700;letter-spacing:-.03em;line-height:1}
+.donut .mid span{font-size:.74rem;color:var(--soft);margin-top:4px;font-weight:600}
+.legend{flex:1;min-width:150px;display:grid;gap:10px}
+.lg{display:flex;align-items:center;gap:10px;font-size:.88rem}
+.lg i{width:12px;height:12px;border-radius:4px;flex-shrink:0}
+.lg span{flex:1;color:var(--soft)}
+.lg b{font-weight:700}
+.lg em{font-style:normal;font-size:.74rem;color:var(--faint);min-width:38px;text-align:right}
+/* library manager */
+.upbox{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.upbox input[type=file]{flex:1;min-width:200px}
+.pick-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:14px}
+.pick{border:2px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;text-align:left;transition:border-color .15s,transform .15s}
+.pick:hover{border-color:var(--ink);transform:translateY(-2px)}
+.pick .pt{aspect-ratio:4/3;background:var(--soft-bg) repeating-conic-gradient(#ececee 0 25%,#f7f7f8 0 50%) 0 0/14px 14px}
+.pick img{width:100%;height:100%;object-fit:contain}
+.pick span{display:block;font-size:.7rem;color:var(--soft);padding:6px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.modal.big{width:min(760px,100%)}
+.pickbtn{margin-top:10px}
 /* cards */
 .card{background:var(--panel);border-radius:var(--r);padding:22px;margin-bottom:16px}
 .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
@@ -132,7 +158,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .recent-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
 .recent-item:first-child{border-top:none;padding-top:0}
 .recent-item img,.recent-item .ph{width:46px;height:34px;border-radius:8px;object-fit:cover;object-position:top;background:var(--soft-bg);flex-shrink:0;border:1px solid var(--line)}
-.recent-item>div{min-width:0;flex:1}
+.recent-item>div:not(.ph){min-width:0;flex:1}
 .recent-item b{display:block;font-size:.88rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .recent-item span{font-size:.76rem;color:var(--faint)}
 
@@ -226,13 +252,17 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
   .mbar>div{flex:1;min-width:0}
   .mbar b{display:block;font-size:.95rem;line-height:1.25}
   .mbar .em{display:block;font-size:.72rem;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .side{position:sticky;top:8px;z-index:30;height:auto;flex-direction:row;align-items:center;gap:6px;padding:8px;overflow-x:auto;overflow-y:hidden;border-radius:16px;scrollbar-width:none}
-  .side::-webkit-scrollbar{display:none}
-  .usercard,.grp{display:none}
-  .side nav{display:contents}
-  .nav{width:auto;flex-shrink:0;padding:9px 14px;white-space:nowrap;background:var(--soft-bg)}
-  .nav.active{background:var(--ink)}
-  .side-foot{margin:0;border:none;padding:0;display:contents}
+  .navwrap{display:block;position:sticky;top:8px;z-index:40}
+  .mtoggle{display:flex;align-items:center;gap:12px;width:100%;background:var(--ink);color:#fff;border-radius:14px;padding:13px 16px;font-size:.95rem;font-weight:600;box-shadow:0 10px 24px -14px rgba(0,0,0,.6)}
+  .mtoggle .cur{flex:1;text-align:left}
+  .mtoggle .chev{transition:transform .2s var(--ease);font-size:.8rem}
+  .navwrap.open .mtoggle .chev{transform:rotate(180deg)}
+  .side{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);height:auto;max-height:72vh;overflow:auto;border-radius:18px;padding:10px;gap:2px;box-shadow:0 24px 50px -18px rgba(0,0,0,.45)}
+  .navwrap.open .side{display:flex;animation:fade .2s var(--ease)}
+  .usercard{display:none}
+  .grp{display:block;padding:12px 12px 4px}
+  .grp:first-of-type{padding-top:4px}
+  .side-foot{margin-top:6px}
   .grid2,.grid3{grid-template-columns:1fr}
   .grid3.stats{grid-template-columns:repeat(3,minmax(0,1fr))}
   .stat{padding:16px}.stat b{font-size:1.8rem}
@@ -281,7 +311,9 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
     <button class="mini" id="mLogout"><i class="fas fa-right-from-bracket"></i>Sign out</button>
   </div>
 
-  <aside class="side">
+  <div class="navwrap" id="navwrap">
+  <button class="mtoggle" id="mtoggle" aria-expanded="false" aria-controls="sidemenu"><i class="fas fa-bars"></i><span class="cur" id="mcur">Dashboard</span><i class="fas fa-chevron-down chev"></i></button>
+  <aside class="side" id="sidemenu">
     <button class="usercard" data-view="photo" title="Change profile photo">
       <span class="avwrap"><span class="avatar"><img data-photo src="profile.png" alt="" onerror="this.replaceWith(document.createTextNode('ML'))"></span></span>
       <div><b>Md Limon Ali</b><span id="who">Signed in</span></div>
@@ -306,6 +338,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <button class="nav" id="navLogout"><i class="fas fa-right-from-bracket"></i>Sign out</button>
     </div>
   </aside>
+  </div>
 
   <main class="main">
 
@@ -320,13 +353,17 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       </div>
       <div class="grid2 keep">
         <div class="card">
-          <div class="card-head"><div><h3>Projects over time</h3><p>How your portfolio has grown, last 6 months.</p></div></div>
-          <div class="chart" id="chart"></div><div class="chart-months" id="chartMonths"></div>
+          <div class="card-head"><div><h3>Project status</h3><p>How many projects are showing on your site.</p></div></div>
+          <div class="donut-wrap"><div class="donut" id="donutStatus"></div><div class="legend" id="legStatus"></div></div>
         </div>
         <div class="card">
-          <div class="card-head"><div><h3>Newest projects</h3><p>Your latest additions.</p></div><button class="mini" data-view="projects">See all</button></div>
-          <div class="recent" id="recent"></div>
+          <div class="card-head"><div><h3>By platform</h3><p>What your projects are built with.</p></div></div>
+          <div class="donut-wrap"><div class="donut" id="donutPlat"></div><div class="legend" id="legPlat"></div></div>
         </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>Newest projects</h3><p>Your latest additions.</p></div><button class="mini" data-view="projects">See all</button></div>
+        <div class="recent" id="recent"></div>
       </div>
       <div class="card">
         <div class="card-head"><div><h3>Edit your site</h3><p>Each part of your website has its own edit page.</p></div></div>
@@ -385,7 +422,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
           <div class="photo-stage"><div class="photo-circle"><img id="photoPreview" src="profile.png" alt="Preview"></div></div>
           <label for="photoFile">Upload a new photo</label>
           <input type="file" id="photoFile" accept="image/*">
-          <div style="margin-top:14px"><button type="button" class="btn btn-primary" id="photoUpload">Upload &amp; use</button></div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn btn-primary" id="photoUpload">Upload &amp; use</button><button type="button" class="btn btn-ghost" id="photoPick"><i class="fas fa-images"></i>Choose from library</button></div>
           <div class="form-msg" id="photoMsg" role="alert"></div>
         </div>
         <div class="card">
@@ -407,7 +444,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
           </div>
           <label for="favFile">Upload a new icon</label>
           <input type="file" id="favFile" accept="image/*">
-          <div style="margin-top:14px"><button type="button" class="btn btn-primary" id="favUpload">Upload &amp; use</button></div>
+          <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="btn btn-primary" id="favUpload">Upload &amp; use</button><button type="button" class="btn btn-ghost" id="favPick"><i class="fas fa-images"></i>Choose from library</button></div>
           <div class="form-msg" id="favMsg" role="alert"></div>
         </div>
         <div class="card">
@@ -419,10 +456,15 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 
     <!-- ===== IMAGE LIBRARY ===== -->
     <section class="view" id="view-library">
-      <div class="page-head"><div><h2>Image library <span class="hint" id="libCount" style="font-weight:500"></span></h2><p>Every image you have uploaded through this admin, newest first. Open or download any of them, including older ones you replaced.</p></div>
+      <div class="page-head"><div><h2>Image library <span class="hint" id="libCount" style="font-weight:500"></span></h2><p>Your image library: every image uploaded through this admin, newest first. View, download or delete any of them.</p></div>
         <div class="head-actions"><button class="btn btn-ghost" id="libRefresh"><i class="fas fa-rotate"></i>Refresh</button></div></div>
+      <div class="card">
+        <div class="card-head"><div><h3>Add images</h3><p>Upload once, then reuse the same image anywhere: project screenshots, profile photo or site icon (use “Choose from library”).</p></div></div>
+        <div class="upbox"><input type="file" id="libFile" accept="image/*" multiple><button class="btn btn-primary" id="libUpload"><i class="fas fa-upload"></i>Upload to library</button></div>
+        <div class="form-msg" id="libMsg" role="alert"></div>
+      </div>
       <div class="chips" id="libChips">
-        <button class="chip active" data-f="all">All</button><button class="chip" data-f="projects">Project screenshots</button><button class="chip" data-f="profile">Profile photos</button><button class="chip" data-f="favicon">Site icons</button>
+        <button class="chip active" data-f="all">All</button><button class="chip" data-f="library">Uploads</button><button class="chip" data-f="projects">Project screenshots</button><button class="chip" data-f="profile">Profile photos</button><button class="chip" data-f="favicon">Site icons</button>
       </div>
       <div id="libNote"></div>
       <div class="lib" id="lib"><div class="empty">Loading…</div></div>
@@ -446,6 +488,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <label for="url">Project link *</label><input type="url" id="url" placeholder="https://" required>
       <label for="image">Screenshot <span id="imgHint" style="font-weight:400;color:var(--soft)">(required)</span></label>
       <input type="file" id="image" accept="image/*">
+      <button type="button" class="btn btn-ghost pickbtn" id="projPick"><i class="fas fa-images"></i>Choose from library</button>
       <img id="preview" alt="Preview">
       <div class="row">
         <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
@@ -453,6 +496,17 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       </div>
       <div class="form-msg" id="saveMsg" role="alert"></div>
     </form>
+  </div>
+</div>
+
+<!-- ======================= IMAGE PICKER ======================= -->
+<div class="overlay hidden" id="pickOverlay" role="dialog" aria-modal="true" aria-labelledby="pickTitle" style="z-index:150">
+  <div class="modal big">
+    <div class="modal-head"><h3 id="pickTitle">Choose from library</h3><button class="x" id="closePick" aria-label="Close"><i class="fas fa-xmark"></i></button></div>
+    <p class="hint">Tap an image to use it. Or upload a new one and it will be selected for you.</p>
+    <div class="upbox" style="margin-top:12px"><input type="file" id="pickFile" accept="image/*"></div>
+    <div class="form-msg" id="pickMsg" role="alert"></div>
+    <div class="pick-grid" id="pickGrid"></div>
   </div>
 </div>
 
@@ -464,7 +518,7 @@ const SUPABASE_URL='https://ppxloknpydrodtfclowh.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_ZV4M9EtX3_1BcqTncOl3NA_nLKcX_lJ';
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const $=id=>document.getElementById(id);
-let projects=[],editing=null;
+let projects=[],editing=null,pickedUrl=null;
 
 /* ---------- helpers ---------- */
 function toast(msg,isErr){
@@ -512,10 +566,15 @@ function showView(name,quiet){
   if(name==='fav')openFavView();
   if(name==='library')loadLibrary();
   window.scrollTo({top:0});
-  const act=document.querySelector('.nav.active');
-  if(act&&window.innerWidth<=900)act.scrollIntoView({inline:'center',block:'nearest'});
+  const act=document.querySelector('.nav.active[data-view]');
+  if(act)$('mcur').textContent=act.textContent.replace(/\d+$/,'').trim();
+  closeMenu();
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-view]');if(b)showView(b.dataset.view);});
+function closeMenu(){$('navwrap').classList.remove('open');$('mtoggle').setAttribute('aria-expanded','false');}
+$('mtoggle').addEventListener('click',()=>{const o=$('navwrap').classList.toggle('open');$('mtoggle').setAttribute('aria-expanded',o);});
+document.addEventListener('click',e=>{if(!e.target.closest('#navwrap'))closeMenu();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 
 /* ---------- projects ---------- */
 async function loadProjects(){
@@ -527,26 +586,24 @@ function render(){
   const live=projects.filter(p=>p.published).length;
   $('stTotal').textContent=projects.length;$('stLive').textContent=live;$('stHidden').textContent=projects.length-live;
   $('navCount').textContent=projects.length;
-  drawChart();renderCards();renderRecent();
+  drawDonuts();renderCards();renderRecent();
 }
-function drawChart(){
-  const now=new Date(),months=[];
-  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push({label:d.toLocaleString('en',{month:'short'}),end:new Date(d.getFullYear(),d.getMonth()+1,1)});}
-  const vals=months.map(m=>projects.filter(p=>p.created_at&&new Date(p.created_at)<m.end).length);
-  const W=300,H=110,max=Math.max(1,...vals),pad=14;
-  const pts=vals.map((v,i)=>[10+i*((W-20)/5),H-pad-(v/max)*(H-pad*2-8)]);
-  let d='M'+pts[0][0]+','+pts[0][1];
-  for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i],cx=(x0+x1)/2;d+=` C${cx},${y0} ${cx},${y1} ${x1},${y1}`;}
-  const last=pts[pts.length-1];
-  $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
-    <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111" stop-opacity=".16"/><stop offset="1" stop-color="#111" stop-opacity="0"/></linearGradient></defs>
-    <path d="${d} L${last[0]},${H} L${pts[0][0]},${H} Z" fill="url(#ga)"/>
-    <path d="${d}" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-  </svg>`;
-  const dot=document.createElement('div');
-  dot.style.cssText=`position:absolute;width:12px;height:12px;border-radius:50%;background:#111;box-shadow:0 0 0 4px rgba(17,17,17,.15);left:calc(${(last[0]/W)*100}% - 6px);top:calc(${(last[1]/H)*100}% - 6px)`;
-  $('chart').appendChild(dot);
-  $('chartMonths').replaceChildren(...months.map(m=>el('span',null,m.label)));
+function donut(host,legend,parts,label){
+  const total=parts.reduce((n,p)=>n+p.value,0),R=62,C=2*Math.PI*R;
+  let off=0,segs='';
+  parts.filter(p=>p.value>0).forEach(p=>{const len=(p.value/total)*C;
+    segs+=`<circle cx="80" cy="80" r="${R}" fill="none" stroke="${p.color}" stroke-width="18" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}"/>`;off+=len;});
+  host.innerHTML=`<svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="${R}" fill="none" stroke="#ececee" stroke-width="18"/>${segs}</svg><div class="mid"><b>${total}</b><span>${label}</span></div>`;
+  legend.replaceChildren(...parts.map(p=>{
+    const r=el('div','lg'),sw=el('i');sw.style.background=p.color;
+    r.append(sw,el('span',null,p.label),el('b',null,String(p.value)),el('em',null,total?Math.round(p.value/total*100)+'%':'0%'));return r;}));
+}
+function drawDonuts(){
+  const live=projects.filter(p=>p.published).length;
+  donut($('donutStatus'),$('legStatus'),[{label:'Live on site',value:live,color:'#111'},{label:'Hidden',value:projects.length-live,color:'#c9c9ce'}],'projects');
+  const plats={};projects.forEach(p=>{const k=p.platform||'Other';plats[k]=(plats[k]||0)+1;});
+  const cols=['#111','#5b5b61','#9a9aa0','#c9c9ce','#e1e1e4'];
+  donut($('donutPlat'),$('legPlat'),Object.entries(plats).sort((a,b)=>b[1]-a[1]).map(([k,v],i)=>({label:k,value:v,color:cols[Math.min(i,cols.length-1)]})),'projects');
 }
 function renderCards(){
   const q=$('q').value.trim().toLowerCase();
@@ -591,11 +648,15 @@ function renderRecent(){
 }
 $('q').addEventListener('input',renderCards);
 $('actAdd').addEventListener('click',()=>openModal(null));
+$('projPick').addEventListener('click',async()=>{
+  const url=await pickImage();if(!url)return;
+  pickedUrl=url;$('image').value='';$('preview').src=url;$('preview').style.display='block';
+});
 $('addProject').addEventListener('click',()=>openModal(null));
 
 /* ---------- project pop-up ---------- */
 function openModal(p){
-  editing=p||null;$('projForm').reset();$('preview').style.display='none';$('saveMsg').textContent='';
+  editing=p||null;pickedUrl=null;$('projForm').reset();$('preview').style.display='none';$('saveMsg').textContent='';
   if(p){
     $('title').value=p.title||'';$('subtitle').value=p.subtitle||'';$('description').value=p.description||'';
     $('platform').value=p.platform||'WordPress';$('url').value=p.url||'';$('sort_order').value=p.sort_order||0;
@@ -612,9 +673,10 @@ function closeModal(){$('overlay').classList.add('hidden');document.body.style.o
 $('closeModal').addEventListener('click',closeModal);
 $('cancelBtn').addEventListener('click',closeModal);
 $('overlay').addEventListener('mousedown',e=>{if(e.target===$('overlay'))closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('overlay').classList.contains('hidden'))closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('overlay').classList.contains('hidden')&&$('pickOverlay').classList.contains('hidden'))closeModal();});
 $('image').addEventListener('change',()=>{
   const f=$('image').files[0],p=$('preview');
+  if(f)pickedUrl=null;
   if(f){p.src=URL.createObjectURL(f);p.style.display='block';}
   else if(editing&&editing.image_url){p.src=editing.image_url;}
   else p.style.display='none';
@@ -635,10 +697,10 @@ $('projForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const m=$('saveMsg'),btn=$('saveBtn'),file=$('image').files[0];
   m.className='form-msg';m.textContent='';
-  if(!editing&&!file){m.className='form-msg err';m.textContent='Please choose an image.';return;}
+  if(!editing&&!file&&!pickedUrl){m.className='form-msg err';m.textContent='Please choose an image (upload one or pick from your library).';return;}
   btn.disabled=true;btn.textContent='Saving…';
   try{
-    let image_url=editing?editing.image_url:null;
+    let image_url=pickedUrl||(editing?editing.image_url:null);
     if(file){
       const blob=await resizeImage(file);
       const path='projects/'+Date.now()+'.jpg';
@@ -745,6 +807,17 @@ $('photoUpload').addEventListener('click',async()=>{
   btn.disabled=false;btn.textContent='Upload & use';
 });
 
+$('photoPick').addEventListener('click',async()=>{
+  const url=await pickImage();if(!url)return;
+  const m=$('photoMsg');m.className='form-msg';m.textContent='';
+  try{
+    let row=photos.find(x=>x.image_url===url);
+    if(!row){const {data,error}=await sb.from('profile_photos').insert({image_url:url,storage_path:null,is_active:false}).select().single();if(error)throw error;row=data;}
+    const {error:rpcErr}=await sb.rpc('set_active_photo',{photo_id:row.id});if(rpcErr)throw rpcErr;
+    activePhoto={...row,is_active:true};applyPhoto(url);$('photoPreview').src=url;toast('Profile photo updated ✓');loadPhotos();
+  }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
+});
+
 /* ---------- site icon (favicon) ---------- */
 let favs=[],activeFav=null;
 function setFavPreview(url){$('favTabImg').src=url;$('favBigImg').src=url;}
@@ -827,6 +900,20 @@ $('favUpload').addEventListener('click',async()=>{
     setFavPreview(image_url);$('favFile').value='';toast('New site icon is live ✓');loadFavs();
   }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
   btn.disabled=false;btn.textContent='Upload & use';
+});
+
+$('favPick').addEventListener('click',async()=>{
+  const url=await pickImage();if(!url)return;
+  const m=$('favMsg');m.className='form-msg';m.textContent='Making icon…';
+  try{
+    const blob=await squareIcon(await (await fetch(url)).blob());
+    const path='favicon/'+Date.now()+'.png';
+    const {error:upErr}=await sb.storage.from('images').upload(path,blob,{contentType:'image/png'});if(upErr)throw upErr;
+    const image_url=sb.storage.from('images').getPublicUrl(path).data.publicUrl;
+    const {data:row,error:insErr}=await sb.from('favicons').insert({image_url,storage_path:path,is_active:false}).select().single();if(insErr)throw insErr;
+    const {error:rpcErr}=await sb.rpc('set_active_favicon',{fav_id:row.id});if(rpcErr)throw rpcErr;
+    setFavPreview(image_url);m.textContent='';toast('Site icon updated ✓');loadFavs();
+  }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
 });
 
 /* ---------- site text editors (Front page / Services / Background) ---------- */
@@ -970,61 +1057,127 @@ document.addEventListener('click',e=>{
     renderTab(tab);
   }
 });
-/* ---------- image library (every uploaded image, newest first) ---------- */
-const LIB_FOLDERS=[['projects','Project screenshot'],['profile','Profile photo'],['favicon','Site icon']];
-let libItems=[],libFilter='all';
+/* ---------- image library (upload, reuse, view, download, delete) ---------- */
+const LIB_FOLDERS=[['library','Uploaded image'],['projects','Project screenshot'],['profile','Profile photo'],['favicon','Site icon']];
+let libItems=[],libFilter='all',libListEmpty=false;
 const fmtSize=n=>!n?'':n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
-async function loadLibrary(){
-  const box=$('lib'),note=$('libNote');note.replaceChildren();box.replaceChildren(el('div','empty','Loading…'));
+async function getLibraryItems(){
   const store=sb.storage.from('images');
-  const results=await Promise.all(LIB_FOLDERS.map(async([f])=>{
-    const {data,error}=await store.list(f,{limit:500,sortBy:{column:'created_at',order:'desc'}});
-    return {f,data:(data||[]).filter(x=>x.name&&!x.name.startsWith('.')),error};
-  }));
-  libItems=[];
+  const [results,ph,fv]=await Promise.all([
+    Promise.all(LIB_FOLDERS.map(async([f])=>{
+      const {data,error}=await store.list(f,{limit:500,sortBy:{column:'created_at',order:'desc'}});
+      return {f,data:(data||[]).filter(x=>x.name&&!x.name.startsWith('.')),error};})),
+    sb.from('profile_photos').select('*'),sb.from('favicons').select('*')]);
+  if(ph.data)photos=ph.data;if(fv.data)favs=fv.data;
+  const items=[];
   results.forEach(r=>r.data.forEach(o=>{
     const path=r.f+'/'+o.name;
-    libItems.push({folder:r.f,name:o.name,path,created:o.created_at||o.updated_at,size:o.metadata&&o.metadata.size,
+    items.push({folder:r.f,name:o.name,path,created:o.created_at||o.updated_at,size:o.metadata&&o.metadata.size,
       url:store.getPublicUrl(path).data.publicUrl,dl:store.getPublicUrl(path,{download:o.name}).data.publicUrl});
   }));
-  const listFailed=results.some(r=>r.error);
-  if(!libItems.length){
-    // fall back to the images the database already knows about
-    const urls=[];
-    projects.forEach(p=>p.image_url&&urls.push(['projects',p.image_url,p.created_at]));
-    photos.forEach(p=>urls.push(['profile',p.image_url,p.created_at]));favs.forEach(p=>urls.push(['favicon',p.image_url,p.created_at]));
-    if(activePhoto&&!photos.length)urls.push(['profile',activePhoto.image_url,activePhoto.created_at]);
-    urls.forEach(([f,u,c])=>{const name=u.split('/').pop().split('?')[0];libItems.push({folder:f,name,path:f+'/'+name,created:c,url:u,dl:u+(u.includes('?')?'&':'?')+'download='+encodeURIComponent(name)});});
-    if(listFailed||!libItems.length){
-      const n=el('div','note');n.append(document.createTextNode('To list every file in your storage (including images you replaced), run this once in Supabase → SQL Editor:'),el('code',null,'create policy "owner list images" on storage.objects for select to authenticated using (bucket_id = \'images\');'));
-      note.appendChild(n);
-    }
+  libListEmpty=!items.length;
+  if(!items.length){ // fall back to the images the database already knows about
+    const seen=new Set();
+    [...projects.map(p=>['projects',p.image_url,p.created_at]),...photos.map(p=>['profile',p.image_url,p.created_at]),...favs.map(p=>['favicon',p.image_url,p.created_at])]
+    .forEach(([f,u,c])=>{if(!u||seen.has(u))return;seen.add(u);const name=u.split('/').pop().split('?')[0];
+      items.push({folder:f,name,path:f+'/'+name,created:c,url:u,dl:u+(u.includes('?')?'&':'?')+'download='+encodeURIComponent(name)});});
   }
-  libItems.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
+  items.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
+  return items;
+}
+async function loadLibrary(){
+  const note=$('libNote');note.replaceChildren();$('lib').replaceChildren(el('div','empty','Loading…'));
+  libItems=await getLibraryItems();
+  if(libListEmpty){
+    const n=el('div','note');n.append(document.createTextNode('To see every file in your storage (and the images you upload here), run this once in Supabase → SQL Editor:'),el('code',null,'create policy "owner list images" on storage.objects for select to authenticated using (bucket_id = \'images\');'));
+    note.appendChild(n);
+  }
   renderLibrary();
 }
+function usedUrls(){
+  return new Set([...projects.map(p=>p.image_url),...photos.map(p=>p.image_url),...favs.map(p=>p.image_url)].filter(Boolean));
+}
 function renderLibrary(){
-  const used=new Set([...projects.map(p=>p.image_url),activePhoto&&activePhoto.image_url,activeFav&&activeFav.image_url,...photos.filter(x=>x.is_active).map(x=>x.image_url),...favs.filter(x=>x.is_active).map(x=>x.image_url)].filter(Boolean));
+  const used=usedUrls();
   const list=libItems.filter(i=>libFilter==='all'||i.folder===libFilter);
   $('libCount').textContent='· '+list.length;
   const box=$('lib');box.replaceChildren();
   document.querySelectorAll('#libChips .chip').forEach(c=>c.classList.toggle('active',c.dataset.f===libFilter));
-  if(!list.length){box.appendChild(el('div','empty','No images here yet.'));return;}
+  if(!list.length){box.appendChild(el('div','empty','No images here yet. Upload some above.'));return;}
   list.forEach(i=>{
+    const isUsed=used.has(i.url);
     const card=el('div','lib-item'),th=el('div','lib-thumb');
     const im=document.createElement('img');im.src=i.url;im.alt='';im.loading='lazy';th.appendChild(im);
-    th.appendChild(el('span','pill '+(used.has(i.url)?'live':''),used.has(i.url)?'In use':'Previous'));
+    th.appendChild(el('span','pill '+(isUsed?'live':''),isUsed?'Used on site':'Not used'));
     const info=el('div','lib-info');
     const kind=(LIB_FOLDERS.find(x=>x[0]===i.folder)||[])[1]||'';
     info.append(el('b',null,i.name),el('span',null,[kind,i.created?new Date(i.created).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'}):'',fmtSize(i.size)].filter(Boolean).join(' · ')));
     const act=el('div','lib-actions');
     const v=el('a','mini');v.href=i.url;v.target='_blank';v.rel='noopener';v.append(el('i','fas fa-eye'),document.createTextNode('View'));
     const d=el('a','mini');d.href=i.dl;d.setAttribute('download',i.name);d.append(el('i','fas fa-download'),document.createTextNode('Download'));
-    act.append(v,d);card.append(th,info,act);box.appendChild(card);
+    const x=el('button','mini del');x.type='button';x.title=isUsed?'In use, cannot delete':'Delete';x.setAttribute('aria-label','Delete image');x.disabled=isUsed;x.style.flex='0 0 40px';x.appendChild(el('i','fas fa-trash'));
+    x.addEventListener('click',async()=>{
+      if(!confirm('Delete this image permanently?'))return;
+      const {error}=await sb.storage.from('images').remove([i.path]);
+      if(error)return toast(error.message,true);toast('Image deleted');loadLibrary();});
+    act.append(v,d,x);card.append(th,info,act);box.appendChild(card);
   });
 }
 $('libChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;libFilter=c.dataset.f;renderLibrary();});
 $('libRefresh').addEventListener('click',loadLibrary);
+
+/* upload into the library (keeps transparency, max 1600px) */
+async function uploadToLibrary(file){
+  const blob=await resizeKeepAlpha(file,1600);
+  const slug=(file.name||'image').replace(/\.[^.]+$/,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'image';
+  const path='library/'+Date.now()+'-'+slug+'.webp';
+  const {error}=await sb.storage.from('images').upload(path,blob,{contentType:'image/webp'});
+  if(error)throw error;
+  return {path,url:sb.storage.from('images').getPublicUrl(path).data.publicUrl};
+}
+$('libUpload').addEventListener('click',async()=>{
+  const files=[...$('libFile').files],m=$('libMsg'),btn=$('libUpload');
+  m.className='form-msg';m.textContent='';
+  if(!files.length){m.className='form-msg err';m.textContent='Please choose one or more images first.';return;}
+  btn.disabled=true;let n=0;
+  try{
+    for(const f of files){m.textContent='Uploading '+(n+1)+' of '+files.length+'…';await uploadToLibrary(f);n++;await new Promise(r=>setTimeout(r,5));}
+    $('libFile').value='';m.textContent='';toast(n+(n>1?' images':' image')+' added to your library ✓');loadLibrary();
+  }catch(err){m.className='form-msg err';m.textContent=(n?n+' uploaded, then: ':'')+(err.message||'Something went wrong');}
+  btn.disabled=false;
+});
+
+/* ---------- image picker (use a library image anywhere) ---------- */
+let pickResolve=null;
+function pickImage(){
+  return new Promise(async res=>{
+    pickResolve=res;$('pickMsg').textContent='';$('pickFile').value='';
+    $('pickOverlay').classList.remove('hidden');document.body.style.overflow='hidden';
+    const g=$('pickGrid');g.replaceChildren(el('div','empty','Loading…'));
+    const items=await getLibraryItems();
+    g.replaceChildren();
+    if(!items.length)g.appendChild(el('div','empty','Your library is empty. Upload an image above.'));
+    items.forEach(i=>{
+      const b=el('button','pick');b.type='button';
+      const t=el('div','pt'),im=document.createElement('img');im.src=i.url;im.alt='';im.loading='lazy';t.appendChild(im);
+      b.append(t,el('span',null,i.name));b.addEventListener('click',()=>closePick(i.url));g.appendChild(b);
+    });
+  });
+}
+function closePick(url){
+  $('pickOverlay').classList.add('hidden');
+  if($('overlay').classList.contains('hidden'))document.body.style.overflow='';
+  const r=pickResolve;pickResolve=null;if(r)r(url||null);
+}
+$('closePick').addEventListener('click',()=>closePick(null));
+$('pickOverlay').addEventListener('mousedown',e=>{if(e.target===$('pickOverlay'))closePick(null);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('pickOverlay').classList.contains('hidden'))closePick(null);});
+$('pickFile').addEventListener('change',async()=>{
+  const f=$('pickFile').files[0],m=$('pickMsg');if(!f)return;
+  m.className='form-msg';m.textContent='Uploading…';
+  try{const r=await uploadToLibrary(f);m.textContent='';closePick(r.url);}
+  catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
+});
 
 window.addEventListener('hashchange',()=>{if(!$('app').classList.contains('hidden'))showView((location.hash||'').slice(1)||'dash',true);});
 
