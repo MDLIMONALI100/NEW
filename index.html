@@ -710,13 +710,13 @@ h2{
       <div class="content-panel"><div class="content-inner">
         <div class="about-flex">
           <div class="hero-text">
-            <div class="location-pill d1" data-anim><span class="live-dot"></span>Kushtia, Bangladesh · Available for freelance</div>
-            <p class="hello d2" data-anim>Hello, I'm</p>
-            <h1 class="hero-name d2" data-anim><span class="hn-first">Md Limon</span><span class="hn-last">Ali</span></h1>
+            <div class="location-pill d1" data-anim><span class="live-dot"></span><span data-key="hero_location">Kushtia, Bangladesh · Available for freelance</span></div>
+            <p class="hello d2" data-anim data-key="hero_hello">Hello, I'm</p>
+            <h1 class="hero-name d2" data-anim><span class="hn-first" data-key="hero_first">Md Limon</span><span class="hn-last" data-key="hero_last">Ali</span></h1>
             <div class="role-line d3" data-anim><span class="cursor-blink" id="roleText"></span></div>
             <div class="role-divider d4" data-anim="fade"></div>
-            <p class="hero-tagline d5" data-anim="fade">I design and build <mark class="hl">fast, responsive websites</mark> — <strong>Shopify stores</strong>, <strong>WordPress sites</strong>, and fully custom-coded projects — for businesses that want to <mark class="hl">look as good online as they do in person</mark>.</p>
-            <p class="signature d6" data-anim="fade">Limon</p>
+            <p class="hero-tagline d5" data-anim="fade" data-key="hero_tagline" data-rich>I design and build <mark class="hl">fast, responsive websites</mark> — <strong>Shopify stores</strong>, <strong>WordPress sites</strong>, and fully custom-coded projects — for businesses that want to <mark class="hl">look as good online as they do in person</mark>.</p>
+            <p class="signature d6" data-anim="fade" data-key="hero_signature">Limon</p>
             <div class="cta-row d7" data-anim>
               <button class="btn btn-primary" data-target="sec-work"><i class="fas fa-arrow-right"></i>View Work</button>
               <a href="Md-Limon-Ali-Resume.pdf" class="btn btn-outline" download><i class="fas fa-download"></i>Resume</a>
@@ -729,7 +729,7 @@ h2{
               <a href="https://www.upwork.com/freelancers/~01fad5e7c367f29102" class="social-icon" target="_blank" rel="noopener" aria-label="Upwork"><i class="fab fa-upwork"></i></a>
               <a href="https://www.instagram.com/choco.boy.1100/" class="social-icon" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="stat-bars d9" data-anim="fade">
+            <div class="stat-bars d9" data-anim="fade" id="statBars">
               <div class="stat-row"><div class="stat-row-top"><span>WordPress</span><span>90%</span></div><div class="stat-track"><div class="stat-fill" style="--val:90%"></div></div></div>
               <div class="stat-row"><div class="stat-row-top"><span>Shopify</span><span>85%</span></div><div class="stat-track"><div class="stat-fill" style="--val:85%"></div></div></div>
             </div>
@@ -750,10 +750,10 @@ h2{
         <div class="side-panel-inner"><div class="side-index"><span class="side-index-current">02</span><span class="side-index-total">/ 08</span></div><div class="side-divider"></div><p class="side-caption">Shopify, WordPress &amp; custom builds.</p></div>
       </div>
       <div class="content-panel"><div class="content-inner">
-        <p class="eyebrow d1" data-anim>What I Build</p>
-        <h2 class="d2" data-anim>Three ways I can <span class="accent">help your business.</span></h2>
-        <p class="lede d3" data-anim>Pick the platform that fits your goals — or let me <mark class="hl">recommend one</mark> after we talk through what you need.</p>
-        <div class="services-grid">
+        <p class="eyebrow d1" data-anim data-key="svc_eyebrow">What I Build</p>
+        <h2 class="d2" data-anim data-key="svc_heading" data-rich>Three ways I can <span class="accent">help your business.</span></h2>
+        <p class="lede d3" data-anim data-key="svc_lede" data-rich>Pick the platform that fits your goals — or let me <mark class="hl">recommend one</mark> after we talk through what you need.</p>
+        <div class="services-grid" id="svcGrid">
           <div class="service-card d4" data-anim><span class="service-no">01</span><div class="service-icon"><i class="fab fa-shopify"></i></div><h3>Shopify Stores</h3><p><mark class="hl">Conversion-focused</mark> storefronts with clean product layouts, fast checkout, and themes tailored to your brand.</p></div>
           <div class="service-card d5" data-anim><span class="service-no">02</span><div class="service-icon"><i class="fab fa-wordpress"></i></div><h3>WordPress &amp; WooCommerce</h3><p>Flexible business sites and online stores built with WordPress, WooCommerce, and Elementor for <mark class="hl">easy content control</mark>.</p></div>
           <div class="service-card d6" data-anim><span class="service-no">03</span><div class="service-icon"><i class="fas fa-code"></i></div><h3>Custom-Coded Websites</h3><p>Hand-built with HTML, CSS, and JavaScript when you need <mark class="hl">full control</mark> over performance, design, and behavior.</p></div>
@@ -827,21 +827,21 @@ h2{
         <div class="side-panel-inner"><div class="side-index"><span class="side-index-current">05</span><span class="side-index-total">/ 08</span></div><div class="side-divider"></div><p class="side-caption">Experience, education &amp; training.</p></div>
       </div>
       <div class="content-panel"><div class="content-inner">
-        <p class="eyebrow d1" data-anim>Background</p>
-        <h2 class="h-stack d2" data-anim><span class="h-top">Experience &amp;</span><span class="h-big">Education</span></h2>
-        <p class="lede d3" data-anim>The path so far — <mark class="hl">hands-on work</mark>, formal study, and the training behind the skills.</p>
+        <p class="eyebrow d1" data-anim data-key="bg_eyebrow">Background</p>
+        <h2 class="h-stack d2" data-anim><span class="h-top" data-key="bg_top">Experience &amp;</span><span class="h-big" data-key="bg_big">Education</span></h2>
+        <p class="lede d3" data-anim data-key="bg_lede" data-rich>The path so far — <mark class="hl">hands-on work</mark>, formal study, and the training behind the skills.</p>
         <div class="cred-grid">
-          <div class="cred-col d4" data-anim>
-            <h4>Experience &amp; Education</h4>
+          <div class="cred-col d4" data-anim id="bgCol1">
+            <h4 data-key="bg_col1_title">Experience &amp; Education</h4>
             <div class="cred-item"><div class="cred-role">Web Developer</div><div class="cred-place">E Code Craft</div><div class="cred-time">3 months</div></div>
             <div class="cred-item"><div class="cred-role">Bachelor of Arts (B.A.)</div><div class="cred-place">Kushtia Government College</div><div class="cred-time">2025 – Present · Expected 2029</div></div>
             <div class="cred-item"><div class="cred-role">HSC (Science)</div><div class="cred-place">Amla Government Degree College</div><div class="cred-time">Completed 2025</div></div>
           </div>
-          <div class="cred-col d5" data-anim>
-            <h4>Certification &amp; Languages</h4>
+          <div class="cred-col d5" data-anim id="bgCol2">
+            <h4 data-key="bg_col2_title">Certification &amp; Languages</h4>
             <div class="cred-item"><div class="cred-role">Web Development Certification</div><div class="cred-place">Shopify &amp; WordPress — Venus IT Institute</div><div class="cred-time">Completed</div></div>
             <div class="cred-item"><div class="cred-role">Self-Taught Front-End Development</div><div class="cred-place">Independent study &amp; project work</div><div class="cred-time">Jan 2025 – Jul 2026</div></div>
-            <div class="lang-row">
+            <div class="lang-row" id="langRow">
               <span class="lang-pill">Bengali — Native</span>
               <span class="lang-pill">English — Fluent</span>
             </div>
@@ -1066,11 +1066,11 @@ document.getElementById('heroPhoto').addEventListener('error',function(){
 });
 
 function typeRoles(){
-  const roles=["Shopify Developer","WordPress Developer","Custom Web Developer"];
+  const roles=window.SITE_ROLES=(window.__siteRoles&&window.__siteRoles.length)?window.__siteRoles:["Shopify Developer","WordPress Developer","Custom Web Developer"];
   const el=document.getElementById('roleText');
   let ri=0,ci=0,del=false;
   function tick(){
-    const w=roles[ri];
+    const w=roles[ri%roles.length]||"";
     if(!del){ci++;el.textContent=w.slice(0,ci);if(ci===w.length){del=true;setTimeout(tick,1100);return;}}
     else{ci--;el.textContent=w.slice(0,ci);if(ci===0){del=false;ri=(ri+1)%roles.length;}}
     setTimeout(tick,del?42:75);
@@ -1123,6 +1123,45 @@ form.addEventListener('submit',async e=>{
       };
       pre.src=url;
     }catch(e){/* keep profile.png */}
+  })();
+  /* editable text (managed from admin.html): front page, services, background */
+  (async function(){
+    try{
+      const {data,error}=await sb.from('site_content').select('key,value');
+      if(error||!data||!data.length)return;
+      const C={};data.forEach(r=>{C[r.key]=r.value;});
+      const has=k=>C[k]!==undefined&&C[k]!==null;
+      const fmt=t=>esc(t).replace(/\[\[(.+?)\]\]/g,'<mark class="hl">$1</mark>').replace(/\{\{(.+?)\}\}/g,'<span class="accent">$1</span>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+      document.querySelectorAll('[data-key]').forEach(n=>{
+        const k=n.getAttribute('data-key');if(!has(k)||typeof C[k]!=='string')return;
+        if(n.hasAttribute('data-rich'))n.innerHTML=fmt(C[k]);else n.textContent=C[k];
+      });
+      const list=k=>Array.isArray(C[k])?C[k]:null;
+      const roles=list('hero_roles');
+      if(roles&&roles.length){const r2=roles.map(String);window.__siteRoles=r2;if(window.SITE_ROLES)window.SITE_ROLES.splice(0,window.SITE_ROLES.length,...r2);}
+      const stats=list('hero_stats');
+      if(stats){
+        document.getElementById('statBars').innerHTML=stats.map(r=>{const v=Math.max(0,Math.min(100,parseInt(r.value)||0));
+          return '<div class="stat-row"><div class="stat-row-top"><span>'+esc(r.label)+'</span><span>'+v+'%</span></div><div class="stat-track"><div class="stat-fill" style="--val:'+v+'%"></div></div></div>';}).join('');
+      }
+      const cards=list('svc_cards');
+      if(cards){
+        document.getElementById('svcGrid').innerHTML=cards.map((c,i)=>{
+          const ic=/^(fab|fas) fa-[a-z0-9-]+$/.test(c.icon||'')?c.icon:'fas fa-code';
+          return '<div class="service-card d'+Math.min(4+i,12)+'" data-anim><span class="service-no">'+String(i+1).padStart(2,'0')+'</span><div class="service-icon"><i class="'+ic+'"></i></div><h3>'+esc(c.title)+'</h3><p>'+fmt(c.text)+'</p></div>';
+        }).join('');
+      }
+      const credItems=(col,items,before)=>{
+        if(!items)return;
+        col.querySelectorAll('.cred-item').forEach(n=>n.remove());
+        const html=items.map(it=>'<div class="cred-item"><div class="cred-role">'+esc(it.role)+'</div><div class="cred-place">'+esc(it.place)+'</div><div class="cred-time">'+esc(it.time)+'</div></div>').join('');
+        if(before)before.insertAdjacentHTML('beforebegin',html);else col.insertAdjacentHTML('beforeend',html);
+      };
+      credItems(document.getElementById('bgCol1'),list('bg_col1_items'),null);
+      credItems(document.getElementById('bgCol2'),list('bg_col2_items'),document.getElementById('langRow'));
+      const langs=list('bg_langs');
+      if(langs)document.getElementById('langRow').innerHTML=langs.map(l=>'<span class="lang-pill">'+esc(l)+'</span>').join('');
+    }catch(e){/* keep the static text */}
   })();
   /* active favicon (managed from admin.html); overrides the profile-photo fallback above */
   (async function(){
