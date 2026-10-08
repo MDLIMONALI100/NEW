@@ -17,7 +17,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;min-height:100vh;padding:16px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.5;min-height:100vh;padding:28px 28px 40px;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
@@ -47,7 +47,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .hint{font-size:.84rem;color:var(--soft)}
 
 /* login */
-#loginView{min-height:calc(100vh - 32px);display:flex;align-items:center;justify-content:center}
+#loginView{min-height:calc(100vh - 68px);display:flex;align-items:center;justify-content:center}
 .login-card{width:min(400px,100%);background:var(--panel);border-radius:28px;padding:36px 30px 30px;text-align:center;box-shadow:0 24px 60px -30px rgba(0,0,0,.35)}
 .login-card .avatar{width:88px;height:88px;margin:0 auto 18px;font-size:1.5rem;box-shadow:0 0 0 4px #fff,0 0 0 5px var(--line-strong)}
 .login-card h1{font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
@@ -55,8 +55,8 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .login-card label{text-align:left}
 
 /* ---------- app shell ---------- */
-.app{display:grid;grid-template-columns:272px minmax(0,1fr);gap:16px;max-width:1380px;margin:0 auto;align-items:start}
-.side{background:var(--panel);border-radius:var(--r);padding:16px;position:sticky;top:16px;height:calc(100vh - 32px);display:flex;flex-direction:column;gap:6px;overflow:auto}
+.app{display:grid;grid-template-columns:272px minmax(0,1fr);gap:20px;width:100%;max-width:none;margin:0;align-items:start}
+.side{background:var(--panel);border-radius:var(--r);padding:16px;position:sticky;top:28px;height:calc(100vh - 56px);display:flex;flex-direction:column;gap:6px;overflow:auto}
 .usercard{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;text-align:left;width:100%;background:var(--soft-bg);margin-bottom:10px}
 .usercard:hover{background:#ececee}
 .usercard b{display:block;font-size:.92rem;line-height:1.25}
@@ -80,6 +80,29 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .page-head p{color:var(--soft);font-size:.92rem;margin-top:4px;max-width:560px}
 .head-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
+/* signed-in indicator */
+.avwrap{position:relative;flex-shrink:0}
+.avwrap::after{content:'';position:absolute;right:0;bottom:0;width:13px;height:13px;border-radius:50%;background:#22c55e;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.usercard .avwrap::after{border-color:var(--soft-bg)}
+.mbar{display:none}
+.signed{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600;color:var(--ok)}
+/* image library */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{padding:8px 14px;border-radius:99px;background:var(--panel);font-size:.82rem;font-weight:600;color:var(--soft);border:1px solid transparent}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip.active{background:var(--ink);color:#fff}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.lib-item{background:var(--panel);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.lib-thumb{position:relative;aspect-ratio:4/3;background:var(--soft-bg) repeating-conic-gradient(#ececee 0 25%,#f7f7f8 0 50%) 0 0/16px 16px}
+.lib-thumb img{width:100%;height:100%;object-fit:contain}
+.lib-thumb .pill{position:absolute;left:10px;top:10px;background:#fff;box-shadow:0 0 0 1px var(--line)}
+.lib-info{padding:12px 14px 4px;min-width:0}
+.lib-info b{display:block;font-size:.84rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lib-info span{display:block;font-size:.74rem;color:var(--soft);margin-top:2px}
+.lib-actions{display:flex;gap:8px;padding:10px 14px 14px}
+.lib-actions .mini{flex:1;text-decoration:none}
+.note{background:var(--soft-bg);border-radius:14px;padding:14px 16px;font-size:.84rem;color:var(--soft);margin-bottom:14px}
+.note code{display:block;margin-top:8px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:10px;font-size:.76rem;color:var(--ink);white-space:pre-wrap;word-break:break-word;user-select:all}
 /* cards */
 .card{background:var(--panel);border-radius:var(--r);padding:22px;margin-bottom:16px}
 .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
@@ -197,8 +220,13 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 @media(max-width:1100px){.edit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2.keep{grid-template-columns:1fr}}
 @media(max-width:900px){
   body{padding:10px}
-  .app{grid-template-columns:1fr;gap:12px}
-  .side{position:sticky;top:0;z-index:30;height:auto;flex-direction:row;align-items:center;gap:6px;padding:8px;overflow-x:auto;overflow-y:hidden;border-radius:16px;scrollbar-width:none}
+  .app{grid-template-columns:1fr;gap:10px}
+  .mbar{display:flex;align-items:center;gap:12px;background:var(--panel);border-radius:16px;padding:10px 12px}
+  .mbar .avatar{width:46px;height:46px}
+  .mbar>div{flex:1;min-width:0}
+  .mbar b{display:block;font-size:.95rem;line-height:1.25}
+  .mbar .em{display:block;font-size:.72rem;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .side{position:sticky;top:8px;z-index:30;height:auto;flex-direction:row;align-items:center;gap:6px;padding:8px;overflow-x:auto;overflow-y:hidden;border-radius:16px;scrollbar-width:none}
   .side::-webkit-scrollbar{display:none}
   .usercard,.grp{display:none}
   .side nav{display:contents}
@@ -247,10 +275,16 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 <!-- ======================= APP ======================= -->
 <div class="app hidden" id="app">
 
+  <div class="mbar">
+    <span class="avwrap"><span class="avatar"><img data-photo src="profile.png" alt="Md Limon Ali" onerror="this.replaceWith(document.createTextNode('ML'))"></span></span>
+    <div><b>Md Limon Ali</b><span class="signed">● Signed in</span><span class="em" id="whoM"></span></div>
+    <button class="mini" id="mLogout"><i class="fas fa-right-from-bracket"></i>Sign out</button>
+  </div>
+
   <aside class="side">
     <button class="usercard" data-view="photo" title="Change profile photo">
-      <span class="avatar"><img data-photo src="profile.png" alt="" onerror="this.replaceWith(document.createTextNode('ML'))"></span>
-      <div><b>Md Limon Ali</b><span id="who">Site owner</span></div>
+      <span class="avwrap"><span class="avatar"><img data-photo src="profile.png" alt="" onerror="this.replaceWith(document.createTextNode('ML'))"></span></span>
+      <div><b>Md Limon Ali</b><span id="who">Signed in</span></div>
     </button>
     <nav aria-label="Main">
       <div class="grp">Overview</div>
@@ -264,6 +298,8 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <div class="grp">Branding</div>
       <button class="nav" data-view="photo"><i class="fas fa-camera"></i>Profile photo</button>
       <button class="nav" data-view="fav"><i class="fas fa-star"></i>Site icon</button>
+      <div class="grp">Media</div>
+      <button class="nav" data-view="library"><i class="fas fa-images"></i>Image library</button>
     </nav>
     <div class="side-foot">
       <a class="nav" href="./" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>View site</a>
@@ -276,7 +312,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
     <!-- ===== DASHBOARD ===== -->
     <section class="view active" id="view-dash">
       <div class="page-head"><div><h2>Dashboard</h2><p>A quick look at your portfolio, and a shortcut to every part you can edit.</p></div>
-        <div class="head-actions"><button class="btn btn-primary" id="actAdd"><i class="fas fa-plus"></i>Add project</button></div></div>
+        <div class="head-actions"><button class="btn btn-ghost" data-view="library"><i class="fas fa-images"></i>Image library</button><button class="btn btn-primary" id="actAdd"><i class="fas fa-plus"></i>Add project</button></div></div>
       <div class="grid3 stats" style="margin-bottom:16px">
         <div class="stat dark"><small>Total projects</small><b id="stTotal">0</b></div>
         <div class="stat"><small>Live on site</small><b id="stLive">0</b></div>
@@ -381,6 +417,17 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       </div>
     </section>
 
+    <!-- ===== IMAGE LIBRARY ===== -->
+    <section class="view" id="view-library">
+      <div class="page-head"><div><h2>Image library <span class="hint" id="libCount" style="font-weight:500"></span></h2><p>Every image you have uploaded through this admin, newest first. Open or download any of them, including older ones you replaced.</p></div>
+        <div class="head-actions"><button class="btn btn-ghost" id="libRefresh"><i class="fas fa-rotate"></i>Refresh</button></div></div>
+      <div class="chips" id="libChips">
+        <button class="chip active" data-f="all">All</button><button class="chip" data-f="projects">Project screenshots</button><button class="chip" data-f="profile">Profile photos</button><button class="chip" data-f="favicon">Site icons</button>
+      </div>
+      <div id="libNote"></div>
+      <div class="lib" id="lib"><div class="empty">Loading…</div></div>
+    </section>
+
   </main>
 </div>
 
@@ -437,7 +484,7 @@ async function init(){
 function showLogin(){$('app').classList.add('hidden');$('loginView').classList.remove('hidden');}
 function showApp(user){
   $('loginView').classList.add('hidden');$('app').classList.remove('hidden');
-  $('who').textContent=user.email;
+  $('who').textContent='Signed in · '+user.email;$('whoM').textContent=user.email;
   loadProjects();
   showView((location.hash||'').slice(1)||'dash',true);
 }
@@ -449,10 +496,12 @@ $('loginForm').addEventListener('submit',async e=>{
   if(error){m.className='form-msg err';m.textContent=error.message;return;}
   $('password').value='';showApp(data.user);
 });
-$('navLogout').addEventListener('click',async()=>{await sb.auth.signOut();projects=[];showLogin();});
+const doLogout=async()=>{await sb.auth.signOut();projects=[];showLogin();};
+$('navLogout').addEventListener('click',doLogout);
+$('mLogout').addEventListener('click',doLogout);
 
 /* ---------- navigation (one page per part of the site) ---------- */
-const VIEWS=['dash','projects','front','services','background','photo','fav'];
+const VIEWS=['dash','projects','front','services','background','photo','fav','library'];
 function showView(name,quiet){
   if(!VIEWS.includes(name))name='dash';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
@@ -461,6 +510,7 @@ function showView(name,quiet){
   if(['front','services','background'].includes(name))openContentTab(name);
   if(name==='photo')openPhotoView();
   if(name==='fav')openFavView();
+  if(name==='library')loadLibrary();
   window.scrollTo({top:0});
   const act=document.querySelector('.nav.active');
   if(act&&window.innerWidth<=900)act.scrollIntoView({inline:'center',block:'nearest'});
@@ -920,6 +970,62 @@ document.addEventListener('click',e=>{
     renderTab(tab);
   }
 });
+/* ---------- image library (every uploaded image, newest first) ---------- */
+const LIB_FOLDERS=[['projects','Project screenshot'],['profile','Profile photo'],['favicon','Site icon']];
+let libItems=[],libFilter='all';
+const fmtSize=n=>!n?'':n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
+async function loadLibrary(){
+  const box=$('lib'),note=$('libNote');note.replaceChildren();box.replaceChildren(el('div','empty','Loading…'));
+  const store=sb.storage.from('images');
+  const results=await Promise.all(LIB_FOLDERS.map(async([f])=>{
+    const {data,error}=await store.list(f,{limit:500,sortBy:{column:'created_at',order:'desc'}});
+    return {f,data:(data||[]).filter(x=>x.name&&!x.name.startsWith('.')),error};
+  }));
+  libItems=[];
+  results.forEach(r=>r.data.forEach(o=>{
+    const path=r.f+'/'+o.name;
+    libItems.push({folder:r.f,name:o.name,path,created:o.created_at||o.updated_at,size:o.metadata&&o.metadata.size,
+      url:store.getPublicUrl(path).data.publicUrl,dl:store.getPublicUrl(path,{download:o.name}).data.publicUrl});
+  }));
+  const listFailed=results.some(r=>r.error);
+  if(!libItems.length){
+    // fall back to the images the database already knows about
+    const urls=[];
+    projects.forEach(p=>p.image_url&&urls.push(['projects',p.image_url,p.created_at]));
+    photos.forEach(p=>urls.push(['profile',p.image_url,p.created_at]));favs.forEach(p=>urls.push(['favicon',p.image_url,p.created_at]));
+    if(activePhoto&&!photos.length)urls.push(['profile',activePhoto.image_url,activePhoto.created_at]);
+    urls.forEach(([f,u,c])=>{const name=u.split('/').pop().split('?')[0];libItems.push({folder:f,name,path:f+'/'+name,created:c,url:u,dl:u+(u.includes('?')?'&':'?')+'download='+encodeURIComponent(name)});});
+    if(listFailed||!libItems.length){
+      const n=el('div','note');n.append(document.createTextNode('To list every file in your storage (including images you replaced), run this once in Supabase → SQL Editor:'),el('code',null,'create policy "owner list images" on storage.objects for select to authenticated using (bucket_id = \'images\');'));
+      note.appendChild(n);
+    }
+  }
+  libItems.sort((a,b)=>new Date(b.created||0)-new Date(a.created||0));
+  renderLibrary();
+}
+function renderLibrary(){
+  const used=new Set([...projects.map(p=>p.image_url),activePhoto&&activePhoto.image_url,activeFav&&activeFav.image_url,...photos.filter(x=>x.is_active).map(x=>x.image_url),...favs.filter(x=>x.is_active).map(x=>x.image_url)].filter(Boolean));
+  const list=libItems.filter(i=>libFilter==='all'||i.folder===libFilter);
+  $('libCount').textContent='· '+list.length;
+  const box=$('lib');box.replaceChildren();
+  document.querySelectorAll('#libChips .chip').forEach(c=>c.classList.toggle('active',c.dataset.f===libFilter));
+  if(!list.length){box.appendChild(el('div','empty','No images here yet.'));return;}
+  list.forEach(i=>{
+    const card=el('div','lib-item'),th=el('div','lib-thumb');
+    const im=document.createElement('img');im.src=i.url;im.alt='';im.loading='lazy';th.appendChild(im);
+    th.appendChild(el('span','pill '+(used.has(i.url)?'live':''),used.has(i.url)?'In use':'Previous'));
+    const info=el('div','lib-info');
+    const kind=(LIB_FOLDERS.find(x=>x[0]===i.folder)||[])[1]||'';
+    info.append(el('b',null,i.name),el('span',null,[kind,i.created?new Date(i.created).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'}):'',fmtSize(i.size)].filter(Boolean).join(' · ')));
+    const act=el('div','lib-actions');
+    const v=el('a','mini');v.href=i.url;v.target='_blank';v.rel='noopener';v.append(el('i','fas fa-eye'),document.createTextNode('View'));
+    const d=el('a','mini');d.href=i.dl;d.setAttribute('download',i.name);d.append(el('i','fas fa-download'),document.createTextNode('Download'));
+    act.append(v,d);card.append(th,info,act);box.appendChild(card);
+  });
+}
+$('libChips').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;libFilter=c.dataset.f;renderLibrary();});
+$('libRefresh').addEventListener('click',loadLibrary);
+
 window.addEventListener('hashchange',()=>{if(!$('app').classList.contains('hidden'))showView((location.hash||'').slice(1)||'dash',true);});
 
 init();
