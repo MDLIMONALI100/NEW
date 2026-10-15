@@ -326,6 +326,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <div class="grp">Site pages</div>
       <button class="nav" data-view="front"><i class="fas fa-id-card"></i>Front page</button>
       <button class="nav" data-view="services"><i class="fas fa-briefcase"></i>Services</button>
+      <button class="nav" data-view="skills"><i class="fas fa-screwdriver-wrench"></i>Skills</button>
       <button class="nav" data-view="background"><i class="fas fa-graduation-cap"></i>Background</button>
       <div class="grp">Branding</div>
       <button class="nav" data-view="photo"><i class="fas fa-camera"></i>Profile photo</button>
@@ -371,6 +372,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
           <button class="edit-card" data-view="projects"><span class="ic"><i class="fas fa-folder-open"></i></span><b>Projects</b><span>The cards on your Work page: add, edit, hide or delete.</span><em>Edit →</em></button>
           <button class="edit-card" data-view="front"><span class="ic"><i class="fas fa-id-card"></i></span><b>Front page</b><span>Your name, typing roles, tagline and skill bars.</span><em>Edit →</em></button>
           <button class="edit-card" data-view="services"><span class="ic"><i class="fas fa-briefcase"></i></span><b>Services</b><span>The heading, intro and service cards.</span><em>Edit →</em></button>
+          <button class="edit-card" data-view="skills"><span class="ic"><i class="fas fa-screwdriver-wrench"></i></span><b>Skills</b><span>The skill pills: add, remove or reorder your tools.</span><em>Edit →</em></button>
           <button class="edit-card" data-view="background"><span class="ic"><i class="fas fa-graduation-cap"></i></span><b>Background</b><span>Experience, education, certification and languages.</span><em>Edit →</em></button>
           <button class="edit-card" data-view="photo"><span class="ic"><i class="fas fa-camera"></i></span><b>Profile photo</b><span>The cut-out photo on your front page.</span><em>Change →</em></button>
           <button class="edit-card" data-view="fav"><span class="ic"><i class="fas fa-star"></i></span><b>Site icon</b><span>The small icon in the browser tab.</span><em>Change →</em></button>
@@ -402,6 +404,15 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <div class="tip"><b>Style tips:</b> <b>[[text]]</b> = highlighter · <b>**text**</b> = bold · <b>{{text}}</b> = accent colour</div>
       <div id="cpane-services"></div>
       <div class="savebar"><div class="msg" id="cmsg-services"></div><button type="button" class="btn btn-ghost" data-reset="services">Reset to original</button><button type="button" class="btn btn-primary" data-save="services">Save changes</button></div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="view" id="view-skills">
+      <div class="page-head"><div><h2>Skills</h2><p>The “Skills &amp; Expertise” page: heading, intro and the list of skills.</p></div>
+        <div class="head-actions"><a class="btn btn-ghost" href="./" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>View site</a></div></div>
+      <div class="tip"><b>Style tips:</b> <b>[[text]]</b> = highlighter · <b>**text**</b> = bold · <b>{{text}}</b> = accent colour</div>
+      <div id="cpane-skills"></div>
+      <div class="savebar"><div class="msg" id="cmsg-skills"></div><button type="button" class="btn btn-ghost" data-reset="skills">Reset to original</button><button type="button" class="btn btn-primary" data-save="skills">Save changes</button></div>
     </section>
 
     <!-- ===== BACKGROUND ===== -->
@@ -555,13 +566,13 @@ $('navLogout').addEventListener('click',doLogout);
 $('mLogout').addEventListener('click',doLogout);
 
 /* ---------- navigation (one page per part of the site) ---------- */
-const VIEWS=['dash','projects','front','services','background','photo','fav','library'];
+const VIEWS=['dash','projects','front','services','skills','background','photo','fav','library'];
 function showView(name,quiet){
   if(!VIEWS.includes(name))name='dash';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
   document.querySelectorAll('.nav[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
   if(!quiet)history.replaceState(null,'','#'+name);
-  if(['front','services','background'].includes(name))openContentTab(name);
+  if(['front','services','skills','background'].includes(name))openContentTab(name);
   if(name==='photo')openPhotoView();
   if(name==='fav')openFavView();
   if(name==='library')loadLibrary();
@@ -917,7 +928,7 @@ $('favPick').addEventListener('click',async()=>{
 });
 
 /* ---------- site text editors (Front page / Services / Background) ---------- */
-const ICONS=[['fab fa-shopify','Shopify'],['fab fa-wordpress','WordPress'],['fas fa-code','Code'],['fas fa-bag-shopping','Shopping bag'],['fas fa-store','Store'],['fas fa-palette','Design'],['fas fa-bolt','Speed'],['fas fa-rocket','Rocket'],['fas fa-wrench','Maintenance'],['fas fa-mobile-screen','Mobile'],['fas fa-magnifying-glass','SEO'],['fas fa-headset','Support']];
+const ICONS=[['fab fa-shopify','Shopify'],['fab fa-wordpress','WordPress'],['fas fa-code','Code'],['fas fa-bag-shopping','Shopping bag'],['fas fa-store','Store'],['fas fa-palette','Design'],['fas fa-bolt','Speed'],['fas fa-rocket','Rocket'],['fas fa-wrench','Maintenance'],['fas fa-mobile-screen','Mobile'],['fas fa-magnifying-glass','SEO'],['fas fa-headset','Support'],['fas fa-cloud','Cloud'],['fas fa-database','Database'],['fas fa-leaf','MongoDB leaf'],['fas fa-plug','API'],['fas fa-code-branch','Git'],['fas fa-server','Server'],['fas fa-terminal','Terminal'],['fas fa-gears','Settings'],['fas fa-shield-halved','Security'],['fas fa-globe','Web'],['fab fa-github','GitHub'],['fab fa-html5','HTML5'],['fab fa-css3-alt','CSS3'],['fab fa-js','JavaScript'],['fab fa-react','React'],['fab fa-node-js','Node.js'],['fas fa-cart-shopping','Cart'],['fas fa-pen-ruler','Design tool'],['fas fa-wind','Tailwind']];
 const SITE_DEFAULTS={
   hero_location:'Kushtia, Bangladesh · Available for freelance',hero_hello:"Hello, I'm",hero_first:'Md Limon',hero_last:'Ali',
   hero_roles:['Shopify Developer','WordPress Developer','Custom Web Developer'],
@@ -930,6 +941,9 @@ const SITE_DEFAULTS={
     {icon:'fab fa-shopify',title:'Shopify Stores',text:'[[Conversion-focused]] storefronts with clean product layouts, fast checkout, and themes tailored to your brand.'},
     {icon:'fab fa-wordpress',title:'WordPress & WooCommerce',text:'Flexible business sites and online stores built with WordPress, WooCommerce, and Elementor for [[easy content control]].'},
     {icon:'fas fa-code',title:'Custom-Coded Websites',text:'Hand-built with HTML, CSS, and JavaScript when you need [[full control]] over performance, design, and behavior.'}],
+  skills_eyebrow:'Toolbox',skills_top:'Skills &',skills_big:'Expertise',
+  skills_lede:'The stack I reach for most, across design, development, and deployment.',
+  skills_list:[{icon:'fab fa-html5',name:'HTML5'},{icon:'fab fa-css3-alt',name:'CSS3'},{icon:'fab fa-js',name:'JavaScript'},{icon:'fab fa-shopify',name:'Shopify Liquid'},{icon:'fab fa-wordpress',name:'WordPress'},{icon:'fas fa-cart-shopping',name:'WooCommerce'},{icon:'fas fa-pen-ruler',name:'Elementor'},{icon:'fas fa-wind',name:'Tailwind CSS'},{icon:'fab fa-react',name:'React'},{icon:'fab fa-node-js',name:'Node.js'},{icon:'fas fa-mobile-screen',name:'Responsive Design'},{icon:'fab fa-github',name:'GitHub'},{icon:'fas fa-cloud',name:'Cloudflare Workers'},{icon:'fas fa-database',name:'Cloudflare D1 (SQL)'},{icon:'fas fa-leaf',name:'MongoDB Atlas'},{icon:'fas fa-bolt',name:'Supabase'},{icon:'fas fa-plug',name:'REST APIs'},{icon:'fas fa-code-branch',name:'Git Version Control'}],
   bg_eyebrow:'Background',bg_top:'Experience &',bg_big:'Education',
   bg_lede:'The path so far — [[hands-on work]], formal study, and the training behind the skills.',
   bg_col1_title:'Experience & Education',
@@ -955,6 +969,11 @@ const SITE_TABS=[
     F('svc_eyebrow','Small heading above title','text'),F('svc_heading','Main heading','text'),F('svc_lede','Intro sentence','area')]},
   {title:'Service cards',desc:'Add, remove or reorder the cards.',fields:[
     F('svc_cards','Cards','list',{item:'Card',addLabel:'Add service',cols:[{k:'icon',label:'Icon',type:'icon'},{k:'title',label:'Title'},{k:'text',label:'Description',type:'area'}]})]}]},
+ {id:'skills',title:'Skills',groups:[
+  {title:'Heading',desc:'The text above the skill pills.',fields:[
+    F('skills_eyebrow','Small heading above title','text'),F('skills_top','Title — small line','text'),F('skills_big','Title — big line','text'),F('skills_lede','Intro sentence','area')]},
+  {title:'Skill list',desc:'Each skill shows as a pill. Add, remove or reorder them.',fields:[
+    F('skills_list','Skills','list',{item:'Skill',addLabel:'Add skill',cols:[{k:'icon',label:'Icon',type:'icon'},{k:'name',label:'Skill name',ph:'e.g. Cloudflare Workers'}]})]}]},
  {id:'background',title:'Background',groups:[
   {title:'Heading',desc:'The text above the two boxes.',fields:[
     F('bg_eyebrow','Small heading above title','text'),F('bg_top','Title — small line','text'),F('bg_big','Title — big line','text'),F('bg_lede','Intro sentence','area')]},
