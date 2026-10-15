@@ -619,22 +619,6 @@ h2{
 }
 .whatsapp-float:hover{transform:translateY(-3px) scale(1.04);}
 @media(max-width:480px){.whatsapp-float{width:46px;height:46px;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:16px;}}
-/* tiny AI chat bubble */
-.bot-fab{position:fixed;bottom:calc(20px + 52px + 12px + env(safe-area-inset-bottom,0px));right:calc(25px + var(--follow-w) + env(safe-area-inset-right,0px));width:42px;height:42px;border-radius:50%;border:1px solid var(--border-strong);background:var(--panel);color:var(--terracotta);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1600;box-shadow:0 6px 18px -8px rgba(42,39,30,.35);transition:transform .2s var(--ease);}
-.bot-fab:hover{transform:translateY(-3px);}
-.bot-fab svg{width:20px;height:20px;}
-.bot-win{position:fixed;right:calc(20px + var(--follow-w));bottom:calc(20px + 52px + 12px + 42px + 10px);width:min(340px,calc(100vw - 32px));height:min(440px,calc(100vh - 200px));background:var(--panel);border:1px solid var(--border-strong);border-radius:16px;box-shadow:0 20px 50px -14px rgba(42,39,30,.4);display:none;flex-direction:column;overflow:hidden;z-index:1650;font-family:var(--font-body);}
-.bot-win.open{display:flex;}
-.bot-head{padding:12px 14px;background:var(--grad);color:#fff;font-weight:600;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;}
-.bot-head button{background:none;border:0;color:#fff;font-size:1.2rem;cursor:pointer;line-height:1;}
-.bot-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;}
-.bot-msg{max-width:85%;padding:8px 11px;border-radius:12px;font-size:.85rem;line-height:1.45;white-space:pre-wrap;word-wrap:break-word;}
-.bot-msg.bot{background:var(--bg-elev);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;}
-.bot-msg.user{background:var(--terracotta);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
-.bot-form{display:flex;gap:6px;padding:10px;border-top:1px solid var(--border);}
-.bot-form input{flex:1;min-width:0;padding:9px 11px;border:1px solid var(--border-strong);border-radius:10px;background:#fff;font:inherit;font-size:.85rem;color:var(--ink);}
-.bot-form button{padding:0 14px;border:0;border-radius:10px;background:var(--terracotta);color:#fff;font-weight:600;cursor:pointer;}
-@media(max-width:480px){.bot-fab{right:20px;bottom:calc(16px + 46px + 10px + env(safe-area-inset-bottom,0px));}.bot-win{right:16px;bottom:calc(16px + 46px + 10px + 42px + 10px);}}
 
 
 /* ---- phones only: smaller photo + tighter spacing so the text shows sooner (desktop untouched) ---- */
@@ -666,6 +650,7 @@ h2{
   .role-line{font-size:.66rem;letter-spacing:.12em;line-height:1.5;}
   .location-pill{font-size:.58rem;letter-spacing:.08em;padding:6px 12px;margin-bottom:14px;}
 }
+img{-webkit-user-drag:none;user-drag:none;}
 </style>
 </head>
 <body>
@@ -801,22 +786,28 @@ h2{
         <div class="side-panel-inner"><div class="side-index"><span class="side-index-current">03</span><span class="side-index-total">/ 08</span></div><div class="side-divider"></div><p class="side-caption">The stack behind every project.</p></div>
       </div>
       <div class="content-panel"><div class="content-inner">
-        <p class="eyebrow d1" data-anim>Toolbox</p>
-        <h2 class="h-stack d2" data-anim><span class="h-top">Skills &amp;</span><span class="h-big">Expertise</span></h2>
-        <p class="lede d3" data-anim>The stack I reach for most, across design, development, and deployment.</p>
-        <div class="skills-grid">
+        <p class="eyebrow d1" data-anim data-key="skills_eyebrow">Toolbox</p>
+        <h2 class="h-stack d2" data-anim><span class="h-top" data-key="skills_top">Skills &amp;</span><span class="h-big" data-key="skills_big">Expertise</span></h2>
+        <p class="lede d3" data-anim data-key="skills_lede" data-rich>The stack I reach for most, across design, development, and deployment.</p>
+        <div class="skills-grid" id="skillsGrid">
           <div class="skill d3" data-anim><i class="fab fa-html5"></i>HTML5</div>
-          <div class="skill d4" data-anim><i class="fab fa-css3-alt"></i>CSS3</div>
+          <div class="skill d3" data-anim><i class="fab fa-css3-alt"></i>CSS3</div>
           <div class="skill d4" data-anim><i class="fab fa-js"></i>JavaScript</div>
-          <div class="skill d5" data-anim><i class="fab fa-shopify"></i>Shopify Liquid</div>
+          <div class="skill d4" data-anim><i class="fab fa-shopify"></i>Shopify Liquid</div>
           <div class="skill d5" data-anim><i class="fab fa-wordpress"></i>WordPress</div>
-          <div class="skill d6" data-anim><i class="fas fa-cart-shopping"></i>WooCommerce</div>
+          <div class="skill d5" data-anim><i class="fas fa-cart-shopping"></i>WooCommerce</div>
           <div class="skill d6" data-anim><i class="fas fa-pen-ruler"></i>Elementor</div>
-          <div class="skill d7" data-anim><i class="fas fa-wind"></i>Tailwind CSS</div>
+          <div class="skill d6" data-anim><i class="fas fa-wind"></i>Tailwind CSS</div>
           <div class="skill d7" data-anim><i class="fab fa-react"></i>React</div>
-          <div class="skill d8" data-anim><i class="fab fa-node-js"></i>Node.js</div>
+          <div class="skill d7" data-anim><i class="fab fa-node-js"></i>Node.js</div>
           <div class="skill d8" data-anim><i class="fas fa-mobile-screen"></i>Responsive Design</div>
-          <div class="skill d9" data-anim><i class="fab fa-github"></i>GitHub</div>
+          <div class="skill d8" data-anim><i class="fab fa-github"></i>GitHub</div>
+          <div class="skill d9" data-anim><i class="fas fa-cloud"></i>Cloudflare Workers</div>
+          <div class="skill d9" data-anim><i class="fas fa-database"></i>Cloudflare D1 (SQL)</div>
+          <div class="skill d10" data-anim><i class="fas fa-leaf"></i>MongoDB Atlas</div>
+          <div class="skill d10" data-anim><i class="fas fa-bolt"></i>Supabase</div>
+          <div class="skill d11" data-anim><i class="fas fa-plug"></i>REST APIs</div>
+          <div class="skill d11" data-anim><i class="fas fa-code-branch"></i>Git Version Control</div>
         </div>
         <blockquote class="pull-quote d9" data-anim>
           <span class="q-mark" aria-hidden="true">&ldquo;</span>
@@ -991,39 +982,6 @@ h2{
 <a href="https://wa.me/8801709769235?text=Hi%20Limon%2C%20I%20found%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 32 32" width="24" height="24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 2.667c-7.363 0-13.333 5.97-13.333 13.333 0 2.353.615 4.66 1.784 6.686L2.667 29.333l6.815-1.756a13.27 13.27 0 0 0 6.522 1.723h.006c7.362 0 13.333-5.97 13.333-13.333 0-3.56-1.386-6.906-3.904-9.425A13.25 13.25 0 0 0 16.004 2.667zm0 24.4h-.005a11.05 11.05 0 0 1-5.63-1.541l-.404-.24-4.045 1.043 1.08-3.943-.263-.405a11.04 11.04 0 0 1-1.7-5.881c0-6.106 4.968-11.073 11.072-11.073 2.958 0 5.738 1.153 7.829 3.246a10.995 10.995 0 0 1 3.239 7.833c0 6.105-4.968 11.061-11.173 11.061z"/></svg>
 </a>
-
-<!-- AI chat -->
-<button class="bot-fab" id="botFab" aria-label="Chat with AI assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></button>
-<div class="bot-win" id="botWin" role="dialog" aria-label="AI assistant">
-  <div class="bot-head"><span>Ask about Limon</span><button id="botX" aria-label="Close">&times;</button></div>
-  <div class="bot-log" id="botLog"><div class="bot-msg bot">Hi! I can answer questions about Limon's services and work. What would you like to know?</div></div>
-  <form class="bot-form" id="botForm"><input id="botIn" maxlength="500" placeholder="Type a message..." autocomplete="off"><button type="submit">Send</button></form>
-</div>
-<script>
-(function(){
-  const ENDPOINT='https://ppxloknpydrodtfclowh.supabase.co/functions/v1/swift-function';
-  const KEY='sb_publishable_ZV4M9EtX3_1BcqTncOl3NA_nLKcX_lJ';
-  const win=document.getElementById('botWin'),log=document.getElementById('botLog'),inp=document.getElementById('botIn');
-  const hist=[];let busy=false;
-  document.getElementById('botFab').onclick=()=>{win.classList.toggle('open');if(win.classList.contains('open'))inp.focus();};
-  document.getElementById('botX').onclick=()=>win.classList.remove('open');
-  function add(t,c){const d=document.createElement('div');d.className='bot-msg '+c;d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;return d;}
-  document.getElementById('botForm').onsubmit=async e=>{
-    e.preventDefault();const t=inp.value.trim();if(!t||busy)return;
-    inp.value='';add(t,'user');hist.push({role:'user',text:t});busy=true;
-    const w=add('...','bot');
-    try{
-      const send=()=>fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY},body:JSON.stringify({messages:hist.slice(-6)})});
-      let r=await send();
-      if(!r.ok){w.textContent='Thinking...';await new Promise(x=>setTimeout(x,5000));r=await send();}
-      let d={};try{d=await r.json();}catch(_){}
-      if(!r.ok||!d.reply){console.warn('chat error',r.status,d);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp.";hist.pop();busy=false;return;}
-      w.textContent=d.reply;hist.push({role:'bot',text:d.reply});
-    }catch(e){console.warn('chat failed',e);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp.";hist.pop();}
-    busy=false;log.scrollTop=log.scrollHeight;
-  };
-})();
-</script>
 
 <script>
 const PAGE_IDS=["sec-about","sec-services","sec-skills","sec-process","sec-background","sec-faq","sec-contact","sec-work"];
@@ -1215,6 +1173,13 @@ form.addEventListener('submit',async e=>{
           return '<div class="service-card d'+Math.min(4+i,12)+'" data-anim><span class="service-no">'+String(i+1).padStart(2,'0')+'</span><div class="service-icon"><i class="'+ic+'"></i></div><h3>'+esc(c.title)+'</h3><p>'+fmt(c.text)+'</p></div>';
         }).join('');
       }
+      const skl=list('skills_list');
+      if(skl){
+        document.getElementById('skillsGrid').innerHTML=skl.map((s,i)=>{
+          const ic=/^(fab|fas) fa-[a-z0-9-]+$/.test(s.icon||'')?s.icon:'fas fa-code';
+          return '<div class="skill d'+Math.min(3+Math.floor(i/2),12)+'" data-anim><i class="'+ic+'"></i>'+esc(s.name)+'</div>';
+        }).join('');
+      }
       const credItems=(col,items,before)=>{
         if(!items)return;
         col.querySelectorAll('.cred-item').forEach(n=>n.remove());
@@ -1259,6 +1224,22 @@ form.addEventListener('submit',async e=>{
         </a>`).join('');
     }catch(e){/* keep static fallback */}
   })();
+})();
+</script>
+
+<script>
+/* Deterrent: blocks right-click and the usual DevTools / view-source shortcuts. (Cannot fully prevent copying: browsers always receive the page.) */
+(function(){
+  var stop=function(e){e.preventDefault();e.stopPropagation();return false;};
+  document.addEventListener('contextmenu',stop,true);
+  document.addEventListener('dragstart',function(e){if(e.target&&e.target.tagName==='IMG')stop(e);},true);
+  document.addEventListener('keydown',function(e){
+    var k=(e.key||'').toLowerCase(),mod=e.ctrlKey||e.metaKey;
+    if(e.key==='F12'||e.keyCode===123)return stop(e);
+    if(mod&&e.shiftKey&&['i','j','c','k'].indexOf(k)>-1)return stop(e);   /* Ctrl/Cmd+Shift+I/J/C/K */
+    if(e.metaKey&&e.altKey&&['i','j','c','u'].indexOf(k)>-1)return stop(e); /* Mac: Cmd+Option+I/J/C/U */
+    if(e.ctrlKey&&['u','s'].indexOf(k)>-1)return stop(e);                  /* view source / save */
+  },true);
 })();
 </script>
 </body>
