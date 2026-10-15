@@ -1013,11 +1013,13 @@ h2{
     inp.value='';add(t,'user');hist.push({role:'user',text:t});busy=true;
     const w=add('...','bot');
     try{
-      const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY},body:JSON.stringify({messages:hist})});
+      const send=()=>fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY},body:JSON.stringify({messages:hist.slice(-6)})});
+      let r=await send();
+      if(!r.ok){w.textContent='Thinking...';await new Promise(x=>setTimeout(x,5000));r=await send();}
       let d={};try{d=await r.json();}catch(_){}
-      if(!r.ok||!d.reply){console.warn('chat error',r.status,d);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp. [error "+r.status+(d.error||d.message?": "+(d.error||d.message):"")+"]";hist.pop();busy=false;return;}
+      if(!r.ok||!d.reply){console.warn('chat error',r.status,d);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp.";hist.pop();busy=false;return;}
       w.textContent=d.reply;hist.push({role:'bot',text:d.reply});
-    }catch(e){console.warn('chat failed',e);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp. [network error]";hist.pop();}
+    }catch(e){console.warn('chat failed',e);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp.";hist.pop();}
     busy=false;log.scrollTop=log.scrollHeight;
   };
 })();
