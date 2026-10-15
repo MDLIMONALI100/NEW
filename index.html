@@ -1014,9 +1014,10 @@ h2{
     const w=add('...','bot');
     try{
       const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','apikey':KEY,'Authorization':'Bearer '+KEY},body:JSON.stringify({messages:hist})});
-      const d=await r.json();if(!r.ok||!d.reply)throw 0;
+      let d={};try{d=await r.json();}catch(_){}
+      if(!r.ok||!d.reply){console.warn('chat error',r.status,d);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp. [error "+r.status+(d.error||d.message?": "+(d.error||d.message):"")+"]";hist.pop();busy=false;return;}
       w.textContent=d.reply;hist.push({role:'bot',text:d.reply});
-    }catch(_){w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp.";hist.pop();}
+    }catch(e){console.warn('chat failed',e);w.textContent="Sorry, I can't answer right now. Please message Limon on WhatsApp. [network error]";hist.pop();}
     busy=false;log.scrollTop=log.scrollHeight;
   };
 })();
