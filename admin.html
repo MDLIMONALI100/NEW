@@ -330,6 +330,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <div class="grp">Work</div>
       <button class="nav" data-view="projects"><i class="fas fa-folder-open"></i>Projects<span class="count" id="navCount">0</span></button>
       <button class="nav" data-view="blog"><i class="fas fa-pen-nib"></i>Blog<span class="count" id="navBlog">0</span></button>
+      <button class="nav" data-view="comments"><i class="fas fa-comments"></i>Comments<span class="count" id="navComments">0</span></button>
       <div class="grp">Site pages</div>
       <button class="nav" data-view="front"><i class="fas fa-id-card"></i>Front page</button>
       <button class="nav" data-view="services"><i class="fas fa-briefcase"></i>Services</button>
@@ -402,6 +403,12 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
         <div class="head-actions"><a class="btn btn-ghost" href="blog/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>View blog</a><button class="btn btn-primary" id="addPost"><i class="fas fa-plus"></i>New article</button></div></div>
       <div class="tip"><b>Writing tips:</b> <b>## Heading</b> · <b>**bold**</b> · <b>*italic*</b> · <b>- list item</b> · <b>[link text](https://…)</b> · <b>![alt](https://image-url)</b> · <b>&gt; quote</b>. Use the preview to check how it looks.</div>
       <div class="plist" id="blogList"><div class="empty">Loading…</div></div>
+    </section>
+
+    <!-- ===== COMMENTS ===== -->
+    <section class="view" id="view-comments">
+      <div class="page-head"><div><h2>Comments <span class="hint" id="cmCountLbl" style="font-weight:500"></span></h2><p>Visitors can comment on your articles. New comments stay hidden until you approve them.</p></div></div>
+      <div class="plist" id="cmList"><div class="empty">Loading…</div></div>
     </section>
 
     <!-- ===== FRONT PAGE ===== -->
@@ -597,7 +604,7 @@ function showLogin(){$('app').classList.add('hidden');$('loginView').classList.r
 function showApp(user){
   $('loginView').classList.add('hidden');$('app').classList.remove('hidden');
   $('who').textContent='Signed in · '+user.email;$('whoM').textContent=user.email;
-  loadProjects();
+  loadProjects();loadComments();
   showView((location.hash||'').slice(1)||'dash',true);
 }
 $('loginForm').addEventListener('submit',async e=>{
@@ -613,7 +620,7 @@ $('navLogout').addEventListener('click',doLogout);
 $('mLogout').addEventListener('click',doLogout);
 
 /* ---------- navigation (one page per part of the site) ---------- */
-const VIEWS=['dash','projects','blog','front','services','skills','background','photo','fav','library'];
+const VIEWS=['dash','projects','blog','comments','front','services','skills','background','photo','fav','library'];
 function showView(name,quiet){
   if(!VIEWS.includes(name))name='dash';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
@@ -621,6 +628,7 @@ function showView(name,quiet){
   if(!quiet)history.replaceState(null,'','#'+name);
   if(['front','services','skills','background'].includes(name))openContentTab(name);
   if(name==='blog')loadBlog();
+  if(name==='comments')loadComments();
   if(name==='photo')openPhotoView();
   if(name==='fav')openFavView();
   if(name==='library')loadLibrary();
@@ -869,6 +877,40 @@ $('blogForm').addEventListener('submit',async e=>{
   }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
   btn.disabled=false;btn.textContent='Save article';
 });
+
+/* ---------- comments (moderation) ---------- */
+let comments=[];
+async function loadComments(){
+  const {data,error}=await sb.from('blog_comments').select('*, blog_posts(title,slug)').order('created_at',{ascending:false});
+  if(error){$('cmList').replaceChildren(el('div','empty',error.message));return;}
+  comments=data||[];renderComments();
+}
+function renderComments(){
+  const pending=comments.filter(c=>!c.approved).length;
+  $('navComments').textContent=pending;$('cmCountLbl').textContent='· '+comments.length+(pending?' · '+pending+' waiting':'');
+  const box=$('cmList');box.replaceChildren();
+  if(!comments.length){box.appendChild(el('div','empty','No comments yet. They will show up here for approval.'));return;}
+  comments.forEach(c=>{
+    const row=el('article','prow'),th=el('div','thumb');th.innerHTML='<i class="fas fa-comment" style="font-size:1.4rem;color:var(--faint);display:flex;align-items:center;justify-content:center;height:100%"></i>';
+    const info=el('div');info.appendChild(el('h4',null,c.author_name));
+    const body=el('p',null,c.body);body.style.cssText='margin:6px 0;font-size:.9rem;color:var(--soft);white-space:pre-wrap;overflow-wrap:anywhere';info.appendChild(body);
+    const meta=el('div','meta');
+    meta.append(el('span','pill '+(c.approved?'live':'off'),c.approved?'Approved':'Waiting'),el('span',null,'On: '+((c.blog_posts&&c.blog_posts.title)||'(deleted article)')),el('span',null,new Date(c.created_at).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'})));
+    info.appendChild(meta);
+    const act=el('div','row-actions');
+    const mk=(icon,txt,cls,fn)=>{const b=el('button','mini '+(cls||''));b.type='button';b.append(el('i','fas '+icon),document.createTextNode(txt));b.addEventListener('click',fn);return b;};
+    act.append(
+      mk(c.approved?'fa-eye-slash':'fa-check',c.approved?'Hide':'Approve','',async()=>{
+        const {error}=await sb.from('blog_comments').update({approved:!c.approved}).eq('id',c.id);
+        if(error)return toast(error.message,true);toast(c.approved?'Comment hidden':'Comment approved ✓');loadComments();}),
+      mk('fa-trash','Delete','del',async()=>{
+        if(!confirm('Delete this comment by '+c.author_name+'? This cannot be undone.'))return;
+        const {error}=await sb.from('blog_comments').delete().eq('id',c.id);
+        if(error)return toast(error.message,true);toast('Comment deleted');loadComments();})
+    );
+    row.append(th,info,act);box.appendChild(row);
+  });
+}
 
 /* ---------- profile photo ---------- */
 let photos=[],activePhoto=null;

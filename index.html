@@ -805,6 +805,29 @@ body.reader-open{overflow:hidden;}
 .live-text{min-width:0;line-height:1.35;}
 .live-count strong{font-family:var(--font-display);font-style:italic;font-weight:600;font-size:1.35rem;line-height:1;color:var(--terracotta);}
 .live-count .live-dot{width:8px;height:8px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 4px rgba(118,152,107,.22);animation:dotPulse 2s ease-in-out infinite;flex-shrink:0;}
+
+/* comments */
+.comments{margin-top:44px;padding-top:28px;border-top:1px solid var(--border-strong);}
+.comments h3{font-family:var(--font-display);font-size:var(--fs-h3);margin-bottom:16px;}
+.comments h3 span{color:var(--ink-faint);font-weight:500;}
+.comment{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:12px;}
+.comment-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.comment-av{width:32px;height:32px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;}
+.comment-head time{font-size:var(--fs-small);color:var(--ink-faint);margin-left:auto;}
+.comment p{font-size:var(--fs-small);color:var(--ink-soft);overflow-wrap:anywhere;}
+.comment-empty{color:var(--ink-faint);font-size:var(--fs-small);margin-bottom:6px;}
+.comment-form{margin-top:22px;display:flex;flex-direction:column;gap:6px;}
+.comment-form h4{font-family:var(--font-display);font-size:1.15rem;margin-bottom:6px;}
+.comment-form label{font-size:var(--fs-label);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px;}
+.comment-form input,.comment-form textarea{padding:13px 15px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel);color:var(--ink);width:100%;font-family:var(--font-body);font-size:16px;transition:border-color .2s ease,background .2s ease;}
+.comment-form textarea{min-height:110px;resize:vertical;}
+.comment-form input:focus,.comment-form textarea:focus{outline:none;border-color:var(--terracotta);background:#fff;}
+.comment-form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;}
+.comment-form .btn{align-self:flex-start;margin-top:12px;}
+.comment-form .btn:disabled{opacity:.55;cursor:wait;}
+.comment-msg{font-size:var(--fs-small);font-weight:600;margin-top:8px;}
+.comment-msg.ok{color:#4F6E45;}.comment-msg.err{color:#a63a1d;}
+.comment-note{font-size:.78rem;color:var(--ink-faint);margin-top:4px;}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />
@@ -1629,12 +1652,43 @@ form.addEventListener('submit',async e=>{
         '<a aria-label="Share on WhatsApp (opens in a new tab)" target="_blank" rel="noopener" href="https://wa.me/?text='+t+'%20'+enc+'"><i class="fab fa-whatsapp"></i></a>'+
         '<button type="button" id="copyLink" aria-label="Copy link"><i class="fas fa-link"></i></button></div>'+
         '<div class="reader-author"><img src="profile.png" alt="Md Limon Ali" width="68" height="68" loading="lazy"><div><strong>Written by Md Limon Ali</strong><p>Web developer in Kushtia, Bangladesh. I build Shopify stores, WordPress sites and custom web apps. <a href="#contact" data-close-contact>Work with me</a>.</p></div></div>'+
+        '<section class="comments" aria-labelledby="commentsH"><h3 id="commentsH">Comments <span id="commentCount"></span></h3><div id="commentList" aria-live="polite"><p class="comment-empty">Loading comments…</p></div>'+
+        '<form id="commentForm" class="comment-form" novalidate><h4>Leave a comment</h4>'+
+        '<label for="cmName">Your name</label><input id="cmName" name="author" maxlength="60" autocomplete="name" required>'+
+        '<label for="cmBody">Your comment</label><textarea id="cmBody" name="body" maxlength="1000" rows="4" required></textarea>'+
+        '<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">'+
+        '<button class="btn btn-primary" type="submit"><i class="fas fa-paper-plane"></i>Post comment</button>'+
+        '<p class="comment-msg" id="commentMsg" role="status"></p><p class="comment-note">Comments are reviewed before they appear. Please be kind and keep it on topic.</p></form></section>'+
         (more.length?'<div class="reader-more"><h3>More articles</h3><div class="projects-grid">'+more.map(function(x,i){return card(x,i).replace(' data-sr="up"','');}).join('')+'</div></div>':'')
       );
+      loadComments(p);
       var cl=$('copyLink');
       if(cl)cl.addEventListener('click',function(){var ok=function(){cl.innerHTML='<i class="fas fa-check"></i>';setTimeout(function(){cl.innerHTML='<i class="fas fa-link"></i>';},1800);};
         if(navigator.clipboard)navigator.clipboard.writeText(url).then(ok,function(){});});
       if(push){history.pushState({post:slug},'',link(p));pushed=true;}
+    });
+  }
+  function loadComments(p){
+    var box=$('commentList'),f=$('commentForm'),msg=$('commentMsg');
+    sbc.from('blog_comments').select('author_name,body,created_at').eq('post_id',p.id).eq('approved',true).order('created_at',{ascending:true}).then(function(r){
+      var c=r.data||[];$('commentCount').textContent=c.length?'('+c.length+')':'';
+      box.innerHTML=c.length?c.map(function(x){return '<article class="comment"><div class="comment-head"><span class="comment-av" aria-hidden="true">'+esc(x.author_name.trim().charAt(0).toUpperCase())+'</span><strong>'+esc(x.author_name)+'</strong><time datetime="'+esc(x.created_at)+'">'+esc(fmt(x.created_at))+'</time></div><p>'+esc(x.body).replace(/\n/g,'<br>')+'</p></article>';}).join(''):'<p class="comment-empty">No comments yet. Be the first to share your thoughts.</p>';
+    },function(){box.innerHTML='';});
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(f.website.value)return; /* honeypot: bots fill hidden fields */
+      var last=0;try{last=+localStorage.getItem('cmt_t')||0;}catch(x){}
+      var say=function(t,ok){msg.className='comment-msg '+(ok?'ok':'err');msg.textContent=t;};
+      var name=f.author.value.trim(),body=f.body.value.trim();
+      if(!name||body.length<2){say('Please add your name and a comment.',false);return;}
+      if(Date.now()-last<30000){say('Please wait a moment before posting again.',false);return;}
+      var btn=f.querySelector('button[type=submit]');btn.disabled=true;
+      sbc.from('blog_comments').insert({post_id:p.id,author_name:name.slice(0,60),body:body.slice(0,1000),approved:false}).then(function(r){
+        btn.disabled=false;
+        if(r.error){say('Sorry, your comment could not be sent. Please try again later.',false);return;}
+        f.reset();try{localStorage.setItem('cmt_t',String(Date.now()));}catch(x){}
+        say('Thank you! Your comment was received and will appear after it is approved.',true);
+      },function(){btn.disabled=false;say('Network error. Please try again.',false);});
     });
   }
   function closeReader(fromPop){
