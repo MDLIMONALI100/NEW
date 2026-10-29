@@ -833,6 +833,10 @@ body.reader-open{overflow:hidden;}
 .projects-grid.blog-grid{grid-template-columns:minmax(0,1fr);gap:20px;}
 @container (min-width:560px){.projects-grid.blog-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(min-width:640px){.reader-more .projects-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+
+/* hold the project list until the live list (published + your order) has loaded */
+.js:not(.proj-synced) .proj-list,.js:not(.proj-synced) .live-count{visibility:hidden;}
+.js:not(.proj-synced) .proj-list{min-height:70vh;}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />
@@ -1495,13 +1499,13 @@ form.addEventListener('submit',async e=>{
   })();
   (async function(){
     try{
-      const {data,error}=await sb.from('projects').select('*').order('sort_order').order('created_at',{ascending:false});
-      if(error||!data||!data.length)return;
+      const {data,error}=await sb.from('projects').select('*').eq('published',true).order('sort_order').order('created_at',{ascending:false});
+      if(error||!data)return;
       const list=document.getElementById('projList');
       list.querySelectorAll('.proj-row').forEach(r=>{if(!data.some(p=>String(p.id)===r.dataset.id))r.remove();});
       data.forEach(p=>{
         let row=list.querySelector('[data-id="'+p.id+'"]');
-        if(row){const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;return;}
+        if(row){const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;list.appendChild(row);return;}
         row=document.createElement('article');row.className='proj-row';row.dataset.id=p.id;
         row.innerHTML='<div class="proj-media" data-sr="left"><a class="proj-shot" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+' (opens in a new tab)"><img src="'+esc(p.image_url)+'" alt="'+esc(p.title)+'" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest(\'.proj-shot\').classList.add(\'img-missing\')"><span class="proj-num"></span></a></div>'+
           '<div class="proj-info" data-sr="right"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(p.subtitle)+'</p><p class="proj-desc">'+esc(p.description)+'</p><div class="proj-actions"><a class="btn btn-primary" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project</a></div></div>';
@@ -1510,7 +1514,7 @@ form.addEventListener('submit',async e=>{
       list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr',i%2?'right':'left');r.querySelector('.proj-info').setAttribute('data-sr',i%2?'left':'right');});
       {const n=list.querySelectorAll('.proj-row').length,lc=document.getElementById('liveCount'),ll=document.getElementById('liveLabel');if(lc){lc.textContent=n;ll.textContent=n===1?'project live':'projects live';}}
       if(window.srScan){window.srScan();window.srFlush(document.querySelector('.page-active'));}
-    }catch(e){/* keep static fallback */}
+    }catch(e){/* keep static fallback */}finally{document.documentElement.classList.add('proj-synced');}
   })();
 })();
 </script>
@@ -1518,6 +1522,7 @@ form.addEventListener('submit',async e=>{
 <!-- ===================== V2: scroll effects, jump links, blog + article reader ===================== -->
 <script>
 (function(){
+  setTimeout(function(){document.documentElement.classList.add('proj-synced');},3500);
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var nav=function(){return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||72;};
 
