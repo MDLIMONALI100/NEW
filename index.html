@@ -765,6 +765,41 @@ body.reader-open{overflow:hidden;}
   .content-panel,.reader{scroll-behavior:auto;}
   .js [data-sr]{opacity:1!important;transform:none!important;filter:none!important;}
 }
+
+/* ---- projects: one by one ---- */
+.proj-list{display:flex;flex-direction:column;gap:clamp(26px,4vw,44px);margin-top:30px;}
+.proj-row{display:grid;gap:22px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:clamp(14px,2vw,22px);transition:border-color .3s ease,box-shadow .3s ease;}
+.proj-row:hover{border-color:rgba(194,107,56,.4);box-shadow:0 14px 36px -14px rgba(194,107,56,.25);}
+@container (min-width:820px){
+  .proj-row{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,3vw,44px);}
+  .proj-row:nth-child(even) .proj-media{order:2;}
+}
+.proj-shot{display:block;position:relative;border-radius:var(--radius-md);overflow:hidden;aspect-ratio:16/10;background:var(--bg-elev);border:1px solid var(--border);}
+.proj-shot img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .8s var(--ease);}
+.proj-row:hover .proj-shot img{transform:scale(1.05);}
+.proj-shot.img-missing img{display:none;}
+.proj-shot.img-missing::after{content:'Add image';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:var(--fs-label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);}
+.proj-num{position:absolute;left:14px;top:12px;font-family:var(--font-display);font-style:italic;font-size:2.1rem;line-height:1;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.55);}
+.proj-info{min-width:0;padding:4px 6px 6px;}
+.proj-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px;}
+.proj-top .platform-tag{margin-left:0;}
+.proj-kind{font-size:var(--fs-label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);}
+.proj-info h3{font-family:var(--font-display);font-weight:600;font-size:clamp(1.5rem,1.2rem + 1.2vw,2.1rem);line-height:1.12;letter-spacing:-.01em;}
+.proj-sub{font-size:var(--fs-small);color:var(--terracotta);font-weight:600;margin-top:4px;}
+.proj-desc{font-size:var(--fs-body);color:var(--ink-soft);margin-top:12px;line-height:1.65;}
+.proj-facts{margin-top:16px;border-top:1px solid var(--border);}
+.proj-facts>div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.proj-facts dt{font-size:var(--fs-label);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);padding-top:2px;}
+.proj-facts dd{font-size:var(--fs-small);color:var(--ink);}
+.proj-facts ul{list-style:none;display:grid;gap:6px;}
+.proj-facts li{position:relative;padding-left:18px;color:var(--ink-soft);}
+.proj-facts li::before{content:'';position:absolute;left:0;top:.62em;width:9px;height:2px;background:var(--terracotta);}
+.proj-stack{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin-top:16px;}
+.proj-stack li{font-size:.76rem;font-weight:600;letter-spacing:.04em;padding:6px 12px;border-radius:100px;border:1px solid var(--border-strong);color:var(--ink-soft);background:var(--bg);}
+.proj-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:20px;}
+.proj-note{font-size:.8rem;color:var(--ink-faint);font-style:italic;}
+.proj-note strong{font-style:normal;color:var(--ink);}
+@media(max-width:520px){.proj-facts>div{grid-template-columns:1fr;gap:6px;}.proj-actions .btn{width:100%;justify-content:center;}}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />
@@ -1007,40 +1042,115 @@ body.reader-open{overflow:hidden;}
           <h2 class="h-stack d2" data-anim id="proj-h"><span class="h-top">Selected</span><span class="h-big">Projects</span></h2>
           <p class="lede d3" data-anim>A curated selection of recent builds — <mark class="hl">real stores and business sites</mark>, live on the web.</p>
           <nav class="jump-nav" aria-label="Jump to a section on this page"><button type="button" data-scroll="blk-projects">Projects</button><button type="button" data-scroll="blk-blog">Blog</button></nav>
-          <div class="projects-grid" data-stagger>
-            <a class="project-card" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener">
-              <div class="project-thumb"><img src="images/skin-care.jpg" alt="Vira Skin Care Shopify store" width="1280" height="710" loading="lazy" decoding="async" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
-              <div class="project-body">
-                <div class="project-head"><span class="project-num">01</span><div><h3>Vira Skin Care</h3><span class="project-sub">Skin care brand</span></div><span class="platform-tag">Shopify</span></div>
-                <p>A Shopify storefront for a premium skin care brand, with a clean layout and <mark class="hl">streamlined checkout</mark>.</p>
-                <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
-                <p class="project-password">Store password: <strong>limon</strong></p>
+          <div class="proj-list" id="projList">
+            <article class="proj-row" data-id="9">
+              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Streetwear: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791785909571.jpg" alt="Streetwear online store home page with leather jackets, denim and boots" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">01</span></a></div>
+              <div class="proj-info" data-sr="right">
+                <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">Full-stack e-commerce</span></div>
+                <h3>Streetwear</h3>
+                <p class="proj-sub">A Full-Stack Leather, Denim &amp; Boots Store</p>
+                <p class="proj-desc">A full-stack fashion store with a 200-product catalog, a no-code admin and a 360° 3D outfit viewer, running on Cloudflare&#x27;s global network.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>Design, front end, API and admin</dd></div><div><dt>Highlights</dt><dd><ul><li>200-product catalog with a no-code admin panel</li><li>360° 3D outfit viewer built with Three.js</li><li>Oversell-proof checkout with server-side pricing</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>Next.js (vinext)</li><li>Express 5</li><li>Cloudflare Workers</li><li>Cloudflare D1 (SQL)</li><li>MongoDB Atlas</li><li>Three.js</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a></div>
               </div>
-            </a>
-            <a class="project-card" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener">
-              <div class="project-thumb"><img src="images/home-cleaning.jpg" alt="Home Cleaning Service website" width="1280" height="710" loading="lazy" decoding="async" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
-              <div class="project-body">
-                <div class="project-head"><span class="project-num">02</span><div><h3>Home Cleaning Service</h3><span class="project-sub">Service business</span></div><span class="platform-tag">WordPress</span></div>
-                <p>A service business site built to present offerings clearly and make it <mark class="hl">easy to get in touch</mark>.</p>
-                <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+            </article>
+            <article class="proj-row" data-id="3">
+              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://parfumerep.com" target="_blank" rel="noopener" aria-label="Parfume Store: visit live project (opens in a new tab)"><img src="images/parfume.jpg" alt="Parfume Store fragrance e-commerce website built on WooCommerce" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">02</span></a></div>
+              <div class="proj-info" data-sr="left">
+                <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WooCommerce online store</span></div>
+                <h3>Parfume Store</h3>
+                <p class="proj-sub">Fragrance e-commerce</p>
+                <p class="proj-desc">A fragrance e-commerce store on WooCommerce and Elementor, with a slide-out cart drawer that keeps shoppers browsing.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>WooCommerce build and custom cart</dd></div><div><dt>Highlights</dt><dd><ul><li>Slide-out cart drawer keeps shoppers browsing</li><li>Elementor layouts the owner can edit</li><li>Live on its own domain</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>WordPress</li><li>WooCommerce</li><li>Elementor</li><li>JavaScript</li><li>CSS</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://parfumerep.com" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a></div>
               </div>
-            </a>
-            <a class="project-card" href="https://parfumerep.com" target="_blank" rel="noopener">
-              <div class="project-thumb"><img src="images/parfume.jpg" alt="Parfume Store WooCommerce website" width="1280" height="610" loading="lazy" decoding="async" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
-              <div class="project-body">
-                <div class="project-head"><span class="project-num">03</span><div><h3>Parfume Store</h3><span class="project-sub">Fragrance e-commerce</span></div><span class="platform-tag">WordPress</span></div>
-                <p>A custom fragrance e-commerce build on WooCommerce and Elementor, with a <mark class="hl">slide-out cart drawer</mark>.</p>
-                <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+            </article>
+            <article class="proj-row" data-id="7">
+              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://footseason.com" target="_blank" rel="noopener" aria-label="FootSeason: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791353805498.jpg" alt="FootSeason football jersey online store with team collections" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">03</span></a></div>
+              <div class="proj-info" data-sr="right">
+                <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WooCommerce online store</span></div>
+                <h3>FootSeason</h3>
+                <p class="proj-sub">Football jersey store</p>
+                <p class="proj-desc">A football jersey store on WooCommerce and Elementor, with organized team collections and a smooth path from browsing to checkout.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>Catalog structure and storefront build</dd></div><div><dt>Highlights</dt><dd><ul><li>Jerseys organised into team collections</li><li>Short path from browsing to checkout</li><li>Mobile-first product pages</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>WordPress</li><li>WooCommerce</li><li>Elementor</li><li>Responsive CSS</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://footseason.com" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a></div>
               </div>
-            </a>
-            <a class="project-card" href="https://footseason.com" target="_blank" rel="noopener">
-              <div class="project-thumb"><img src="images/footseason.jpg" alt="FootSeason football jersey store" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
-              <div class="project-body">
-                <div class="project-head"><span class="project-num">04</span><div><h3>FootSeason</h3><span class="project-sub">Football jersey store</span></div><span class="platform-tag">WordPress</span></div>
-                <p>A football jersey e-commerce store on WooCommerce and Elementor, with <mark class="hl">organized team collections</mark> and a smooth shopping flow.</p>
-                <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
+            </article>
+            <article class="proj-row" data-id="12">
+              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Extraction: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792304829587.jpg" alt="Extraction top-down shooter game screenshot with loot crates and enemies" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">04</span></a></div>
+              <div class="proj-info" data-sr="left">
+                <div class="proj-top"><span class="platform-tag">Apps &amp; Games</span><span class="proj-kind">Browser and Android game</span></div>
+                <h3>Extraction</h3>
+                <p class="proj-sub">2D top-down shooter game</p>
+                <p class="proj-desc">A top-down extraction shooter you play in the browser or on Android, with solo raids and online multiplayer for up to 15 players.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>Game design and full-stack development</dd></div><div><dt>Highlights</dt><dd><ul><li>Solo raids plus online PvP for up to 15 players</li><li>Plays in the browser and as an Android app</li><li>240+ automated tests cover the game rules</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>TypeScript</li><li>Phaser 3</li><li>Vite</li><li>Vitest</li><li>Cloudflare Workers</li><li>Durable Objects</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a></div>
               </div>
-            </a>
+            </article>
+            <article class="proj-row" data-id="10">
+              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="3D 360° Viewer: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791801274057.jpg" alt="3D portfolio website with a 360 degree viewer and curved photo gallery" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">05</span></a></div>
+              <div class="proj-info" data-sr="right">
+                <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">3D web experience</span></div>
+                <h3>3D 360° Viewer</h3>
+                <p class="proj-sub">3D portfolio, under development</p>
+                <p class="proj-desc">A 3D portfolio with a 360° model viewer and a curved 3D photo gallery, plus an admin panel for every upload.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>3D, front end and admin tooling</dd></div><div><dt>Highlights</dt><dd><ul><li>360° model viewer and curved 3D photo gallery</li><li>Uploads converted automatically to light WebP</li><li>Admin panel for photos and the 3D model</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>Next.js (vinext)</li><li>React</li><li>Three.js</li><li>Cloudflare Workers</li><li>MongoDB Atlas</li><li>WebP image pipeline</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><span class="proj-note">Under development</span></div>
+              </div>
+            </article>
+            <article class="proj-row" data-id="1">
+              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener" aria-label="Vira Skin Care: visit live project (opens in a new tab)"><img src="images/skin-care.jpg" alt="Vira Skin Care Shopify storefront for a premium skin care brand" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">06</span></a></div>
+              <div class="proj-info" data-sr="left">
+                <div class="proj-top"><span class="platform-tag">Shopify</span><span class="proj-kind">Shopify storefront</span></div>
+                <h3>Vira Skin Care</h3>
+                <p class="proj-sub">Skin care brand</p>
+                <p class="proj-desc">A Shopify storefront for a premium skin care brand, with a clean layout and streamlined checkout.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>Shopify theme customisation</dd></div><div><dt>Highlights</dt><dd><ul><li>Clean, premium layout for a skin care brand</li><li>Short route from product to checkout</li><li>Tested on phone, tablet and desktop</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>Shopify</li><li>Liquid</li><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><span class="proj-note">Preview store password: <strong>limon</strong></span></div>
+              </div>
+            </article>
+            <article class="proj-row" data-id="8">
+              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://mdlimonali100.github.io/e-com/" target="_blank" rel="noopener" aria-label="Baaizgar: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/library/1791451838322-screenshot-2026-10-08-at-3-30-22-pm.webp" alt="Baaizgar clothing store front end for men, women and kids" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">07</span></a></div>
+              <div class="proj-info" data-sr="right">
+                <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">Hand-coded storefront front end</span></div>
+                <h3>Baaizgar</h3>
+                <p class="proj-sub">Clothing store, front end only</p>
+                <p class="proj-desc">A hand-coded clothing storefront for men, women and kids, built with plain HTML, CSS and JavaScript.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>Hand-coded front end</dd></div><div><dt>Highlights</dt><dd><ul><li>Plain HTML, CSS and JavaScript, no framework</li><li>Men, women and kids sections</li><li>Free hosting on GitHub Pages</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>GitHub Pages</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://mdlimonali100.github.io/e-com/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a></div>
+              </div>
+            </article>
+            <article class="proj-row" data-id="11">
+              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://expo.dev/artifacts/eas/2Rfalp02pObdPdmRc4iNHzGFVToBwK36sc_WrrzCCdw.apk" target="_blank" rel="noopener" aria-label="Money Tracker: download the app (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792234760196.jpg" alt="Money Tracker budgeting app screens showing weekly budget and charts" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">08</span></a></div>
+              <div class="proj-info" data-sr="left">
+                <div class="proj-top"><span class="platform-tag">Apps &amp; Games</span><span class="proj-kind">Mobile app with cloud sync</span></div>
+                <h3>Money Tracker</h3>
+                <p class="proj-sub">Student budgeting app for Android</p>
+                <p class="proj-desc">A student-friendly budgeting app with a weekly budget, monthly charts, savings goals and shareable summaries, built with React Native and Cloudflare.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>App, sync logic and Worker API</dd></div><div><dt>Highlights</dt><dd><ul><li>Weekly budget, monthly charts and savings goals</li><li>Works offline; optional Google sign-in sync</li><li>Shareable monthly summaries</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>React Native</li><li>Expo</li><li>Cloudflare Workers</li><li>Cloudflare D1 (SQL)</li><li>Google Sign-In</li><li>EAS Build</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://expo.dev/artifacts/eas/2Rfalp02pObdPdmRc4iNHzGFVToBwK36sc_WrrzCCdw.apk" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Download the app<span class="sr-only"> (opens in a new tab)</span></a></div>
+              </div>
+            </article>
+            <article class="proj-row" data-id="2">
+              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener" aria-label="Home Cleaning Service: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791602939125.jpg" alt="Home cleaning service website with service list and contact call to action" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">09</span></a></div>
+              <div class="proj-info" data-sr="right">
+                <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WordPress business website</span></div>
+                <h3>Home Cleaning Service</h3>
+                <p class="proj-sub">Service business website</p>
+                <p class="proj-desc">A WordPress site for a home cleaning business that presents its services clearly and makes it easy to get in touch.</p>
+                <dl class="proj-facts"><div><dt>My role</dt><dd>WordPress site build</dd></div><div><dt>Highlights</dt><dd><ul><li>Services explained clearly in plain language</li><li>Contact call-to-action on every page</li><li>Responsive on phone, tablet and desktop</li></ul></dd></div></dl>
+                <ul class="proj-stack" aria-label="Built with"><li>WordPress</li><li>Elementor</li><li>Responsive CSS</li><li>Pantheon hosting</li></ul>
+                <div class="proj-actions"><a class="btn btn-primary" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a></div>
+              </div>
+            </article>
           </div>
         </section>
 
@@ -1340,19 +1450,17 @@ form.addEventListener('submit',async e=>{
     try{
       const {data,error}=await sb.from('projects').select('*').order('sort_order').order('created_at',{ascending:false});
       if(error||!data||!data.length)return;
-      document.querySelector('#blk-projects .projects-grid').innerHTML=data.map((p,i)=>`
-        <a class="project-card" data-sr="up" style="--sr-d:${Math.min(i,6)*70}ms" href="${esc(safeUrl(p.url))}" target="_blank" rel="noopener">
-          <div class="project-thumb"><img src="${esc(p.image_url)}" alt="${esc(p.title)}" loading="lazy" onerror="this.closest('.project-thumb').classList.add('img-missing')"></div>
-          <div class="project-body">
-            <div class="project-head">
-              <span class="project-num">${String(i+1).padStart(2,'0')}</span>
-              <div><h3>${esc(p.title)}</h3><span class="project-sub">${esc(p.subtitle)}</span></div>
-              <span class="platform-tag">${esc(p.platform)}</span>
-            </div>
-            <p>${esc(p.description)}</p>
-            <span class="view-project">View Project <i class="fas fa-arrow-right"></i></span>
-          </div>
-        </a>`).join('');
+      const list=document.getElementById('projList');
+      list.querySelectorAll('.proj-row').forEach(r=>{if(!data.some(p=>String(p.id)===r.dataset.id))r.remove();});
+      data.forEach(p=>{
+        let row=list.querySelector('[data-id="'+p.id+'"]');
+        if(row){const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;return;}
+        row=document.createElement('article');row.className='proj-row';row.dataset.id=p.id;
+        row.innerHTML='<div class="proj-media" data-sr="left"><a class="proj-shot" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+' (opens in a new tab)"><img src="'+esc(p.image_url)+'" alt="'+esc(p.title)+'" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest(\'.proj-shot\').classList.add(\'img-missing\')"><span class="proj-num"></span></a></div>'+
+          '<div class="proj-info" data-sr="right"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(p.subtitle)+'</p><p class="proj-desc">'+esc(p.description)+'</p><div class="proj-actions"><a class="btn btn-primary" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project</a></div></div>';
+        list.appendChild(row);
+      });
+      list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr',i%2?'right':'left');r.querySelector('.proj-info').setAttribute('data-sr',i%2?'left':'right');});
       if(window.srScan){window.srScan();window.srFlush(document.querySelector('.page-active'));}
     }catch(e){/* keep static fallback */}
   })();
