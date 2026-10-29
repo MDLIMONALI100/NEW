@@ -724,7 +724,7 @@ img{-webkit-user-drag:none;user-drag:none;}
 .reader-title{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em;font-size:clamp(2rem,1.3rem + 3vw,3.4rem);line-height:1.08;margin-bottom:14px;}
 .reader-lede{font-size:var(--fs-lead);color:var(--ink-soft);line-height:1.65;}
 .reader-by{display:flex;align-items:center;gap:12px;margin:22px 0 28px;}
-.reader-by img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:top;background:var(--bg-elev);border:1px solid var(--border-strong);}
+.reader-by img{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--bg-elev);border:1px solid var(--border-strong);}
 .reader-by strong{display:block;line-height:1.2;}
 .reader-by span{font-size:var(--fs-small);color:var(--ink-soft);}
 .reader-cover{margin:0 0 32px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);aspect-ratio:16/9;background:var(--bg-elev);}
@@ -747,7 +747,7 @@ img{-webkit-user-drag:none;user-drag:none;}
 .reader-share a,.reader-share button{width:42px;height:42px;border-radius:50%;border:1px solid var(--border-strong);background:var(--panel);display:inline-flex;align-items:center;justify-content:center;color:var(--ink-soft);cursor:pointer;transition:color .2s ease,transform .2s var(--ease),border-color .2s ease;}
 .reader-share a:hover,.reader-share button:hover{color:var(--terracotta);border-color:var(--terracotta);transform:translateY(-3px);}
 .reader-author{display:flex;gap:16px;align-items:flex-start;margin-top:32px;padding:20px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--panel);}
-.reader-author img{width:68px;height:68px;border-radius:50%;object-fit:cover;object-position:top;background:var(--bg-elev);flex-shrink:0;border:1px solid var(--border-strong);}
+.reader-author img{width:68px;height:68px;border-radius:50%;object-fit:cover;background:var(--bg-elev);flex-shrink:0;border:1px solid var(--border-strong);}
 .reader-author p{font-size:var(--fs-small);color:var(--ink-soft);margin-top:4px;}
 .reader-author a{color:var(--terracotta);text-decoration:underline;}
 .reader-more{margin-top:48px;}
@@ -924,7 +924,7 @@ body.reader-open{overflow:hidden;}
             </div>
           </div>
           <div class="hero-photo-wrap d2" data-anim="scale">
-            <div class="hero-photo"><img src="profile.png" alt="Md Limon Ali, web developer in Kushtia, Bangladesh" id="heroPhoto" width="720" height="900" fetchpriority="high" decoding="async"></div>
+            <div class="hero-photo"><img src="profile-photo.webp" alt="Md Limon Ali, web developer in Kushtia, Bangladesh" id="heroPhoto" width="720" height="900" fetchpriority="high" decoding="async"></div>
           </div>
         </div>
 
@@ -1642,7 +1642,7 @@ form.addEventListener('submit',async e=>{
         '<button class="reader-back" type="button" data-close><i class="fas fa-arrow-left"></i>All articles</button>'+
         '<div class="reader-tags">'+(p.tags||[]).map(function(x){return '<span class="platform-tag" style="margin-left:0">'+esc(x)+'</span>';}).join('')+'</div>'+
         '<h2 class="reader-title" id="readerTitle">'+esc(p.title)+'</h2>'+(p.excerpt?'<p class="reader-lede">'+esc(p.excerpt)+'</p>':'')+
-        '<div class="reader-by"><img src="profile.png" alt="" width="44" height="44"><div><strong>Md Limon Ali</strong><span><time datetime="'+esc(date)+'">'+esc(fmt(date))+'</time> · '+MD.readingTime(p.content)+' min read</span></div></div>'+
+        '<div class="reader-by"><img src="avatar.webp" alt="" width="44" height="44"><div><strong>Md Limon Ali</strong><span><time datetime="'+esc(date)+'">'+esc(fmt(date))+'</time> · '+MD.readingTime(p.content)+' min read</span></div></div>'+
         (p.cover_url?'<figure class="reader-cover"><img src="'+esc(p.cover_url)+'" alt="'+esc(p.cover_alt||p.title)+'" width="1280" height="720" decoding="async"></figure>':'')+
         '<div class="prose">'+out.html+'</div>'+
         '<div class="reader-share"><span>Share</span>'+
@@ -1651,7 +1651,7 @@ form.addEventListener('submit',async e=>{
         '<a aria-label="Share on Facebook (opens in a new tab)" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u='+enc+'"><i class="fab fa-facebook-f"></i></a>'+
         '<a aria-label="Share on WhatsApp (opens in a new tab)" target="_blank" rel="noopener" href="https://wa.me/?text='+t+'%20'+enc+'"><i class="fab fa-whatsapp"></i></a>'+
         '<button type="button" id="copyLink" aria-label="Copy link"><i class="fas fa-link"></i></button></div>'+
-        '<div class="reader-author"><img src="profile.png" alt="Md Limon Ali" width="68" height="68" loading="lazy"><div><strong>Written by Md Limon Ali</strong><p>Web developer in Kushtia, Bangladesh. I build Shopify stores, WordPress sites and custom web apps. <a href="#contact" data-close-contact>Work with me</a>.</p></div></div>'+
+        '<div class="reader-author"><img src="avatar.webp" alt="Md Limon Ali" width="68" height="68" loading="lazy"><div><strong>Written by Md Limon Ali</strong><p>Web developer in Kushtia, Bangladesh. I build Shopify stores, WordPress sites and custom web apps. <a href="#contact" data-close-contact>Work with me</a>.</p></div></div>'+
         '<section class="comments" aria-labelledby="commentsH"><h3 id="commentsH">Comments <span id="commentCount"></span></h3><div id="commentList" aria-live="polite"><p class="comment-empty">Loading comments…</p></div>'+
         '<form id="commentForm" class="comment-form" novalidate><h4>Leave a comment</h4>'+
         '<label for="cmName">Your name</label><input id="cmName" name="author" maxlength="60" autocomplete="name" required>'+
