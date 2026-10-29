@@ -281,12 +281,6 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
   .savebar{bottom:8px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-
-.blogprev{min-height:340px;margin-top:6px;padding:18px 20px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;line-height:1.75;overflow:auto;max-height:60vh}
-.blogprev h2,.blogprev h3{margin:1.2em 0 .4em;line-height:1.25}.blogprev p,.blogprev ul,.blogprev ol,.blogprev blockquote,.blogprev pre{margin:.8em 0}
-.blogprev ul,.blogprev ol{padding-left:1.4em}.blogprev img{max-width:100%;border-radius:10px}.blogprev blockquote{border-left:4px solid var(--ink);padding-left:14px;color:var(--soft)}
-.blogprev code{background:var(--soft-bg);padding:.1em .35em;border-radius:6px}.blogprev pre{background:#111;color:#fff;padding:14px;border-radius:10px;overflow:auto}.blogprev pre code{background:none}
-.seg{display:flex;gap:6px}.seg .mini.on{background:var(--ink);color:#fff}
 </style>
 </head>
 <body>
@@ -329,7 +323,6 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <button class="nav active" data-view="dash"><i class="fas fa-house"></i>Dashboard</button>
       <div class="grp">Work</div>
       <button class="nav" data-view="projects"><i class="fas fa-folder-open"></i>Projects<span class="count" id="navCount">0</span></button>
-      <button class="nav" data-view="blog"><i class="fas fa-pen-nib"></i>Blog<span class="count" id="navBlog">0</span></button>
       <div class="grp">Site pages</div>
       <button class="nav" data-view="front"><i class="fas fa-id-card"></i>Front page</button>
       <button class="nav" data-view="services"><i class="fas fa-briefcase"></i>Services</button>
@@ -377,7 +370,6 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
         <div class="card-head"><div><h3>Edit your site</h3><p>Each part of your website has its own edit page.</p></div></div>
         <div class="edit-grid">
           <button class="edit-card" data-view="projects"><span class="ic"><i class="fas fa-folder-open"></i></span><b>Projects</b><span>The cards on your Work page: add, edit, hide or delete.</span><em>Edit →</em></button>
-          <button class="edit-card" data-view="blog"><span class="ic"><i class="fas fa-pen-nib"></i></span><b>Blog</b><span>Write articles, add a cover image, save drafts or publish.</span><em>Write →</em></button>
           <button class="edit-card" data-view="front"><span class="ic"><i class="fas fa-id-card"></i></span><b>Front page</b><span>Your name, typing roles, tagline and skill bars.</span><em>Edit →</em></button>
           <button class="edit-card" data-view="services"><span class="ic"><i class="fas fa-briefcase"></i></span><b>Services</b><span>The heading, intro and service cards.</span><em>Edit →</em></button>
           <button class="edit-card" data-view="skills"><span class="ic"><i class="fas fa-screwdriver-wrench"></i></span><b>Skills</b><span>The skill pills: add, remove or reorder your tools.</span><em>Edit →</em></button>
@@ -394,14 +386,6 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
         <div class="head-actions"><button class="btn btn-primary" id="addProject"><i class="fas fa-plus"></i>Add project</button></div></div>
       <div class="toolbar"><label class="search" aria-label="Search projects" style="margin:0"><i class="fas fa-magnifying-glass"></i><input type="search" id="q" placeholder="Search projects"></label></div>
       <div class="plist" id="cards"><div class="empty">Loading…</div></div>
-    </section>
-
-    <!-- ===== BLOG ===== -->
-    <section class="view" id="view-blog">
-      <div class="page-head"><div><h2>Blog <span class="hint" id="blogCountLbl" style="font-weight:500"></span></h2><p>Articles shown on the Blog page of your site. Drafts stay private until you publish.</p></div>
-        <div class="head-actions"><a class="btn btn-ghost" href="blog/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>View blog</a><button class="btn btn-primary" id="addPost"><i class="fas fa-plus"></i>New article</button></div></div>
-      <div class="tip"><b>Writing tips:</b> <b>## Heading</b> · <b>**bold**</b> · <b>*italic*</b> · <b>- list item</b> · <b>[link text](https://…)</b> · <b>![alt](https://image-url)</b> · <b>&gt; quote</b>. Use the preview to check how it looks.</div>
-      <div class="plist" id="blogList"><div class="empty">Loading…</div></div>
     </section>
 
     <!-- ===== FRONT PAGE ===== -->
@@ -526,36 +510,6 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
   </div>
 </div>
 
-<!-- ======================= BLOG FORM (pop-up) ======================= -->
-<div class="overlay hidden" id="blogOverlay" role="dialog" aria-modal="true" aria-labelledby="blogFormTitle">
-  <div class="modal big">
-    <div class="modal-head"><h3 id="blogFormTitle">New article</h3><button class="x" id="closeBlog" aria-label="Close"><i class="fas fa-xmark"></i></button></div>
-    <form id="blogForm">
-      <label for="bTitle">Title *</label><input id="bTitle" required maxlength="120" placeholder="e.g. Shopify or WordPress: which is right for your shop?">
-      <label for="bSlug">Web address (slug) *</label><input id="bSlug" required maxlength="80" pattern="[a-z0-9]+(-[a-z0-9]+)*" placeholder="shopify-or-wordpress">
-      <p class="hint" id="bSlugHint" style="margin-top:4px">Lowercase letters, numbers and dashes. Made from the title automatically.</p>
-      <label for="bExcerpt">Short summary (shown in the list and in Google) <span id="bExcerptCount" style="font-weight:400;color:var(--soft)"></span></label><textarea id="bExcerpt" maxlength="200" style="min-height:70px"></textarea>
-      <div class="two">
-        <div><label for="bTags">Topics (comma separated)</label><input id="bTags" placeholder="Shopify, WordPress, SEO"></div>
-        <div><label for="bAlt">Cover image description</label><input id="bAlt" maxlength="140" placeholder="Describe the image for screen readers"></div>
-      </div>
-      <label for="bImage">Cover image <span id="bImgHint" style="font-weight:400;color:var(--soft)">(optional, wide 16:9 looks best)</span></label>
-      <input type="file" id="bImage" accept="image/*">
-      <button type="button" class="btn btn-ghost pickbtn" id="bPick"><i class="fas fa-images"></i>Choose from library</button>
-      <img id="bPreviewImg" alt="Cover preview" style="display:none;margin-top:10px;max-height:160px;border-radius:12px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px"><label for="bContent" style="margin:0">Article *</label><div class="seg"><button type="button" class="mini on" id="bTabWrite">Write</button><button type="button" class="mini" id="bTabPreview">Preview</button></div></div>
-      <textarea id="bContent" style="min-height:340px;margin-top:6px;font-family:ui-monospace,Menlo,monospace;font-size:15px;line-height:1.6" placeholder="Write your article here. Start sections with ## Heading."></textarea>
-      <div id="bPreview" class="blogprev hidden"></div>
-      <label style="display:flex;align-items:center;gap:10px;margin-top:18px;font-weight:600"><input type="checkbox" id="bPublished" style="width:auto"> Published (visible on the site)</label>
-      <div class="row">
-        <button type="button" class="btn btn-ghost" id="bCancel">Cancel</button>
-        <button type="submit" class="btn btn-primary" id="bSave">Save article</button>
-      </div>
-      <div class="form-msg" id="bMsg" role="alert"></div>
-    </form>
-  </div>
-</div>
-
 <!-- ======================= IMAGE PICKER ======================= -->
 <div class="overlay hidden" id="pickOverlay" role="dialog" aria-modal="true" aria-labelledby="pickTitle" style="z-index:150">
   <div class="modal big">
@@ -569,7 +523,6 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 
 <div id="toast" role="status"></div>
 
-<script src="assets/js/md.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL='https://ppxloknpydrodtfclowh.supabase.co';
@@ -613,14 +566,13 @@ $('navLogout').addEventListener('click',doLogout);
 $('mLogout').addEventListener('click',doLogout);
 
 /* ---------- navigation (one page per part of the site) ---------- */
-const VIEWS=['dash','projects','blog','front','services','skills','background','photo','fav','library'];
+const VIEWS=['dash','projects','front','services','skills','background','photo','fav','library'];
 function showView(name,quiet){
   if(!VIEWS.includes(name))name='dash';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
   document.querySelectorAll('.nav[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
   if(!quiet)history.replaceState(null,'','#'+name);
   if(['front','services','skills','background'].includes(name))openContentTab(name);
-  if(name==='blog')loadBlog();
   if(name==='photo')openPhotoView();
   if(name==='fav')openFavView();
   if(name==='library')loadLibrary();
@@ -776,98 +728,6 @@ $('projForm').addEventListener('submit',async e=>{
     const was=!!editing;closeModal();toast(was?'Project updated ✓':'Project saved. It is live on your site ✓');loadProjects();
   }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
   btn.disabled=false;btn.textContent='Save project';
-});
-
-/* ---------- blog ---------- */
-let posts=[],editingPost=null,pickedBlogUrl=null,slugTouched=false;
-async function loadBlog(){
-  const {data,error}=await sb.from('blog_posts').select('*').order('created_at',{ascending:false});
-  if(error){$('blogList').replaceChildren(el('div','empty',error.message));return;}
-  posts=data||[];renderBlog();
-}
-function renderBlog(){
-  $('navBlog').textContent=posts.length;$('blogCountLbl').textContent='· '+posts.length;
-  const box=$('blogList');box.replaceChildren();
-  if(!posts.length){box.appendChild(el('div','empty','No articles yet. Click “New article” to write your first one.'));return;}
-  posts.forEach(p=>{
-    const row=el('article','prow'),th=el('div','thumb');
-    if(p.cover_url){const im=document.createElement('img');im.src=p.cover_url;im.alt='';im.loading='lazy';th.appendChild(im);}
-    const info=el('div');info.appendChild(el('h4',null,p.title));
-    const meta=el('div','meta');
-    meta.append(el('span','pill '+(p.published?'live':'off'),p.published?'Published':'Draft'),
-      el('span',null,'/'+p.slug),
-      el('span',null,new Date(p.published_at||p.created_at).toLocaleDateString('en',{month:'short',day:'numeric',year:'numeric'})));
-    info.appendChild(meta);
-    const act=el('div','row-actions');
-    const mk=(icon,txt,cls,fn)=>{const b=el('button','mini '+(cls||''));b.type='button';b.append(el('i','fas '+icon),document.createTextNode(txt));b.addEventListener('click',fn);return b;};
-    act.append(
-      mk('fa-pen-to-square','Edit','',()=>openBlog(p)),
-      mk(p.published?'fa-eye-slash':'fa-eye',p.published?'Unpublish':'Publish','',async()=>{
-        const upd={published:!p.published};if(!p.published&&!p.published_at)upd.published_at=new Date().toISOString();
-        const {error}=await sb.from('blog_posts').update(upd).eq('id',p.id);
-        if(error)return toast(error.message,true);toast(p.published?'Moved back to drafts':'Published ✓');loadBlog();}),
-      mk('fa-trash','Delete','del',async()=>{
-        if(!confirm('Delete "'+p.title+'"? This cannot be undone.'))return;
-        const {error}=await sb.from('blog_posts').delete().eq('id',p.id);
-        if(error)return toast(error.message,true);toast('Article deleted');loadBlog();})
-    );
-    if(p.published){const v=el('a','mini');v.href='blog/post/?slug='+encodeURIComponent(p.slug);v.target='_blank';v.rel='noopener';v.append(el('i','fas fa-arrow-up-right-from-square'),document.createTextNode('View'));act.prepend(v);}
-    row.append(th,info,act);box.appendChild(row);
-  });
-}
-function blogTab(preview){
-  $('bTabWrite').classList.toggle('on',!preview);$('bTabPreview').classList.toggle('on',preview);
-  $('bContent').classList.toggle('hidden',preview);$('bPreview').classList.toggle('hidden',!preview);
-  if(preview)$('bPreview').innerHTML=MD.render($('bContent').value||'*Nothing to preview yet.*').html;
-}
-$('bTabWrite').addEventListener('click',()=>blogTab(false));
-$('bTabPreview').addEventListener('click',()=>blogTab(true));
-function openBlog(p){
-  editingPost=p||null;pickedBlogUrl=null;slugTouched=!!p;$('blogForm').reset();$('bPreviewImg').style.display='none';$('bMsg').textContent='';blogTab(false);
-  if(p){
-    $('blogFormTitle').textContent='Edit article';$('bTitle').value=p.title||'';$('bSlug').value=p.slug||'';$('bExcerpt').value=p.excerpt||'';
-    $('bTags').value=(p.tags||[]).join(', ');$('bAlt').value=p.cover_alt||'';$('bContent').value=p.content||'';$('bPublished').checked=!!p.published;
-    $('bImgHint').textContent='(leave empty to keep current image)';
-    if(p.cover_url){$('bPreviewImg').src=p.cover_url;$('bPreviewImg').style.display='block';}
-  }else{$('blogFormTitle').textContent='New article';$('bImgHint').textContent='(optional, wide 16:9 looks best)';}
-  $('bExcerptCount').textContent='';
-  $('blogOverlay').classList.remove('hidden');document.body.style.overflow='hidden';setTimeout(()=>$('bTitle').focus(),50);
-}
-function closeBlog(){$('blogOverlay').classList.add('hidden');document.body.style.overflow='';editingPost=null;}
-$('addPost').addEventListener('click',()=>openBlog(null));
-$('closeBlog').addEventListener('click',closeBlog);
-$('bCancel').addEventListener('click',closeBlog);
-$('blogOverlay').addEventListener('mousedown',e=>{if(e.target===$('blogOverlay'))closeBlog();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('blogOverlay').classList.contains('hidden')&&$('pickOverlay').classList.contains('hidden'))closeBlog();});
-$('bTitle').addEventListener('input',()=>{if(!slugTouched)$('bSlug').value=MD.slugify($('bTitle').value).slice(0,80);});
-$('bSlug').addEventListener('input',()=>{slugTouched=true;});
-$('bExcerpt').addEventListener('input',()=>{$('bExcerptCount').textContent='('+$('bExcerpt').value.length+'/200)';});
-$('bImage').addEventListener('change',()=>{const f=$('bImage').files[0],p=$('bPreviewImg');if(f){pickedBlogUrl=null;p.src=URL.createObjectURL(f);p.style.display='block';}else if(editingPost&&editingPost.cover_url){p.src=editingPost.cover_url;}else p.style.display='none';});
-$('bPick').addEventListener('click',async()=>{const url=await pickImage();if(!url)return;pickedBlogUrl=url;$('bImage').value='';$('bPreviewImg').src=url;$('bPreviewImg').style.display='block';});
-$('blogForm').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const m=$('bMsg'),btn=$('bSave'),file=$('bImage').files[0];m.className='form-msg';m.textContent='';
-  if(!$('bContent').value.trim()){m.className='form-msg err';m.textContent='Please write the article text.';return;}
-  btn.disabled=true;btn.textContent='Saving…';
-  try{
-    let cover_url=pickedBlogUrl||(editingPost?editingPost.cover_url:null);
-    if(file){
-      const blob=await resizeImage(file,1600,.84),path='blog/'+Date.now()+'.jpg';
-      const {error:upErr}=await sb.storage.from('images').upload(path,blob,{contentType:'image/jpeg'});if(upErr)throw upErr;
-      cover_url=sb.storage.from('images').getPublicUrl(path).data.publicUrl;
-    }
-    const pub=$('bPublished').checked;
-    const row={
-      title:$('bTitle').value.trim(),slug:$('bSlug').value.trim(),excerpt:$('bExcerpt').value.trim()||null,content:$('bContent').value,
-      cover_url,cover_alt:$('bAlt').value.trim()||null,
-      tags:$('bTags').value.split(',').map(t=>t.trim()).filter(Boolean).slice(0,8),published:pub
-    };
-    if(pub&&!(editingPost&&editingPost.published_at))row.published_at=new Date().toISOString();
-    const {error}=await (editingPost?sb.from('blog_posts').update(row).eq('id',editingPost.id):sb.from('blog_posts').insert(row));
-    if(error)throw error.code==='23505'?new Error('That web address is already used by another article. Change the slug.'):error;
-    const was=!!editingPost;closeBlog();toast(was?'Article updated ✓':(pub?'Article published ✓':'Draft saved ✓'));loadBlog();
-  }catch(err){m.className='form-msg err';m.textContent=err.message||'Something went wrong';}
-  btn.disabled=false;btn.textContent='Save article';
 });
 
 /* ---------- profile photo ---------- */
