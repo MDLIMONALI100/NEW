@@ -828,6 +828,11 @@ body.reader-open{overflow:hidden;}
 .comment-msg{font-size:var(--fs-small);font-weight:600;margin-top:8px;}
 .comment-msg.ok{color:#4F6E45;}.comment-msg.err{color:#a63a1d;}
 .comment-note{font-size:.78rem;color:var(--ink-faint);margin-top:4px;}
+
+/* blog list: 2 articles per row on desktop, 1 per row on phones */
+.projects-grid.blog-grid{grid-template-columns:minmax(0,1fr);gap:20px;}
+@container (min-width:560px){.projects-grid.blog-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(min-width:640px){.reader-more .projects-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />
