@@ -1,0 +1,37 @@
+{
+  "_note": "Edit the values below to match your Google Business Profile EXACTLY (name, address, phone). Leave gbpUrl empty until you have the link.",
+  "url": "https://mdlimonali.com",
+  "name": "Md Limon Ali",
+  "brand": "LIMON.DEV",
+  "businessName": "Md Limon Ali — Web Developer",
+  "jobTitle": "Web Developer",
+  "email": "limon.dev.contact@gmail.com",
+  "phone": "+8801709769235",
+  "phoneDisplay": "+880 1709-769235",
+  "whatsapp": "8801709769235",
+  "address": {
+    "street": "Mirpur",
+    "locality": "Kushtia",
+    "region": "Khulna Division",
+    "postalCode": "7000",
+    "country": "BD",
+    "countryName": "Bangladesh"
+  },
+  "geo": { "lat": 23.9013, "lng": 89.1205, "_note": "Approximate centre of Kushtia. Replace with the exact pin from your Google Business Profile." },
+  "gbpUrl": "",
+  "mapQuery": "Mirpur, Kushtia, Bangladesh",
+  "formAction": "https://formspree.io/f/mzzvvbwp",
+  "image": "/profile.png",
+  "social": [
+    { "name": "GitHub", "icon": "fab fa-github", "url": "https://github.com/MDLIMONALI100" },
+    { "name": "LinkedIn", "icon": "fab fa-linkedin", "url": "https://www.linkedin.com/in/md-limon-ali-bd/" },
+    { "name": "Facebook", "icon": "fab fa-facebook", "url": "https://www.facebook.com/mdlimonalibd" },
+    { "name": "X (Twitter)", "icon": "fab fa-twitter", "url": "https://x.com/mdlimonali100" },
+    { "name": "Upwork", "icon": "fab fa-upwork", "url": "https://www.upwork.com/freelancers/~01fad5e7c367f29102" },
+    { "name": "Instagram", "icon": "fab fa-instagram", "url": "https://www.instagram.com/choco.boy.1100/" }
+  ],
+  "supabase": {
+    "url": "https://ppxloknpydrodtfclowh.supabase.co",
+    "anonKey": "sb_publishable_ZV4M9EtX3_1BcqTncOl3NA_nLKcX_lJ"
+  }
+}
