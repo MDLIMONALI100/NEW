@@ -8,6 +8,14 @@ import { fileURLToPath } from "node:url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const site = JSON.parse(readFileSync(join(ROOT, "data/site.json"), "utf8"));
 const projects = JSON.parse(readFileSync(join(ROOT, "data/projects.json"), "utf8"));
+const sbGet = async (path) => {
+  try {
+    const r = await fetch(`${site.supabase.url}/rest/v1/${path}`, { headers: { apikey: site.supabase.anonKey } });
+    return r.ok ? await r.json() : null;
+  } catch { return null; }
+};
+const liveContent = Object.fromEntries(((await sbGet("site_content?select=key,value")) || []).map((r) => [r.key, r.value]));
+const livePosts = (await sbGet("blog_posts?select=slug,updated_at,published_at&published=eq.true&order=published_at.desc")) || [];
 const TODAY = new Date().toISOString().slice(0, 10);
 const V = TODAY.replaceAll("-", "");
 
@@ -141,7 +149,7 @@ function layout({ path, title, description, ogImage, ogType = "website", nav = "
   <div class="wrap">
     <a class="logo" href="/" aria-label="${esc(site.name)} — home"><span class="dotmark" aria-hidden="true"></span>${esc(site.brand)}</a>
     <nav class="nav" id="site-nav" aria-label="Main">
-      ${navLink("/", "Home", "home")}${navLink("/services/", "Services", "services")}${navLink("/projects/", "Projects", "projects")}${navLink("/#about", "About", "about")}${navLink("/#contact", "Contact", "contact")}
+      ${navLink("/", "Home", "home")}${navLink("/services/", "Services", "services")}${navLink("/projects/", "Projects", "projects")}${navLink("/blog/", "Blog", "blog")}${navLink("/#about", "About", "about")}${navLink("/#contact", "Contact", "contact")}
       <a class="btn btn-primary header-cta" href="/#contact">Hire me</a>
     </nav>
     <div class="header-tools">
@@ -162,9 +170,10 @@ ${footer()}
 </a>
 <button class="icon-btn back-top" type="button" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
 <script src="/assets/js/site.js?v=${V}" defer></script>
-${nav === "home" || nav === "projects" ? `<script>window.SITE_SUPABASE=${JSON.stringify(site.supabase)};</script>
+${nav === "home" || nav === "projects" || nav === "blog" ? `<script>window.SITE_SUPABASE=${JSON.stringify(site.supabase)};</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" defer></script>
 <script src="/assets/js/supabase-live.js?v=${V}" defer></script>` : ""}
+${nav === "blog" ? `<script src="/assets/js/md.js?v=${V}" defer></script>\n<script src="/assets/js/blog.js?v=${V}" defer></script>` : ""}
 </body>
 </html>
 `;
@@ -193,7 +202,8 @@ function footer() {
           <li><a href="/services/">Services</a></li>
           <li><a href="/projects/">Projects &amp; case studies</a></li>
           <li><a href="/#contact">Get a quote</a></li>
-          <li><a href="/Md-Limon-Ali-Resume.pdf" download>Download resume</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/resume/">Resume</a></li>
         </ul>
       </nav>
       <div>
@@ -240,7 +250,7 @@ function home() {
         <p class="role-line" data-reveal style="--d:.15s" aria-label="Shopify, WordPress and custom web developer"><span class="cursor-blink" id="roleText">Shopify Developer</span></p>
         <p class="hero-tagline" data-reveal style="--d:.2s" data-key="hero_tagline" data-rich>I design and build <mark class="hl">fast, responsive websites</mark> — <strong>Shopify stores</strong>, <strong>WordPress sites</strong>, and fully custom-coded projects — for businesses that want to <mark class="hl">look as good online as they do in person</mark>.</p>
         <p class="signature" data-reveal style="--d:.25s" data-key="hero_signature" aria-hidden="true">Limon</p>
-        <div class="cta-row" data-reveal style="--d:.3s"><a class="btn btn-primary" href="/projects/"><i class="fas fa-arrow-right" aria-hidden="true"></i>View my work</a><a class="btn btn-outline" href="/Md-Limon-Ali-Resume.pdf" download><i class="fas fa-download" aria-hidden="true"></i>Resume</a></div>
+        <div class="cta-row" data-reveal style="--d:.3s"><a class="btn btn-primary" href="/projects/"><i class="fas fa-arrow-right" aria-hidden="true"></i>View my work</a><a class="btn btn-outline" href="/resume/"><i class="fas fa-file-lines" aria-hidden="true"></i>Resume</a></div>
         <div class="social-row" data-reveal style="--d:.35s">${site.social.map((s) => `<a class="social-icon" href="${s.url}" target="_blank" rel="noopener me" aria-label="${s.name} (opens in a new tab)"><i class="${s.icon}" aria-hidden="true"></i></a>`).join("")}</div>
       </div>
       <div class="hero-photo-wrap" data-reveal style="--d:.15s"><div class="hero-photo"><img src="/profile.png" alt="Md Limon Ali, web developer in Kushtia, Bangladesh" id="heroPhoto" width="720" height="900" fetchpriority="high" decoding="async"></div></div>
@@ -450,6 +460,85 @@ ${ctaBand(`Need something like ${p.title}?`)}`;
   });
 }
 
+/* ================= BLOG ================= */
+function blogPage() {
+  const crumb = [["Home", "/"], ["Blog", "/blog/"]];
+  const body = `<section class="page-hero"><div class="wrap">${crumbs(crumb)}
+  <p class="eyebrow">Blog</p>
+  <h1>Web development blog</h1>
+  <p class="lede">Practical notes on <mark class="hl">Shopify, WordPress, custom code and growing a business online</mark>, written from Kushtia, Bangladesh.</p></div></section>
+<section class="section"><div class="wrap">
+  <div class="blog-tools" id="blog-tools">
+    <div id="blog-tags" role="group" aria-label="Filter articles by topic"></div>
+    <label class="blog-search"><span class="sr-only">Search articles</span><i class="fas fa-magnifying-glass" aria-hidden="true"></i><input type="search" id="blog-search" placeholder="Search articles"></label>
+  </div>
+  <p class="sr-only" id="blog-status" role="status" aria-live="polite"></p>
+  <div id="blog-list"><div id="blog-grid"><div class="posts-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div></div>
+  <noscript><div class="blog-state"><p>Please turn on JavaScript to read the articles.</p></div></noscript>
+</div></section>
+${ctaBand("Want a website like the ones I write about?")}`;
+  return layout({
+    path: "/blog/", nav: "blog",
+    title: "Web Development Blog | Md Limon Ali",
+    description: "Articles on Shopify, WordPress, custom-coded websites and growing a business online, by Md Limon Ali, a web developer in Kushtia, Bangladesh.",
+    schema: [{ "@type": "Blog", "@id": `${site.url}/blog/#blog`, url: site.url + "/blog/", name: "Md Limon Ali — Web Development Blog", publisher: { "@id": `${site.url}/#business` }, inLanguage: "en" }, crumbSchema(crumb)],
+    body,
+  });
+}
+function blogPostShell() {
+  return layout({
+    path: "/blog/post/", nav: "blog",
+    title: "Article | Md Limon Ali",
+    description: "Read this article by Md Limon Ali, web developer in Kushtia, Bangladesh.",
+    schema: [websiteNode()],
+    body: `<div class="wrap article-wrap" id="blog-post"><div class="skeleton" style="height:420px"></div></div><noscript><div class="wrap"><div class="blog-state"><p>Please turn on JavaScript to read this article, or <a href="/blog/">browse the blog</a>.</p></div></div></noscript>
+${ctaBand("Need a website built the right way?")}`,
+  });
+}
+
+/* ================= RESUME ================= */
+function resumePage() {
+  const crumb = [["Home", "/"], ["Resume", "/resume/"]];
+  const arr = (k, fb) => (Array.isArray(liveContent[k]) && liveContent[k].length ? liveContent[k] : fb);
+  const exp = arr("bg_col1_items", [{ role: "Web Developer", place: "E Code Craft", time: "3 months" }, { role: "Bachelor of Arts (B.A.)", place: "Kushtia Government College", time: "2025 – Present · Expected 2029" }, { role: "HSC (Science)", place: "Amla Government Degree College", time: "Completed 2025" }]);
+  const cert = arr("bg_col2_items", [{ role: "Web Development Certification", place: "Shopify & WordPress — Venus IT Institute", time: "Completed" }, { role: "Self-Taught Front-End Development", place: "Independent study & project work", time: "Jan 2025 – Jul 2026" }]);
+  const langs = arr("bg_langs", ["Bengali — Native", "English — Fluent"]);
+  const skillNames = arr("skills_list", skills.map(([, n]) => ({ name: n }))).map((x) => x.name);
+  const item = (it) => `<div class="r-item"><h3>${esc(it.role)}</h3><div class="r-place">${esc(it.place)}</div><div class="r-time">${esc(it.time)}</div></div>`;
+  const body = `<section class="section" style="padding-top:clamp(28px,4vw,56px)"><div class="wrap">${crumbs(crumb)}
+  <div class="resume-bar"><p class="eyebrow" style="margin:0">Resume</p><div class="cta-row" style="margin:0"><a class="btn btn-primary" href="/Md-Limon-Ali-Resume.pdf" download><i class="fas fa-download" aria-hidden="true"></i>Download PDF</a><button class="btn btn-outline" type="button" onclick="window.print()"><i class="fas fa-print" aria-hidden="true"></i>Print</button></div></div>
+  <article class="resume-sheet" aria-labelledby="r-name">
+    <header class="resume-top">
+      <div><h1 id="r-name">${esc(site.name)}</h1><p class="role">Web Developer · Kushtia, Bangladesh</p></div>
+      <ul class="resume-contact">
+        <li><i class="fas fa-phone" aria-hidden="true"></i><a href="tel:${site.phone}">${esc(site.phoneDisplay)}</a></li>
+        <li><i class="fas fa-envelope" aria-hidden="true"></i><a href="mailto:${site.email}">${esc(site.email)}</a></li>
+        <li><i class="fas fa-location-dot" aria-hidden="true"></i>${esc(site.address.street)}, ${esc(site.address.locality)}, ${esc(site.address.region)}, ${esc(site.address.countryName)}</li>
+        <li><i class="fas fa-globe" aria-hidden="true"></i><a href="${site.url}/">mdlimonali.com</a></li>
+      </ul>
+    </header>
+    <section class="r-sec" aria-labelledby="r-sum"><h2 id="r-sum">Profile</h2><p>Freelance web developer in Kushtia, Bangladesh. I design and build fast, responsive websites: Shopify stores, WordPress and WooCommerce sites, hand-coded websites and full-stack web apps, for businesses that want to look as good online as they do in person. Building since January 2025.</p></section>
+    <section class="r-sec" aria-labelledby="r-skills"><h2 id="r-skills">Skills</h2><ul class="r-skills">${skillNames.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></section>
+    <div class="r-cols">
+      <section class="r-sec" aria-labelledby="r-exp"><h2 id="r-exp">Experience &amp; education</h2>${exp.map(item).join("")}</section>
+      <section class="r-sec" aria-labelledby="r-cert"><h2 id="r-cert">Certification &amp; training</h2>${cert.map(item).join("")}<h2 id="r-lang" style="margin-top:28px">Languages</h2><ul class="r-skills">${langs.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></section>
+    </div>
+    <section class="r-sec" aria-labelledby="r-proj"><h2 id="r-proj">Selected projects</h2>
+      ${projects.map((p) => `<div class="r-item"><h3><a href="${projectUrl(p)}">${esc(p.title)}</a> <span class="r-place">· ${esc(p.kind)}</span></h3><div class="r-place">${esc(p.summary)}</div><div class="r-time">${esc(p.stack.slice(0, 5).join(" · "))}</div></div>`).join("")}
+    </section>
+    <section class="r-sec" aria-labelledby="r-links"><h2 id="r-links">Online</h2><ul class="r-links">${site.social.map((s) => `<li><span>${esc(s.name)}:</span> <a href="${s.url}" target="_blank" rel="noopener me">${esc(s.url.replace(/^https?:\/\/(www\.)?/, ""))}</a></li>`).join("")}</ul></section>
+  </article>
+  <p class="hint" style="text-align:center;margin-top:24px;color:var(--ink-soft)">Prefer a file? <a href="/Md-Limon-Ali-Resume.pdf" download style="color:var(--accent-text);text-decoration:underline">Download the PDF resume</a>.</p>
+</div></section>`;
+  return layout({
+    path: "/resume/", nav: "resume",
+    title: "Resume of Md Limon Ali | Web Developer in Kushtia, Bangladesh",
+    description: "Online resume of Md Limon Ali, a freelance web developer in Kushtia, Bangladesh: skills, experience, education, certification and projects. Download the PDF.",
+    schema: [{ "@type": "ProfilePage", "@id": `${site.url}/resume/#webpage`, url: site.url + "/resume/", name: "Resume of Md Limon Ali", mainEntity: { "@id": `${site.url}/#person` }, isPartOf: { "@id": `${site.url}/#website` }, inLanguage: "en" }, personNode(), crumbSchema(crumb)],
+    body,
+  });
+}
+
 /* ================= 404 ================= */
 function notFound() {
   return layout({
@@ -464,9 +553,12 @@ write("index.html", home());
 write("services/index.html", servicesPage());
 write("projects/index.html", projectsPage());
 projects.forEach((p, i) => write(`projects/${p.slug}/index.html`, casePage(p, i)));
+write("blog/index.html", blogPage());
+write("blog/post/index.html", blogPostShell());
+write("resume/index.html", resumePage());
 write("404.html", notFound());
 
-const urls = [["/", "1.0"], ["/services/", "0.9"], ["/projects/", "0.9"], ...projects.map((p) => [projectUrl(p), "0.7"])];
+const urls = [["/", "1.0"], ["/services/", "0.9"], ["/projects/", "0.9"], ["/blog/", "0.8"], ["/resume/", "0.6"], ...projects.map((p) => [projectUrl(p), "0.7"]), ...livePosts.map((p) => [`/blog/post/?slug=${encodeURIComponent(p.slug)}`, "0.7"])];
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(([u, pr]) => `  <url><loc>${site.url}${u}</loc><lastmod>${TODAY}</lastmod><priority>${pr}</priority></url>`).join("\n")}\n</urlset>\n`);
 write("robots.txt", `User-agent: *\nAllow: /\nDisallow: /admin.html\n\nSitemap: ${site.url}/sitemap.xml\n`);
-console.log(`Built ${3 + projects.length + 1} pages + sitemap.xml + robots.txt`);
+console.log(`Built ${3 + projects.length + 4} pages (${livePosts.length} published blog posts in sitemap) + sitemap.xml + robots.txt`);
