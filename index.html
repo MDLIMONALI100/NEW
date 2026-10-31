@@ -1711,6 +1711,8 @@ form.addEventListener('submit',async e=>{
   }
   reader.addEventListener('click',function(e){
     if(e.target.closest('#readerClose')||e.target.closest('[data-close]')){closeReader(false);return;}
+    var ia=e.target.closest('.prose a[href^="#"],a[data-close-contact]');
+    if(ia&&!e.metaKey&&!e.ctrlKey){e.preventDefault();var dest=(ia.getAttribute('href')||'#contact').slice(1);closeReader(true);history.replaceState(null,'',location.pathname);if(window.goToPage)window.goToPage(dest);return;}
     var a=e.target.closest('a[data-post]');if(a&&!e.metaKey&&!e.ctrlKey){e.preventDefault();var s=a.getAttribute('data-post');restoreMeta();openPost(s,false,a);history.replaceState({post:s},'',link({slug:s}));}
     if(e.target.closest('[data-close-contact]')){e.preventDefault();closeReader(false);window.goToPage&&window.goToPage('contact');}
   });
