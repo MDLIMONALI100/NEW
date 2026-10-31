@@ -693,7 +693,6 @@ img{-webkit-user-drag:none;user-drag:none;}
 
 /* scroll progress bar (under the navbar) */
 .scroll-progress{position:fixed;top:var(--nav-h);left:0;right:0;height:3px;z-index:1450;transform:scaleX(0);transform-origin:left;background:var(--grad);pointer-events:none;will-change:transform;}
-.hero-photo{transform:translate3d(0,var(--py,0px),0);will-change:transform;}
 
 /* scroll reveal animations: data-sr = up | left | right | zoom | blur | tilt */
 .js [data-sr]{opacity:0;transition:opacity .8s var(--ease-out),transform .8s var(--ease-out),filter .8s var(--ease-out);transition-delay:var(--sr-d,0ms);will-change:opacity,transform;}
@@ -1565,14 +1564,13 @@ form.addEventListener('submit',async e=>{
 
   /* ---- progress bar + hero parallax, one rAF per scroll ---- */
   var bar=document.createElement('div');bar.className='scroll-progress';bar.setAttribute('aria-hidden','true');document.body.appendChild(bar);
-  var hero=document.querySelector('.hero-photo'),tick=false;
+  var tick=false;
   function onScroll(e){
     var p=e.target;if(!p.classList||!p.classList.contains('content-panel'))return;
     if(tick)return;tick=true;
     requestAnimationFrame(function(){
       var act=document.querySelector('.page-active .content-panel')||p,h=act.scrollHeight-act.clientHeight;
       bar.style.transform='scaleX('+(h>0?Math.min(1,act.scrollTop/h):0)+')';
-      if(hero&&!reduce&&p.closest('#sec-about'))hero.style.setProperty('--py',Math.min(60,p.scrollTop*.08).toFixed(1)+'px');
       tick=false;
     });
   }
