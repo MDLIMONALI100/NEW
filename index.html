@@ -846,8 +846,6 @@ html,body{overscroll-behavior:none;}
   .content-panel{scroll-behavior:auto;}
 }
 
-/* ---- full picture: no circular clipping of the photo ---- */
-.hero-photo img{-webkit-mask:none;mask:none;object-fit:contain;object-position:bottom;}
 
 /* ---- every section of the About page is its own visible card ---- */
 .blk{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);padding:clamp(22px,4vw,44px);margin-top:clamp(22px,3vw,34px);box-shadow:0 18px 40px -30px rgba(162,89,46,.45);}
@@ -863,9 +861,6 @@ html,body{overscroll-behavior:none;}
 .jump-nav{margin-bottom:6px;}
 @media(max-width:600px){.blk{padding:20px 16px;border-radius:18px;}}
 
-/* ---- hero photo: bigger circle, flat at the baseline, shoulders inside it, head rising above ---- */
-.hero-photo-wrap::before{width:124%;left:-12%;bottom:-20.2%;clip-path:inset(0 0 20.4% 0);box-shadow:none;}
-.hero-photo-wrap::after{left:-12%;right:-12%;}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />
