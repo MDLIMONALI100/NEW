@@ -71,6 +71,9 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
 .contact{list-style:none;display:grid;gap:6px;font-size:var(--fs-small);color:var(--ink-soft);}
 .contact i{width:20px;color:var(--terracotta);}
 .contact a:hover{color:var(--terracotta);text-decoration:underline;}
+.s-id{display:flex;align-items:center;gap:18px;}
+.s-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;background:var(--bg-elev);border:2px solid var(--terracotta);flex-shrink:0;}
+@media(max-width:480px){.s-photo{width:68px;height:68px;}}
 .sec{margin-bottom:28px;}
 .sec h2{font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid var(--border-strong);padding-bottom:8px;margin-bottom:16px;}
 .sec p{color:var(--ink-soft);max-width:70ch;}
@@ -95,14 +98,31 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
 
 /* printing / "Save as PDF" */
 @media print{
-  :root{--bg:#fff;--panel:#fff;--ink:#000;--ink-soft:#222;--ink-faint:#444;--terracotta:#7a3a12;--clay:#5a2a0b;--border:#bbb;--border-strong:#888;}
-  body{font-size:10.5pt;background:#fff;}
+  :root{--bg:#fff;--panel:#fff;--ink:#1d1a14;--ink-soft:#33302a;--ink-faint:#55503f;--terracotta:#8a4216;--clay:#6b3210;--border:#cfc9b8;--border-strong:#9d9580;}
+  html,body{background:#fff;}
+  body{font-size:9.4pt;line-height:1.38;}
   .bar,.top,.note{display:none!important;}
   .wrap{max-width:none;padding:0;}
-  .sheet{border:0;box-shadow:none;padding:0;margin:0;}
-  .js [data-reveal]{opacity:1;transform:none;}.js:not(.synced) .live-list{visibility:visible;}
-  a{color:#000;}.pills li{background:#fff;border:1px solid #888;}
-  @page{margin:14mm;}
+  .sheet{border:0;box-shadow:none;padding:0;margin:0;border-radius:0;background:#fff;}
+  .s-top{padding-bottom:10px;margin-bottom:12px;border-bottom:1.6pt solid var(--terracotta);}
+  .s-photo{width:62px;height:62px;border-width:1.4pt;}
+  .s-top h1{font-size:23pt;}
+  .s-top .role{font-size:7.6pt;margin-top:4px;}
+  .contact{font-size:8.6pt;gap:2px;}
+  .sec{margin-bottom:10px;}
+  .sec h2{font-size:7.6pt;padding-bottom:4px;margin-bottom:8px;border-bottom:.8pt solid var(--terracotta);}
+  .sec p{max-width:none;font-size:9.2pt;}
+  .cols{display:grid;grid-template-columns:1fr 1fr!important;gap:18px;}
+  .item{margin-bottom:6px;}
+  .item h3{font-size:10pt;}
+  .item .place{font-size:8.8pt;}.item .time{font-size:7.2pt;margin-top:1px;}
+  .pills{gap:4px 5px;}.pills li{font-size:8.3pt;padding:2px 9px;background:#fff;border:.8pt solid var(--border-strong);}
+  .links{gap:2px;font-size:8.6pt;}
+  .js [data-reveal]{opacity:1!important;transform:none!important;}.js:not(.synced) .live-list{visibility:visible;}
+  a{color:inherit;}
+  .item{break-inside:avoid;}
+  .sec h2{break-after:avoid;}
+  @page{size:A4;margin:11mm 12mm;}
 }
 </style>
 </head>
@@ -132,7 +152,7 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
 
   <article class="sheet" aria-labelledby="r-name">
     <header class="s-top">
-      <div><h1 id="r-name">Md Limon Ali</h1><p class="role">Web Developer · Kushtia, Bangladesh</p></div>
+      <div class="s-id"><img class="s-photo" src="/avatar.webp" alt="Md Limon Ali" width="92" height="92"><div><h1 id="r-name">Md Limon Ali</h1><p class="role">Web Developer · Kushtia, Bangladesh</p></div></div>
       <ul class="contact">
         <li><i class="fas fa-phone" aria-hidden="true"></i><a href="tel:+8801709769235">+880 1709-769235</a></li>
         <li><i class="fas fa-envelope" aria-hidden="true"></i><a href="mailto:limon.dev.contact@gmail.com">limon.dev.contact@gmail.com</a></li>
@@ -145,9 +165,7 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
       <p>Freelance web developer in Kushtia, Bangladesh. I design and build fast, responsive websites: Shopify stores, WordPress and WooCommerce sites, hand-coded websites and web apps, for businesses that want to look as good online as they do in person. Building since January 2025.</p></section>
 
     <section class="sec" data-reveal aria-labelledby="r-skills"><h2 id="r-skills">Skills</h2>
-      <ul class="pills" id="rSkills">
-        <li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Shopify Liquid</li><li>WordPress</li><li>WooCommerce</li><li>Elementor</li><li>Tailwind CSS</li><li>React</li><li>Node.js</li><li>Responsive Design</li><li>GitHub</li><li>Cloudflare Workers</li><li>Cloudflare D1 (SQL)</li><li>MongoDB Atlas</li><li>Supabase</li><li>REST APIs</li><li>Git Version Control</li>
-      </ul></section>
+      <ul class="pills" id="rSkills"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Shopify</li><li>WordPress</li><li>WooCommerce</li><li>Elementor</li><li>Tailwind CSS</li><li>React</li><li>Node.js</li><li>Responsive Design</li><li>GitHub</li><li>Cloudflare Workers</li><li>Cloudflare D1 (SQL)</li><li>MongoDB Atlas</li><li>Supabase</li><li>REST APIs</li><li>Git Version Control</li><li>Claude Code</li><li>API Integration</li></ul></section>
 
     <div class="cols">
       <section class="sec" data-reveal aria-labelledby="r-exp"><h2 id="r-exp">Experience &amp; education</h2><div id="rCol1">
