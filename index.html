@@ -862,6 +862,10 @@ html,body{overscroll-behavior:none;}
 .blk .pull-quote{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px 24px 16px;margin-top:24px;}
 .jump-nav{margin-bottom:6px;}
 @media(max-width:600px){.blk{padding:20px 16px;border-radius:18px;}}
+
+/* ---- hero photo: bigger circle, flat at the baseline, shoulders inside it, head rising above ---- */
+.hero-photo-wrap::before{width:124%;left:-12%;bottom:-20.2%;clip-path:inset(0 0 20.4% 0);box-shadow:none;}
+.hero-photo-wrap::after{left:-12%;right:-12%;}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />

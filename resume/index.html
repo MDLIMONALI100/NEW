@@ -25,12 +25,12 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfilePage","@id":"https://mdlimonali.com/resume/#webpage","url":"https://mdlimonali.com/resume/","name":"Resume of Md Limon Ali","inLanguage":"en","mainEntity":{"@id":"https://mdlimonali.com/#person"},"isPartOf":{"@id":"https://mdlimonali.com/#website"}},{"@type":"Person","@id":"https://mdlimonali.com/#person","name":"Md Limon Ali","jobTitle":"Web Developer","url":"https://mdlimonali.com/","image":"https://mdlimonali.com/profile.png","email":"limon.dev.contact@gmail.com","telephone":"+8801709769235","address":{"@type":"PostalAddress","addressLocality":"Kushtia","addressRegion":"Khulna Division","addressCountry":"BD"},"knowsAbout":["Web development","Shopify","WordPress","WooCommerce","JavaScript","React","Next.js"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mdlimonali.com/"},{"@type":"ListItem","position":2,"name":"Resume","item":"https://mdlimonali.com/resume/"}]}]}</script>
 <style>
 :root{
-  --bg:#F3F1E1;--bg-elev:#EACAAF;--panel:#FAF8ED;--ink:#2A271E;--ink-soft:#6C614F;--ink-faint:#9C917D;
-  --border:rgba(42,39,30,.12);--border-strong:rgba(42,39,30,.22);--terracotta:#C26B38;--clay:#A2592E;
+  --bg:#F3F1E1;--bg-elev:#EACAAF;--panel:#FAF8ED;--ink:#2A271E;--ink-soft:#5E5444;--ink-faint:#8A7F6B;
+  --border:rgba(42,39,30,.12);--border-strong:rgba(42,39,30,.24);--terracotta:#C26B38;--clay:#A2592E;
   --grad:linear-gradient(120deg,#DB8D51 0%,#C26B38 55%,#A2592E 100%);
   --font-mega:'Anton',Impact,'Arial Narrow',sans-serif;--font-display:'Playfair Display',Georgia,'Times New Roman',serif;--font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --fs-label:clamp(.66rem,.62rem + .15vw,.75rem);--fs-small:clamp(.84rem,.8rem + .15vw,.92rem);--fs-body:clamp(.95rem,.9rem + .2vw,1.04rem);--fs-h3:clamp(1.05rem,1rem + .3vw,1.2rem);
-  --ease:cubic-bezier(.16,1,.3,1);--radius-lg:22px;--radius-md:14px;--nav-h:68px;
+  --fs-label:clamp(.66rem,.62rem + .15vw,.75rem);--fs-small:clamp(.84rem,.8rem + .15vw,.92rem);--fs-body:clamp(.95rem,.9rem + .2vw,1.04rem);--fs-h3:clamp(1.02rem,.98rem + .3vw,1.18rem);
+  --ease:cubic-bezier(.16,1,.3,1);--radius-lg:22px;--nav-h:68px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -41,87 +41,122 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .wrap{width:100%;max-width:1000px;margin-inline:auto;padding-inline:clamp(16px,4vw,36px);}
 
-/* header */
-.bar{position:sticky;top:0;z-index:50;height:var(--nav-h);background:rgba(243,241,225,.88);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border);}
+/* top bar */
+.bar{position:sticky;top:0;z-index:50;height:var(--nav-h);background:rgba(243,241,225,.97);border-bottom:1px solid var(--border);}
 .bar .wrap{height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1180px;}
 .logo{font-family:var(--font-mega);font-size:1.45rem;letter-spacing:.03em;line-height:1;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-.dotmark{width:8px;height:8px;border-radius:50%;background:var(--terracotta);animation:dotPulse 2s ease-in-out infinite;}
-@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.35}}
+.dotmark{width:8px;height:8px;border-radius:50%;background:var(--terracotta);}
 .bar-actions{display:flex;gap:10px;align-items:center;}
 .btn{font-size:.76rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:13px 20px;display:inline-flex;align-items:center;gap:9px;border-radius:100px;border:1px solid transparent;line-height:1.2;transition:transform .2s var(--ease),box-shadow .2s var(--ease),border-color .2s ease;}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 8px 20px -8px rgba(194,107,56,.45);}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px -8px rgba(194,107,56,.65);}
 .btn-outline{border-color:var(--border-strong);background:var(--panel);}
 .btn-outline:hover{border-color:var(--terracotta);transform:translateY(-2px);}
-.btn:active{transform:scale(.97);}
 @media(max-width:560px){.btn .t-long{display:none;}.btn{padding:12px 15px;}.logo{font-size:1.2rem;}}
 
-/* page */
+/* page head */
 .top{padding:clamp(24px,4vw,44px) 0 18px;}
 .crumbs{font-size:var(--fs-label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);}
 .crumbs a:hover{color:var(--terracotta);text-decoration:underline;}
 .intro{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-top:14px;}
-.eyebrow{font-size:var(--fs-label);font-weight:600;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;color:var(--terracotta);}
+.eyebrow{font-size:var(--fs-label);font-weight:600;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px;color:var(--clay);}
 .eyebrow::before{content:'';width:22px;height:1.5px;background:var(--terracotta);}
 .actions{display:flex;gap:10px;flex-wrap:wrap;}
-.sheet{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 22px 50px -26px rgba(162,89,46,.45);padding:clamp(22px,5vw,60px);margin-bottom:28px;}
-.s-top{display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:22px;margin-bottom:26px;}
-.s-top h1{font-family:var(--font-display);font-weight:500;text-transform:uppercase;letter-spacing:-.005em;font-size:clamp(2rem,1.4rem + 3vw,3.4rem);line-height:1;}
-.s-top .role{margin-top:10px;font-size:var(--fs-label);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--terracotta);}
-.contact{list-style:none;display:grid;gap:6px;font-size:var(--fs-small);color:var(--ink-soft);}
-.contact i{width:20px;color:var(--terracotta);}
-.contact a:hover{color:var(--terracotta);text-decoration:underline;}
+
+/* the resume sheet */
+.sheet{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 22px 50px -26px rgba(162,89,46,.45);padding:clamp(20px,5vw,56px);margin-bottom:28px;}
+.s-top{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center;padding-bottom:22px;margin-bottom:6px;border-bottom:2px solid var(--ink);}
 .s-id{display:flex;align-items:center;gap:18px;}
 .s-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;background:var(--bg-elev);border:2px solid var(--terracotta);flex-shrink:0;}
-@media(max-width:480px){.s-photo{width:68px;height:68px;}}
-.sec{margin-bottom:28px;}
-.sec h2{font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid var(--border-strong);padding-bottom:8px;margin-bottom:16px;}
-.sec p{color:var(--ink-soft);max-width:70ch;}
-.cols{display:grid;gap:26px;}
-@media(min-width:760px){.cols{grid-template-columns:1fr 1fr;}}
-.item{margin-bottom:16px;break-inside:avoid;}
-.item h3{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h3);line-height:1.3;}
-.item .place{font-size:var(--fs-small);color:var(--ink-soft);}
-.item .time{font-size:var(--fs-label);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px;}
-.item a{color:inherit;}.item h3 a:hover{color:var(--terracotta);text-decoration:underline;}
-.pills{display:flex;flex-wrap:wrap;gap:8px;list-style:none;}
-.pills li{font-size:var(--fs-small);border:1px solid var(--border-strong);border-radius:100px;padding:6px 14px;background:var(--bg);color:var(--ink-soft);}
-.links{list-style:none;display:grid;gap:8px;font-size:var(--fs-small);}
-.links a{color:var(--clay);text-decoration:underline;text-underline-offset:3px;}
-.links span{color:var(--ink-soft);}
+.s-top h1{font-family:var(--font-display);font-weight:500;text-transform:uppercase;letter-spacing:-.005em;font-size:clamp(1.9rem,1.3rem + 2.8vw,3.2rem);line-height:1;}
+.s-top .role{margin-top:9px;font-size:var(--fs-label);font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);}
+.contact{list-style:none;display:grid;gap:5px;font-size:var(--fs-small);color:var(--ink-soft);}
+.contact i{width:20px;color:var(--terracotta);}
+.contact a:hover{color:var(--clay);text-decoration:underline;}
+
+/* every section: a clear heading band + its own rows */
+.sec{margin-top:26px;}
+.sec h2{display:flex;align-items:center;gap:10px;font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--clay);margin-bottom:6px;}
+.sec h2::before{content:'';width:4px;height:15px;border-radius:2px;background:var(--terracotta);flex-shrink:0;}
+.sec h2::after{content:'';flex:1;height:1px;background:var(--border-strong);}
+.sec>p{color:var(--ink-soft);max-width:72ch;padding-top:8px;}
+
+/* skills: grouped, one row per group */
+.sk-row{display:grid;grid-template-columns:160px minmax(0,1fr);gap:14px;padding:11px 0;border-top:1px solid var(--border);align-items:start;}
+.sk-row:first-of-type{border-top:0;}
+.sk-label{font-size:var(--fs-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);padding-top:5px;}
+.pills{display:flex;flex-wrap:wrap;gap:7px;list-style:none;}
+.pills li{font-size:var(--fs-small);border:1px solid var(--border-strong);border-radius:100px;padding:4px 13px;background:var(--bg);color:var(--ink-soft);}
+
+/* experience / education / training: title + place on the left, dates on the right */
+.entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 18px;padding:12px 0;border-top:1px solid var(--border);align-items:baseline;break-inside:avoid;}
+.entry:first-of-type{border-top:0;}
+.entry h3{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h3);line-height:1.3;}
+.entry .place{font-size:var(--fs-small);color:var(--ink-soft);margin-top:2px;}
+.e-time{font-size:var(--fs-label);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--clay);text-align:right;white-space:nowrap;}
+@media(max-width:560px){.entry{grid-template-columns:1fr;}.e-time{text-align:left;white-space:normal;}.sk-row{grid-template-columns:1fr;gap:8px;}.sk-label{padding-top:0;}}
+
+/* projects: name on the left, details on the right */
+.proj{display:grid;grid-template-columns:minmax(150px,30%) minmax(0,1fr);gap:8px 22px;padding:14px 0;border-top:1px solid var(--border);break-inside:avoid;}
+.proj:first-of-type{border-top:0;}
+.p-head h3{font-family:var(--font-display);font-weight:600;font-size:var(--fs-h3);line-height:1.25;}
+.p-head h3 a:hover{color:var(--clay);text-decoration:underline;}
+.p-type{font-size:var(--fs-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--clay);margin-top:3px;}
+.p-url{font-size:.78rem;color:var(--ink-faint);margin-top:2px;overflow-wrap:anywhere;}
+.p-body p{font-size:var(--fs-small);color:var(--ink-soft);}
+.p-stack{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin-top:8px;}
+.p-stack li{font-size:.74rem;font-weight:600;letter-spacing:.03em;padding:3px 10px;border-radius:100px;border:1px solid var(--border-strong);color:var(--ink-soft);background:var(--bg);}
+@media(max-width:620px){.proj{grid-template-columns:1fr;}}
+
+/* languages + online */
+.langs{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding-top:8px;}
+.langs li{font-size:var(--fs-small);border:1px solid var(--border-strong);border-radius:100px;padding:4px 14px;background:var(--bg);color:var(--ink-soft);}
+.links>div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:8px 0;border-top:1px solid var(--border);font-size:var(--fs-small);}
+.links>div:first-child{border-top:0;}
+.links dt{font-size:var(--fs-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);padding-top:2px;}
+.links a{color:var(--clay);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere;}
+.two{display:grid;gap:0 36px;}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr;}}
+
 .note{text-align:center;color:var(--ink-soft);font-size:var(--fs-small);margin-bottom:44px;}
 .note a{color:var(--clay);text-decoration:underline;}
-.js [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.js [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
 .js [data-reveal].in{opacity:1;transform:none;}
 .js:not(.synced) .live-list{visibility:hidden;}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}.js [data-reveal]{opacity:1;transform:none;}}
 
-/* printing / "Save as PDF" */
+/* PDF / print: A4, every section on its own labelled band */
 @media print{
-  :root{--bg:#fff;--panel:#fff;--ink:#1d1a14;--ink-soft:#33302a;--ink-faint:#55503f;--terracotta:#8a4216;--clay:#6b3210;--border:#cfc9b8;--border-strong:#9d9580;}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  :root{--bg:#fff;--panel:#fff;--ink:#1d1a14;--ink-soft:#33302a;--ink-faint:#5d5748;--terracotta:#b4551d;--clay:#7a3a12;--border:#d9d3c2;--border-strong:#a79f89;}
   html,body{background:#fff;}
-  body{font-size:9.4pt;line-height:1.38;}
+  body{font-size:9.4pt;line-height:1.4;}
   .bar,.top,.note{display:none!important;}
   .wrap{max-width:none;padding:0;}
   .sheet{border:0;box-shadow:none;padding:0;margin:0;border-radius:0;background:#fff;}
-  .s-top{padding-bottom:10px;margin-bottom:12px;border-bottom:1.6pt solid var(--terracotta);}
-  .s-photo{width:62px;height:62px;border-width:1.4pt;}
+  .s-top{padding-bottom:10px;margin-bottom:2px;border-bottom:1.8pt solid var(--terracotta);}
+  .s-photo{width:64px;height:64px;border-width:1.4pt;}
   .s-top h1{font-size:23pt;}
   .s-top .role{font-size:7.6pt;margin-top:4px;}
   .contact{font-size:8.6pt;gap:2px;}
-  .sec{margin-bottom:10px;}
-  .sec h2{font-size:7.6pt;padding-bottom:4px;margin-bottom:8px;border-bottom:.8pt solid var(--terracotta);}
-  .sec p{max-width:none;font-size:9.2pt;}
-  .cols{display:grid;grid-template-columns:1fr 1fr!important;gap:18px;}
-  .item{margin-bottom:6px;}
-  .item h3{font-size:10pt;}
-  .item .place{font-size:8.8pt;}.item .time{font-size:7.2pt;margin-top:1px;}
-  .pills{gap:4px 5px;}.pills li{font-size:8.3pt;padding:2px 9px;background:#fff;border:.8pt solid var(--border-strong);}
-  .links{gap:2px;font-size:8.6pt;}
+  .sec{margin-top:11pt;break-inside:avoid;}
+  .sec.allow-break{break-inside:auto;}
+  .sec h2{font-size:7.8pt;background:#f6efe2;border-left:3pt solid var(--terracotta);padding:4pt 8pt;margin-bottom:4pt;break-after:avoid;}
+  .sec h2::before,.sec h2::after{display:none;}
+  .sec>p{font-size:9.2pt;max-width:none;padding:3pt 2pt 0;}
+  .sk-row{grid-template-columns:132px 1fr;padding:5pt 2pt;gap:10px;}
+  .sk-label{font-size:7.4pt;padding-top:2px;}
+  .pills{gap:3px 4px;}.pills li{font-size:8.4pt;padding:1.5pt 8pt;background:#fff;}
+  .entry{padding:5pt 2pt;}
+  .entry h3{font-size:10pt;}.entry .place{font-size:8.8pt;}.e-time{font-size:7.4pt;}
+  .proj{grid-template-columns:30% 1fr;padding:6pt 2pt;gap:4px 16px;}
+  .p-head h3{font-size:10pt;}.p-type{font-size:7pt;}.p-url{font-size:7.6pt;}
+  .p-body p{font-size:8.8pt;}.p-stack{margin-top:4pt;gap:3px 4px;}.p-stack li{font-size:7.4pt;padding:1pt 7pt;background:#fff;}
+  .langs{padding-top:5pt;}.langs li{font-size:8.6pt;padding:1.5pt 9pt;background:#fff;}
+  .links>div{grid-template-columns:90px 1fr;padding:3.5pt 2pt;font-size:8.6pt;}.links dt{font-size:7.2pt;}
+  .two{grid-template-columns:1fr 1fr;gap:0 22pt;}
   .js [data-reveal]{opacity:1!important;transform:none!important;}.js:not(.synced) .live-list{visibility:visible;}
   a{color:inherit;}
-  .item{break-inside:avoid;}
-  .sec h2{break-after:avoid;}
   @page{size:A4;margin:11mm 12mm;}
 }
 </style>
@@ -131,7 +166,7 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
   <div class="wrap">
     <a class="logo" href="/" aria-label="Md Limon Ali, back to portfolio"><span class="dotmark" aria-hidden="true"></span>LIMON.DEVELOPER</a>
     <div class="bar-actions">
-      <a class="btn btn-outline" href="/"><i class="fas fa-arrow-left" aria-hidden="true"></i><span class="t-long">Portfolio</span><span class="sr-only t-short">Back to portfolio</span></a>
+      <a class="btn btn-outline" href="/"><i class="fas fa-arrow-left" aria-hidden="true"></i><span class="t-long">Portfolio</span><span class="sr-only">Back to portfolio</span></a>
       <a class="btn btn-primary" href="/Md-Limon-Ali-Resume.pdf" download><i class="fas fa-download" aria-hidden="true"></i><span class="t-long">Download PDF</span><span class="sr-only">Download PDF</span></a>
     </div>
   </div>
@@ -165,37 +200,18 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
       <p>Freelance web developer in Kushtia, Bangladesh. I design and build fast, responsive websites: Shopify stores, WordPress and WooCommerce sites, hand-coded websites and web apps, for businesses that want to look as good online as they do in person. Building since January 2025.</p></section>
 
     <section class="sec" data-reveal aria-labelledby="r-skills"><h2 id="r-skills">Skills</h2>
-      <ul class="pills" id="rSkills"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Shopify</li><li>WordPress</li><li>WooCommerce</li><li>Elementor</li><li>Tailwind CSS</li><li>React</li><li>Node.js</li><li>Responsive Design</li><li>GitHub</li><li>Cloudflare Workers</li><li>Cloudflare D1 (SQL)</li><li>MongoDB Atlas</li><li>Supabase</li><li>REST APIs</li><li>Git Version Control</li><li>Claude Code</li><li>API Integration</li></ul></section>
+      <div id="rSkills"><div class="sk-row"><div class="sk-label">Frontend</div><ul class="pills"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Tailwind CSS</li><li>React</li><li>Responsive Design</li></ul></div><div class="sk-row"><div class="sk-label">CMS &amp; E-commerce</div><ul class="pills"><li>Shopify</li><li>WordPress</li><li>WooCommerce</li><li>Elementor</li></ul></div><div class="sk-row"><div class="sk-label">Back-end &amp; Cloud</div><ul class="pills"><li>Node.js</li><li>Cloudflare Workers</li><li>Cloudflare D1 (SQL)</li><li>MongoDB Atlas</li><li>Supabase</li><li>REST APIs</li><li>API Integration</li></ul></div><div class="sk-row"><div class="sk-label">Tools &amp; Workflow</div><ul class="pills"><li>GitHub</li><li>Git Version Control</li><li>Claude Code</li></ul></div></div></section>
 
-    <div class="cols">
-      <section class="sec" data-reveal aria-labelledby="r-exp"><h2 id="r-exp">Experience &amp; education</h2><div id="rCol1">
-        <div class="item"><h3>Web Developer</h3><div class="place">E Code Craft</div><div class="time">3 months</div></div>
-        <div class="item"><h3>Bachelor of Arts (B.A.)</h3><div class="place">Kushtia Government College</div><div class="time">2025 – Present · Expected 2029</div></div>
-        <div class="item"><h3>HSC (Science)</h3><div class="place">Amla Government Degree College</div><div class="time">Completed 2025</div></div></div></section>
-      <section class="sec" data-reveal aria-labelledby="r-cert"><h2 id="r-cert">Certification &amp; training</h2><div id="rCol2">
-        <div class="item"><h3>Web Development Certification</h3><div class="place">Shopify &amp; WordPress — Venus IT Institute</div><div class="time">Completed</div></div>
-        <div class="item"><h3>Self-Taught Front-End Development</h3><div class="place">Independent study &amp; project work</div><div class="time">Jan 2025 – Jul 2026</div></div></div>
-        <h2 id="r-lang" style="margin-top:26px">Languages</h2>
-        <ul class="pills" id="rLangs"><li>Bengali — Native</li><li>English — Fluent</li></ul></section>
-    </div>
+    <section class="sec" data-reveal aria-labelledby="r-exp"><h2 id="r-exp">Experience</h2><div id="rExp"><div class="entry"><div class="e-main"><h3>Web Developer</h3><div class="place">E Code Craft</div></div><div class="e-time">3 months</div></div></div></section>
+    <section class="sec" data-reveal aria-labelledby="r-edu"><h2 id="r-edu">Education</h2><div id="rEdu"><div class="entry"><div class="e-main"><h3>Bachelor of Arts (B.A.)</h3><div class="place">Kushtia Government College</div></div><div class="e-time">2025 – Present · Expected 2029</div></div><div class="entry"><div class="e-main"><h3>HSC (Science)</h3><div class="place">Amla Government Degree College</div></div><div class="e-time">Completed 2025</div></div></div></section>
 
-    <section class="sec" data-reveal aria-labelledby="r-proj"><h2 id="r-proj">Selected projects</h2>
-      <div id="rProjects" class="live-list">
-        <div class="item" data-id="3"><h3><a href="https://parfumerep.com" target="_blank" rel="noopener">Parfume Store</a> <span class="place">· WooCommerce online store</span></h3><div class="place">A fragrance e-commerce store on WooCommerce and Elementor, with a slide-out cart drawer.</div><div class="time">WordPress · WooCommerce · Elementor</div></div>
-        <div class="item" data-id="7"><h3><a href="https://footseason.com" target="_blank" rel="noopener">FootSeason</a> <span class="place">· WooCommerce online store</span></h3><div class="place">A football jersey store with organized team collections and a smooth path to checkout.</div><div class="time">WordPress · WooCommerce · Elementor</div></div>
-        <div class="item" data-id="9"><h3><a href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener">Streetwear</a> <span class="place">· Full-stack e-commerce</span></h3><div class="place">A leather, denim and boots store with a 200-product catalog, a no-code admin and a 360° 3D outfit viewer.</div><div class="time">Next.js · Express · Cloudflare Workers · D1 · MongoDB · Three.js</div></div>
-        <div class="item" data-id="12"><h3><a href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener">Extraction</a> <span class="place">· Browser and Android game</span></h3><div class="place">A top-down extraction shooter with solo raids and online multiplayer for up to 15 players.</div><div class="time">TypeScript · Phaser 3 · Cloudflare Durable Objects · Capacitor</div></div>
-        <div class="item" data-id="10"><h3><a href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener">3D 360° Viewer</a> <span class="place">· 3D web experience</span></h3><div class="place">A 3D portfolio with a 360° model viewer and a curved 3D photo gallery. Under development.</div><div class="time">Next.js · Three.js · Cloudflare Workers · MongoDB</div></div>
-        <div class="item" data-id="1"><h3><a href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener">Vira Skin Care</a> <span class="place">· Shopify storefront</span></h3><div class="place">A Shopify storefront for a premium skin care brand with a clean layout and streamlined checkout.</div><div class="time">Shopify · Liquid · CSS · JavaScript</div></div>
-      </div></section>
+    <section class="sec" data-reveal aria-labelledby="r-cert"><h2 id="r-cert">Certification &amp; training</h2><div id="rCert"><div class="entry"><div class="e-main"><h3>Web Development Certification</h3><div class="place">Shopify &amp; WordPress — Venus IT Institute</div></div><div class="e-time">Completed</div></div><div class="entry"><div class="e-main"><h3>Self-Taught Front-End Development</h3><div class="place">Independent study &amp; project work</div></div><div class="e-time">Jan 2025 – Jul 2026</div></div></div></section>
 
-    <section class="sec" data-reveal aria-labelledby="r-links"><h2 id="r-links">Online</h2>
-      <ul class="links">
-        <li><span>GitHub:</span> <a href="https://github.com/MDLIMONALI100/LIMON" target="_blank" rel="noopener me">github.com/MDLIMONALI100/LIMON</a></li>
-        <li><span>LinkedIn:</span> <a href="https://www.linkedin.com/in/md-limon-ali-bd/" target="_blank" rel="noopener me">linkedin.com/in/md-limon-ali-bd</a></li>
-        <li><span>Upwork:</span> <a href="https://www.upwork.com/freelancers/~01fad5e7c367f29102" target="_blank" rel="noopener me">upwork.com/freelancers/~01fad5e7c367f29102</a></li>
-        <li><span>Facebook:</span> <a href="https://www.facebook.com/mdlimonalibd" target="_blank" rel="noopener me">facebook.com/mdlimonalibd</a></li>
-      </ul></section>
+    <section class="sec allow-break" data-reveal aria-labelledby="r-proj"><h2 id="r-proj">Selected projects</h2>
+      <div id="rProjects" class="live-list"><article class="proj" data-id="3"><div class="p-head"><h3><a href="https://parfumerep.com" target="_blank" rel="noopener">Parfume Store</a></h3><div class="p-type">WooCommerce online store</div><div class="p-url">parfumerep.com</div></div><div class="p-body"><p>A fragrance e-commerce store on WooCommerce and Elementor, with a slide-out cart drawer.</p><ul class="p-stack" aria-label="Built with"><li>WordPress</li><li>WooCommerce</li><li>Elementor</li></ul></div></article><article class="proj" data-id="7"><div class="p-head"><h3><a href="https://footseason.com" target="_blank" rel="noopener">FootSeason</a></h3><div class="p-type">WooCommerce online store</div><div class="p-url">footseason.com</div></div><div class="p-body"><p>A football jersey store with organized team collections and a smooth path to checkout.</p><ul class="p-stack" aria-label="Built with"><li>WordPress</li><li>WooCommerce</li><li>Elementor</li></ul></div></article><article class="proj" data-id="9"><div class="p-head"><h3><a href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener">Streetwear</a></h3><div class="p-type">Full-stack e-commerce</div><div class="p-url">my-store.mdlimonali.workers.dev</div></div><div class="p-body"><p>A leather, denim and boots store with a 200-product catalog, a no-code admin and a 360° 3D outfit viewer.</p><ul class="p-stack" aria-label="Built with"><li>Next.js</li><li>Express</li><li>Cloudflare Workers</li><li>D1</li><li>MongoDB</li><li>Three.js</li></ul></div></article><article class="proj" data-id="12"><div class="p-head"><h3><a href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener">Extraction</a></h3><div class="p-type">Browser and Android game</div><div class="p-url">extraction-game.mdlimonali.workers.dev</div></div><div class="p-body"><p>A top-down extraction shooter with solo raids and online multiplayer for up to 15 players.</p><ul class="p-stack" aria-label="Built with"><li>TypeScript</li><li>Phaser 3</li><li>Cloudflare Durable Objects</li><li>Capacitor</li></ul></div></article><article class="proj" data-id="10"><div class="p-head"><h3><a href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener">3D 360° Viewer</a></h3><div class="p-type">3D web experience</div><div class="p-url">portal-3d.mdlimonali.workers.dev</div></div><div class="p-body"><p>A 3D portfolio with a 360° model viewer and a curved 3D photo gallery. Under development.</p><ul class="p-stack" aria-label="Built with"><li>Next.js</li><li>Three.js</li><li>Cloudflare Workers</li><li>MongoDB</li></ul></div></article><article class="proj" data-id="1"><div class="p-head"><h3><a href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener">Vira Skin Care</a></h3><div class="p-type">Shopify storefront</div><div class="p-url">premium-clothing-store-3.myshopify.com</div></div><div class="p-body"><p>A Shopify storefront for a premium skin care brand with a clean layout and streamlined checkout.</p><ul class="p-stack" aria-label="Built with"><li>Shopify</li><li>Liquid</li><li>CSS</li><li>JavaScript</li></ul></div></article></div></section>
+
+    <section class="sec" data-reveal aria-labelledby="r-lang"><h2 id="r-lang">Languages</h2><ul class="langs" id="rLangs"><li>Bengali — Native</li><li>English — Fluent</li></ul></section>
+    <section class="sec" data-reveal aria-labelledby="r-links"><h2 id="r-links">Online</h2><dl class="links"><div><dt>GitHub</dt><dd><a href="https://github.com/MDLIMONALI100/LIMON" target="_blank" rel="noopener me">github.com/MDLIMONALI100/LIMON</a></dd></div><div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/md-limon-ali-bd/" target="_blank" rel="noopener me">linkedin.com/in/md-limon-ali-bd</a></dd></div><div><dt>Upwork</dt><dd><a href="https://www.upwork.com/freelancers/~01fad5e7c367f29102" target="_blank" rel="noopener me">upwork.com/freelancers/~01fad5e7c367f29102</a></dd></div><div><dt>Facebook</dt><dd><a href="https://www.facebook.com/mdlimonalibd" target="_blank" rel="noopener me">facebook.com/mdlimonalibd</a></dd></div></dl></section>
   </article>
 
   <p class="note">Prefer a file? <a href="/Md-Limon-Ali-Resume.pdf" download>Download the PDF resume</a> · <a href="/">Back to the portfolio</a></p>
@@ -203,11 +219,10 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
 </main>
 
 <script>
-/* reveal on scroll */
 (function(){
   var els=[].slice.call(document.querySelectorAll('[data-reveal]'));
   if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.06});
     els.forEach(function(e){io.observe(e);});
   }else els.forEach(function(e){e.classList.add('in');});
   setTimeout(function(){document.documentElement.classList.add('synced');},3000);
@@ -215,8 +230,8 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* Keeps this resume in step with what you edit in the admin panel (skills, background, published projects).
-   The page already contains the same text, so it works without this too. */
+/* Keeps this resume in step with the admin panel (skills, background, published projects).
+   The page already holds the same text, so it also works without this. */
 (function(){
   var done=function(){document.documentElement.classList.add('synced');};
   if(!window.supabase){done();return;}
@@ -224,24 +239,38 @@ a{color:inherit;text-decoration:none;}img{max-width:100%;display:block;}button{f
   var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});};
   var safe=function(u){return /^https?:\/\//i.test(u)?u:'#';};
   var list=function(C,k){return Array.isArray(C[k])&&C[k].length?C[k]:null;};
+  var $=function(id){return document.getElementById(id);};
+  var GROUPS=[['Frontend',['html5','css3','javascript','react','tailwind css','responsive design']],
+              ['CMS & E-commerce',['shopify','shopify liquid','wordpress','woocommerce','elementor']],
+              ['Back-end & Cloud',['node.js','rest apis','api integration','cloudflare workers','cloudflare d1 (sql)','mongodb atlas','supabase']],
+              ['Tools & Workflow',['git version control','github','claude code']]];
+  function skillsHtml(names){
+    var used={},out='';
+    GROUPS.forEach(function(g){var items=names.filter(function(n){return g[1].indexOf(n.toLowerCase())>-1;});items.forEach(function(n){used[n]=1;});
+      if(items.length)out+='<div class="sk-row"><div class="sk-label">'+esc(g[0])+'</div><ul class="pills">'+items.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+'</ul></div>';});
+    var rest=names.filter(function(n){return !used[n];});
+    if(rest.length)out+='<div class="sk-row"><div class="sk-label">More</div><ul class="pills">'+rest.map(function(i){return '<li>'+esc(i)+'</li>';}).join('')+'</ul></div>';
+    return out;
+  }
+  var entry=function(it){return '<div class="entry"><div class="e-main"><h3>'+esc(it.role)+'</h3><div class="place">'+esc(it.place)+'</div></div><div class="e-time">'+esc(it.time)+'</div></div>';};
+  var isEdu=function(it){return /college|university|school|academy/i.test(it.place||'');};
   sb.from('site_content').select('key,value').then(function(r){
     var C={};(r.data||[]).forEach(function(x){C[x.key]=x.value;});
-    var sk=list(C,'skills_list');if(sk)document.getElementById('rSkills').innerHTML=sk.map(function(s){return '<li>'+esc(s.name)+'</li>';}).join('');
-    var item=function(it){return '<div class="item"><h3>'+esc(it.role)+'</h3><div class="place">'+esc(it.place)+'</div><div class="time">'+esc(it.time)+'</div></div>';};
+    var sk=list(C,'skills_list');if(sk)$('rSkills').innerHTML=skillsHtml(sk.map(function(s){return s.name;}));
     var c1=list(C,'bg_col1_items'),c2=list(C,'bg_col2_items'),lg=list(C,'bg_langs');
-    if(c1)document.getElementById('rCol1').innerHTML=c1.map(item).join('');
-    if(c2)document.getElementById('rCol2').innerHTML=c2.map(item).join('');
-    if(lg)document.getElementById('rLangs').innerHTML=lg.map(function(l){return '<li>'+esc(l)+'</li>';}).join('');
+    if(c1){$('rExp').innerHTML=c1.filter(function(i){return !isEdu(i);}).map(entry).join('');$('rEdu').innerHTML=c1.filter(isEdu).map(entry).join('');}
+    if(c2)$('rCert').innerHTML=c2.map(entry).join('');
+    if(lg)$('rLangs').innerHTML=lg.map(function(l){return '<li>'+esc(l)+'</li>';}).join('');
   },function(){});
-  /* only published projects, in your admin order; new ones get a simple entry */
+  /* only published projects, in your admin order; a project added later gets a simple entry */
   sb.from('projects').select('id,title,subtitle,description,platform,url').eq('published',true).order('sort_order').order('created_at',{ascending:false}).then(function(r){
-    var box=document.getElementById('rProjects');
+    var box=$('rProjects');
     if(r.error||!r.data){done();return;}
-    box.querySelectorAll('.item').forEach(function(n){if(!r.data.some(function(p){return String(p.id)===n.dataset.id;}))n.remove();});
+    box.querySelectorAll('.proj').forEach(function(n){if(!r.data.some(function(p){return String(p.id)===n.dataset.id;}))n.remove();});
     r.data.forEach(function(p){
       var n=box.querySelector('[data-id="'+p.id+'"]');
-      if(!n){n=document.createElement('div');n.className='item';n.dataset.id=p.id;
-        n.innerHTML='<h3><a href="'+esc(safe(p.url))+'" target="_blank" rel="noopener">'+esc(p.title)+'</a> <span class="place">· '+esc(p.subtitle)+'</span></h3><div class="place">'+esc(p.description)+'</div><div class="time">'+esc(p.platform)+'</div>';}
+      if(!n){n=document.createElement('article');n.className='proj';n.dataset.id=p.id;
+        n.innerHTML='<div class="p-head"><h3><a href="'+esc(safe(p.url))+'" target="_blank" rel="noopener">'+esc(p.title)+'</a></h3><div class="p-type">'+esc(p.subtitle)+'</div><div class="p-url">'+esc(String(p.url||'').replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,''))+'</div></div><div class="p-body"><p>'+esc(p.description)+'</p><ul class="p-stack"><li>'+esc(p.platform)+'</li></ul></div>';}
       box.appendChild(n);
     });
     done();
