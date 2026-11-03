@@ -322,6 +322,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <input type="password" id="password" autocomplete="current-password" required>
       <button type="submit" class="btn btn-primary block" id="loginBtn">Sign in</button>
       <div class="form-msg" id="loginMsg" role="alert"></div>
+      <p class="hint hidden" id="faceLoginNote" style="margin-top:14px;text-align:center"><i class="fas fa-user-shield"></i> Face lock is not set up yet. Sign in, then open <b>Face lock</b> in the menu to scan your face.</p>
     </form>
   </div>
 </div>
@@ -375,6 +376,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
     <section class="view active" id="view-dash">
       <div class="page-head"><div><h2>Dashboard</h2><p>A quick look at your portfolio, and a shortcut to every part you can edit.</p></div>
         <div class="head-actions"><button class="btn btn-ghost" data-view="library"><i class="fas fa-images"></i>Image library</button><button class="btn btn-primary" id="actAdd"><i class="fas fa-plus"></i>Add project</button></div></div>
+      <div class="tip hidden" id="faceBanner" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span><b>Face lock is off.</b> Scan your face so only you can open this admin panel.</span><button class="btn btn-primary" data-view="face" type="button"><i class="fas fa-user-shield"></i>Set it up now</button></div>
       <div class="grid3 stats" style="margin-bottom:16px">
         <div class="stat dark"><small>Total projects</small><b id="stTotal">0</b></div>
         <div class="stat"><small>Live on site</small><b id="stLive">0</b></div>
@@ -433,11 +435,11 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 
     <!-- ===== FACE LOCK ===== -->
     <section class="view" id="view-face">
-      <div class="page-head"><div><h2>Face lock</h2><p>Add a face check in front of your email and password. Only your face opens the admin page.</p></div></div>
+      <div class="page-head"><div><h2>Face lock</h2><p>Add a face scan in front of your email and password. You turn your head so every angle of your face is checked, and only then does the admin page open.</p></div></div>
       <div class="card">
         <div class="card-head"><div><h3>Status</h3><p id="faceStatus">Checking…</p></div></div>
         <div class="face-cam face-cam-lg hidden" id="faceEnrollCam"><video id="faceEnrollVideo" playsinline muted></video><div class="face-ring"></div></div>
-        <div class="face-dots hidden" id="faceDots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="face-dots hidden" id="faceDots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <p class="face-msg" id="faceEnrollMsg" role="status"></p>
         <div class="head-actions" style="margin-top:14px">
           <button class="btn btn-primary" id="faceEnrollBtn" type="button"><i class="fas fa-camera"></i>Set up face lock</button>
@@ -445,7 +447,7 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
           <button class="btn btn-ghost hidden" id="faceOffBtn" type="button"><i class="fas fa-power-off"></i>Turn off</button>
         </div>
       </div>
-      <div class="tip"><b>Good to know:</b> your camera picture is never saved. Only 5 sets of 128 numbers are stored, in a private table nobody else can read. Your email and password are still needed after the face check. A website cannot fully stop a skilled person from skipping the face check, so keep your password strong. If you ever get locked out, ask your developer to run <b>delete from admin_face;</b> in Supabase.</div>
+      <div class="tip"><b>Good to know:</b> your camera picture is never saved. Only 11 sets of 128 numbers (one for each angle) are stored, in a private table nobody else can read. Your email and password are still needed after the face check. A website cannot fully stop a skilled person from skipping the face check, so keep your password strong. If you ever get locked out, ask your developer to run <b>delete from admin_face;</b> in Supabase.</div>
     </section>
 
     <!-- ===== FRONT PAGE ===== -->
@@ -657,7 +659,7 @@ function showLogin(){$('app').classList.add('hidden');$('loginView').classList.r
 function showApp(user){
   $('loginView').classList.add('hidden');$('app').classList.remove('hidden');
   $('who').textContent='Signed in · '+user.email;$('whoM').textContent=user.email;
-  loadProjects();loadComments();
+  loadProjects();loadComments();if(window.FaceLock)FaceLock.banner();
   showView((location.hash||'').slice(1)||'dash',true);
 }
 $('loginForm').addEventListener('submit',async e=>{
