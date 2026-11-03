@@ -288,6 +288,23 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
 .blogprev ul,.blogprev ol{padding-left:1.4em}.blogprev img{max-width:100%;border-radius:10px}.blogprev blockquote{border-left:4px solid var(--accent);padding-left:14px;color:var(--soft)}
 .blogprev code{background:var(--soft-bg);padding:.1em .35em;border-radius:6px}.blogprev pre{background:#2A271E;color:#F3F1E1;padding:14px;border-radius:10px;overflow:auto}.blogprev pre code{background:none}
 .seg{display:flex;gap:6px}.seg .mini.on{background:var(--grad);color:#fff;border-color:transparent}
+
+/* ---------- face lock ---------- */
+.face-gate{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px}
+.face-card{width:min(420px,100%);background:var(--panel);border-radius:28px;padding:30px 26px 26px;text-align:center;box-shadow:0 24px 60px -30px rgba(42,39,30,.45)}
+.face-card h1{font-family:var(--display);font-size:1.7rem;font-weight:600;letter-spacing:-.01em}
+.face-card .sub{color:var(--soft);font-size:.92rem;margin:6px 0 18px}
+.face-cam{position:relative;width:min(260px,72vw);aspect-ratio:1;margin:0 auto;border-radius:50%;overflow:hidden;background:#2A271E}
+.face-cam-lg{width:min(300px,80vw);margin:6px auto 12px}
+.face-cam video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.face-ring{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 4px var(--accent);pointer-events:none}
+.face-msg{min-height:2.6em;margin:16px 0 4px;font-size:.95rem;font-weight:600;color:var(--ink)}
+.face-msg.err{color:var(--danger)}
+.face-actions{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.face-actions .btn{width:100%}
+.face-dots{display:flex;gap:8px;justify-content:center;margin:4px 0 2px}
+.face-dots i{width:12px;height:12px;border-radius:50%;background:var(--line-strong);transition:background .2s}
+.face-dots i.on{background:var(--accent)}
 </style>
 </head>
 <body>
@@ -340,6 +357,8 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
       <div class="grp">Branding</div>
       <button class="nav" data-view="photo"><i class="fas fa-camera"></i>Profile photo</button>
       <button class="nav" data-view="fav"><i class="fas fa-star"></i>Site icon</button>
+      <div class="grp">Security</div>
+      <button class="nav" data-view="face"><i class="fas fa-user-shield"></i>Face lock</button>
       <div class="grp">Media</div>
       <button class="nav" data-view="library"><i class="fas fa-images"></i>Image library</button>
     </nav>
@@ -410,6 +429,23 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
     <section class="view" id="view-comments">
       <div class="page-head"><div><h2>Comments <span class="hint" id="cmCountLbl" style="font-weight:500"></span></h2><p>Visitors can comment on your articles. New comments stay hidden until you approve them.</p></div></div>
       <div class="plist" id="cmList"><div class="empty">Loading…</div></div>
+    </section>
+
+    <!-- ===== FACE LOCK ===== -->
+    <section class="view" id="view-face">
+      <div class="page-head"><div><h2>Face lock</h2><p>Add a face check in front of your email and password. Only your face opens the admin page.</p></div></div>
+      <div class="card">
+        <div class="card-head"><div><h3>Status</h3><p id="faceStatus">Checking…</p></div></div>
+        <div class="face-cam face-cam-lg hidden" id="faceEnrollCam"><video id="faceEnrollVideo" playsinline muted></video><div class="face-ring"></div></div>
+        <div class="face-dots hidden" id="faceDots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="face-msg" id="faceEnrollMsg" role="status"></p>
+        <div class="head-actions" style="margin-top:14px">
+          <button class="btn btn-primary" id="faceEnrollBtn" type="button"><i class="fas fa-camera"></i>Set up face lock</button>
+          <button class="btn btn-ghost hidden" id="faceTestBtn" type="button"><i class="fas fa-vial"></i>Test it</button>
+          <button class="btn btn-ghost hidden" id="faceOffBtn" type="button"><i class="fas fa-power-off"></i>Turn off</button>
+        </div>
+      </div>
+      <div class="tip"><b>Good to know:</b> your camera picture is never saved. Only 5 sets of 128 numbers are stored, in a private table nobody else can read. Your email and password are still needed after the face check. A website cannot fully stop a skilled person from skipping the face check, so keep your password strong. If you ever get locked out, ask your developer to run <b>delete from admin_face;</b> in Supabase.</div>
     </section>
 
     <!-- ===== FRONT PAGE ===== -->
@@ -575,9 +611,24 @@ input[type=file]{padding:10px;background:var(--soft-bg);border-style:dashed}
   </div>
 </div>
 
+<!-- ======================= FACE CHECK (before sign-in) ======================= -->
+<div id="faceGate" class="face-gate hidden" role="dialog" aria-modal="true" aria-labelledby="faceGateTitle">
+  <div class="face-card">
+    <h1 id="faceGateTitle">Face check</h1>
+    <p class="sub">Look at the camera to open the admin panel.</p>
+    <div class="face-cam"><video id="faceGateVideo" playsinline muted></video><div class="face-ring"></div></div>
+    <p class="face-msg" id="faceGateMsg" role="status">Loading…</p>
+    <div class="face-actions">
+      <button class="btn btn-primary hidden" id="faceGateRetry" type="button">Try again</button>
+      <button class="btn btn-ghost hidden" id="faceGateSkip" type="button">Camera not working? Continue with password</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast" role="status"></div>
 
 <script src="assets/js/md.js"></script>
+<script src="assets/js/face-lock.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL='https://ppxloknpydrodtfclowh.supabase.co';
@@ -598,6 +649,7 @@ const clone=o=>JSON.parse(JSON.stringify(o));
 async function init(){
   loadActiveFav();
   loadActivePhoto(); // public read, so it also shows on the login screen
+  if(window.FaceLock)await FaceLock.gate(); // face check first (only when a face lock is set up)
   const {data:{session}}=await sb.auth.getSession();
   session?showApp(session.user):showLogin();
 }
@@ -621,7 +673,7 @@ $('navLogout').addEventListener('click',doLogout);
 $('mLogout').addEventListener('click',doLogout);
 
 /* ---------- navigation (one page per part of the site) ---------- */
-const VIEWS=['dash','projects','blog','comments','front','services','skills','background','photo','fav','library'];
+const VIEWS=['dash','projects','blog','comments','face','front','services','skills','background','photo','fav','library'];
 function showView(name,quiet){
   if(!VIEWS.includes(name))name='dash';
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
@@ -630,6 +682,8 @@ function showView(name,quiet){
   if(['front','services','skills','background'].includes(name))openContentTab(name);
   if(name==='blog')loadBlog();
   if(name==='comments')loadComments();
+  if(name!=='face'&&window.FaceLock)FaceLock.stop();
+  if(name==='face'&&window.FaceLock)FaceLock.refresh();
   if(name==='photo')openPhotoView();
   if(name==='fav')openFavView();
   if(name==='library')loadLibrary();
