@@ -861,6 +861,44 @@ html,body{overscroll-behavior:none;}
 .jump-nav{margin-bottom:6px;}
 @media(max-width:600px){.blk{padding:20px 16px;border-radius:18px;}}
 
+
+/* ============================================================
+   V3: THE PAGE ITSELF SCROLLS (native, fastest on every device)
+   The side panel, top bar, number rail and social icons stay fixed.
+============================================================ */
+:root{--side-w:clamp(250px,32vw,520px);}
+html{height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior-x:none;overscroll-behavior-y:auto;}
+body{height:auto;overflow:visible;overscroll-behavior-x:none;overscroll-behavior-y:auto;}
+#scroller{position:static;inset:auto;overflow:visible;}
+.page{position:relative;inset:auto;height:auto;min-height:100vh;min-height:100svh;display:none;transform:none;opacity:1;transition:none;}
+.page.page-current{display:block;}
+.page.page-active,.page.page-prev,.page.page-next{transform:none;opacity:1;} /* no transform: it would stop the side panel staying fixed */
+.page-grid{display:block;height:auto;}
+.side-panel{position:fixed;top:0;left:0;bottom:0;width:var(--side-w);height:auto;z-index:5;}
+.content-panel{margin-left:var(--side-w);height:auto;min-height:100vh;min-height:100svh;overflow:visible;contain:none;overscroll-behavior:auto;scroll-behavior:auto;}
+/* page change: the new page slides in softly (old page is switched off) */
+.page.page-current .content-panel{opacity:0;transform:translate3d(28px,0,0);}
+.page.page-active .content-panel{opacity:1;transform:none;transition:opacity .4s var(--ease-out),transform .5s cubic-bezier(.19,1,.22,1);}
+@media(max-width:900px){
+  .side-panel{position:sticky;top:0;bottom:auto;width:auto;z-index:20;}
+  .content-panel{margin-left:0;min-height:0;}
+}
+/* lighter drawing while scrolling */
+.navbar,.navbar-inner{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+.navbar{background:rgba(243,241,225,.96);}
+.proj-row,.blog-grid .project-card{content-visibility:auto;contain-intrinsic-size:auto 620px;}
+html:has(body.reader-open){overflow:hidden;} /* an open article stops the page behind it from scrolling */
+
+/* ---- projects: 2 per row (1 per row on phones and narrow screens) ---- */
+.proj-list{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(18px,2.4vw,28px);}
+@container (min-width:640px){.proj-list{grid-template-columns:repeat(2,minmax(0,1fr));}}
+.proj-list>.proj-row{grid-template-columns:minmax(0,1fr);align-items:stretch;align-content:start;gap:16px;}
+.proj-list>.proj-row:nth-child(even) .proj-media{order:0;}
+.proj-list>.proj-row .proj-info{display:flex;flex-direction:column;padding:2px 4px 4px;}
+.proj-list>.proj-row .proj-info h3{font-size:clamp(1.3rem,1.1rem + .7vw,1.7rem);}
+.proj-list>.proj-row .proj-actions{margin-top:auto;padding-top:18px;}
+.proj-list>.proj-row .proj-facts>div{grid-template-columns:86px minmax(0,1fr);}
+@media(max-width:520px){.proj-list>.proj-row .proj-facts>div{grid-template-columns:1fr;}}
 </style>
 
    <meta name="google-site-verification" content="RJxk-1GS3BxuLK53h9K_9lvtggdfBkw9Tq2WVyvIh_M" />
@@ -1107,8 +1145,8 @@ html,body{overscroll-behavior:none;}
           <div class="live-count d4" data-anim role="status"><span class="live-dot" aria-hidden="true"></span><strong id="liveCount">9</strong><span class="live-text"><span id="liveLabel">projects live</span> on this website right now</span></div>
           <div class="proj-list" id="projList">
             <article class="proj-row" data-id="9">
-              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Streetwear: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791785909571.jpg" alt="Streetwear online store home page with leather jackets, denim and boots" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">01</span></a></div>
-              <div class="proj-info" data-sr="right">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Streetwear: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791785909571.jpg" alt="Streetwear online store home page with leather jackets, denim and boots" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">01</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">Full-stack e-commerce</span></div>
                 <h3>Streetwear</h3>
                 <p class="proj-sub">A Full-Stack Leather, Denim &amp; Boots Store</p>
@@ -1119,8 +1157,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="3">
-              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://parfumerep.com" target="_blank" rel="noopener" aria-label="Parfume Store: visit live project (opens in a new tab)"><img src="images/parfume.jpg" alt="Parfume Store fragrance e-commerce website built on WooCommerce" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">02</span></a></div>
-              <div class="proj-info" data-sr="left">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://parfumerep.com" target="_blank" rel="noopener" aria-label="Parfume Store: visit live project (opens in a new tab)"><img src="images/parfume.jpg" alt="Parfume Store fragrance e-commerce website built on WooCommerce" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">02</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WooCommerce online store</span></div>
                 <h3>Parfume Store</h3>
                 <p class="proj-sub">Fragrance e-commerce</p>
@@ -1131,8 +1169,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="7">
-              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://footseason.com" target="_blank" rel="noopener" aria-label="FootSeason: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791353805498.jpg" alt="FootSeason football jersey online store with team collections" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">03</span></a></div>
-              <div class="proj-info" data-sr="right">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://footseason.com" target="_blank" rel="noopener" aria-label="FootSeason: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791353805498.jpg" alt="FootSeason football jersey online store with team collections" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">03</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WooCommerce online store</span></div>
                 <h3>FootSeason</h3>
                 <p class="proj-sub">Football jersey store</p>
@@ -1143,8 +1181,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="12">
-              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Extraction: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792304829587.jpg" alt="Extraction top-down shooter game screenshot with loot crates and enemies" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">04</span></a></div>
-              <div class="proj-info" data-sr="left">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Extraction: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792304829587.jpg" alt="Extraction top-down shooter game screenshot with loot crates and enemies" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">04</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Apps &amp; Games</span><span class="proj-kind">Browser and Android game</span></div>
                 <h3>Extraction</h3>
                 <p class="proj-sub">2D top-down shooter game</p>
@@ -1155,8 +1193,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="10">
-              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="3D 360° Viewer: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791801274057.jpg" alt="3D portfolio website with a 360 degree viewer and curved photo gallery" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">05</span></a></div>
-              <div class="proj-info" data-sr="right">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="3D 360° Viewer: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791801274057.jpg" alt="3D portfolio website with a 360 degree viewer and curved photo gallery" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">05</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">3D web experience</span></div>
                 <h3>3D 360° Viewer</h3>
                 <p class="proj-sub">3D portfolio, under development</p>
@@ -1167,8 +1205,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="1">
-              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener" aria-label="Vira Skin Care: visit live project (opens in a new tab)"><img src="images/skin-care.jpg" alt="Vira Skin Care Shopify storefront for a premium skin care brand" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">06</span></a></div>
-              <div class="proj-info" data-sr="left">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener" aria-label="Vira Skin Care: visit live project (opens in a new tab)"><img src="images/skin-care.jpg" alt="Vira Skin Care Shopify storefront for a premium skin care brand" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">06</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Shopify</span><span class="proj-kind">Shopify storefront</span></div>
                 <h3>Vira Skin Care</h3>
                 <p class="proj-sub">Skin care brand</p>
@@ -1179,8 +1217,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="8">
-              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://mdlimonali100.github.io/e-com/" target="_blank" rel="noopener" aria-label="Baaizgar: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/library/1791451838322-screenshot-2026-10-08-at-3-30-22-pm.webp" alt="Baaizgar clothing store front end for men, women and kids" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">07</span></a></div>
-              <div class="proj-info" data-sr="right">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://mdlimonali100.github.io/e-com/" target="_blank" rel="noopener" aria-label="Baaizgar: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/library/1791451838322-screenshot-2026-10-08-at-3-30-22-pm.webp" alt="Baaizgar clothing store front end for men, women and kids" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">07</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">Hand-coded storefront front end</span></div>
                 <h3>Baaizgar</h3>
                 <p class="proj-sub">Clothing store, front end only</p>
@@ -1191,8 +1229,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="11">
-              <div class="proj-media" data-sr="right"><a class="proj-shot" href="https://expo.dev/artifacts/eas/2Rfalp02pObdPdmRc4iNHzGFVToBwK36sc_WrrzCCdw.apk" target="_blank" rel="noopener" aria-label="Money Tracker: download the app (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792234760196.jpg" alt="Money Tracker budgeting app screens showing weekly budget and charts" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">08</span></a></div>
-              <div class="proj-info" data-sr="left">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://expo.dev/artifacts/eas/2Rfalp02pObdPdmRc4iNHzGFVToBwK36sc_WrrzCCdw.apk" target="_blank" rel="noopener" aria-label="Money Tracker: download the app (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792234760196.jpg" alt="Money Tracker budgeting app screens showing weekly budget and charts" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">08</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Apps &amp; Games</span><span class="proj-kind">Mobile app with cloud sync</span></div>
                 <h3>Money Tracker</h3>
                 <p class="proj-sub">Student budgeting app for Android</p>
@@ -1203,8 +1241,8 @@ html,body{overscroll-behavior:none;}
               </div>
             </article>
             <article class="proj-row" data-id="2">
-              <div class="proj-media" data-sr="left"><a class="proj-shot" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener" aria-label="Home Cleaning Service: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791602939125.jpg" alt="Home cleaning service website with service list and contact call to action" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">09</span></a></div>
-              <div class="proj-info" data-sr="right">
+              <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener" aria-label="Home Cleaning Service: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791602939125.jpg" alt="Home cleaning service website with service list and contact call to action" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">09</span></a></div>
+              <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WordPress business website</span></div>
                 <h3>Home Cleaning Service</h3>
                 <p class="proj-sub">Service business website</p>
@@ -1308,12 +1346,11 @@ function setupPager(){
   const navBtns=[...document.querySelectorAll('.nav-links button')];
 
   function render(n){
-    pages.forEach((p,i)=>{
-      p.classList.remove('page-active','page-prev','page-next');
-      if(i===n) p.classList.add('page-active');
-      else if(i<n) p.classList.add('page-prev');
-      else p.classList.add('page-next');
-    });
+    /* only the current page is drawn; the others are switched off completely (lighter on phones) */
+    pages.forEach((p,i)=>{if(i!==n)p.classList.remove('page-active','page-current');});
+    const cur=pages[n];
+    if(!cur.classList.contains('page-current')){cur.classList.add('page-current');void cur.offsetWidth;}
+    cur.classList.add('page-active');
     railBtns.forEach(b=>b.classList.toggle('active',b.dataset.target===PAGE_IDS[n]));
     navBtns.forEach(b=>b.classList.toggle('active',b.dataset.target===PAGE_IDS[n]));
   }
@@ -1321,7 +1358,7 @@ function setupPager(){
   function goToIndex(n){
     if(n<0||n>=PAGE_IDS.length||n===currentIndex)return;
     currentIndex=n;render(currentIndex);syncHash(n);setTimeout(()=>window.srFlush&&window.srFlush(pages[n]),140);
-    const cp=pages[n].querySelector('.content-panel');if(cp)cp.scrollTo({top:0,behavior:'instant'});
+    window.scrollTo({top:0,behavior:'instant'});
     const sc=document.getElementById('scroller');sc.classList.add('switching');
     clearTimeout(goToIndex._t);goToIndex._t=setTimeout(()=>sc.classList.remove('switching'),700);
     window.updateScrollProgress&&window.updateScrollProgress();
@@ -1339,19 +1376,8 @@ function setupPager(){
   window.addEventListener('hashchange',()=>{const i=SLUGS.indexOf((location.hash||'').slice(1));if(i>-1)goToIndex(i);});
 
   /* Page changes happen ONLY by clicking the menu (top bar, side numbers or buttons).
-     No wheel / swipe / key handler changes the page. Keys below only scroll the page you are on. */
-  window.addEventListener('keydown',e=>{
-    if(readerOpen())return;
-    if(e.target.closest&&e.target.closest('input,textarea,select,button,a'))return;
-    const cp=document.querySelector('.page-active .content-panel');if(!cp)return;
-    const k=e.key;let top=null;
-    if(k==='ArrowDown')top=cp.scrollTop+90;else if(k==='ArrowUp')top=cp.scrollTop-90;
-    else if(k==='PageDown'||k===' ')top=cp.scrollTop+cp.clientHeight*.85;else if(k==='PageUp')top=cp.scrollTop-cp.clientHeight*.85;
-    else if(k==='Home')top=0;else if(k==='End')top=cp.scrollHeight;
-    if(top===null)return;
-    e.preventDefault();cp.scrollTo({top:Math.max(0,top),behavior:'smooth'});
-  });
-  window.updateScrollProgress=function(){const a=document.querySelector('.page-active .content-panel'),bar=document.querySelector('.scroll-progress');if(!a||!bar)return;const h=a.scrollHeight-a.clientHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,a.scrollTop/h):0)+')';};
+     Scrolling (mouse wheel, trackpad, touch, arrow keys, Space) is the browser's own page scrolling. */
+  window.updateScrollProgress=function(){const bar=document.querySelector('.scroll-progress');if(!bar)return;const h=document.documentElement.scrollHeight-window.innerHeight;bar.style.transform='scaleX('+(h>0?Math.min(1,window.scrollY/h):0)+')';};
 }
 
 function setupNav(){
@@ -1501,11 +1527,11 @@ form.addEventListener('submit',async e=>{
         let row=list.querySelector('[data-id="'+p.id+'"]');
         if(row){const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;list.appendChild(row);return;}
         row=document.createElement('article');row.className='proj-row';row.dataset.id=p.id;
-        row.innerHTML='<div class="proj-media" data-sr="left"><a class="proj-shot" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+' (opens in a new tab)"><img src="'+esc(p.image_url)+'" alt="'+esc(p.title)+'" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest(\'.proj-shot\').classList.add(\'img-missing\')"><span class="proj-num"></span></a></div>'+
-          '<div class="proj-info" data-sr="right"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(p.subtitle)+'</p><p class="proj-desc">'+esc(p.description)+'</p><div class="proj-actions"><a class="btn btn-primary" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project</a></div></div>';
+        row.innerHTML='<div class="proj-media" data-sr="up"><a class="proj-shot" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+' (opens in a new tab)"><img src="'+esc(p.image_url)+'" alt="'+esc(p.title)+'" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest(\'.proj-shot\').classList.add(\'img-missing\')"><span class="proj-num"></span></a></div>'+
+          '<div class="proj-info" data-sr="up"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(p.subtitle)+'</p><p class="proj-desc">'+esc(p.description)+'</p><div class="proj-actions"><a class="btn btn-primary" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project</a></div></div>';
         list.appendChild(row);
       });
-      list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr',i%2?'right':'left');r.querySelector('.proj-info').setAttribute('data-sr',i%2?'left':'right');});
+      list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr','up');r.querySelector('.proj-info').setAttribute('data-sr','up');});
       {const n=list.querySelectorAll('.proj-row').length,lc=document.getElementById('liveCount'),ll=document.getElementById('liveLabel');if(lc){lc.textContent=n;ll.textContent=n===1?'project live':'projects live';}}
       if(window.srScan){window.srScan();window.srFlush(document.querySelector('.page-active'));}
     }catch(e){/* keep static fallback */}finally{document.documentElement.classList.add('proj-synced');}
@@ -1544,13 +1570,13 @@ form.addEventListener('submit',async e=>{
     document.querySelectorAll('[data-sr]:not(.sr-in):not([data-sr-bound])').forEach(function(el){
       el.setAttribute('data-sr-bound','1');
       if(reduce||!('IntersectionObserver' in window)){el.classList.add('sr-in');return;}
-      ioFor(el.closest('.content-panel')||null).observe(el);
+      ioFor(null).observe(el);
     });
   };
   window.srFlush=function(page){ /* page just became active: re-check its pending items */
     if(!page)return;
     page.querySelectorAll('[data-sr]:not(.sr-in)').forEach(function(el){
-      var panel=el.closest('.content-panel'),io=ios.get(panel);
+      var io=ios.get(null);
       if(io){io.unobserve(el);io.observe(el);}
     });
   };
@@ -1560,18 +1586,18 @@ form.addEventListener('submit',async e=>{
   /* ---- progress bar + hero parallax, one rAF per scroll ---- */
   var bar=document.createElement('div');bar.className='scroll-progress';bar.setAttribute('aria-hidden','true');document.body.appendChild(bar);
   var tick=false;
-  function onScroll(e){
-    var p=e.target;if(!p.classList||!p.classList.contains('content-panel'))return;
+  function onScroll(){
     if(tick)return;tick=true;
     requestAnimationFrame(function(){window.updateScrollProgress&&window.updateScrollProgress();tick=false;});
   }
-  document.addEventListener('scroll',onScroll,{capture:true,passive:true});
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll,{passive:true});
 
   /* ---- jump chips: smooth scroll inside the page ---- */
   document.addEventListener('click',function(e){
     var b=e.target.closest('[data-scroll]');if(!b)return;
-    var t=document.getElementById(b.getAttribute('data-scroll')),p=t&&t.closest('.content-panel');if(!p)return;
-    p.scrollTo({top:Math.max(0,t.offsetTop-nav()-18),behavior:reduce?'auto':'smooth'});
+    var t=document.getElementById(b.getAttribute('data-scroll'));if(!t)return;
+    window.scrollTo({top:Math.max(0,t.getBoundingClientRect().top+window.scrollY-nav()-18),behavior:reduce?'auto':'smooth'});
   });
 
   /* ================= BLOG ================= */
