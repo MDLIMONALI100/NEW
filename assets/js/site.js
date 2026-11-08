@@ -213,6 +213,7 @@ if(form)form.addEventListener('submit',async e=>{
     document.querySelectorAll('[data-sr]:not(.sr-in):not([data-sr-bound])').forEach(function(el){
       el.setAttribute('data-sr-bound','1');
       if(reduce||!('IntersectionObserver' in window)){el.classList.add('sr-in');return;}
+      if(navIn&&!navInDone){var r=el.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){el.classList.add('sr-in','sr-now');return;}} /* already on screen: show it now, no pop-in */
       ioFor(null).observe(el);
     });
   };
@@ -223,7 +224,8 @@ if(form)form.addEventListener('submit',async e=>{
       if(io){io.unobserve(el);io.observe(el);}
     });
   };
-  window.srScan();
+  var navIn=document.documentElement.classList.contains('nav-in'),navInDone=false;
+  window.srScan();navInDone=true;
   setTimeout(function(){window.srFlush(document.querySelector('.page-active'));},700);
 
   /* ---- progress bar + hero parallax, one rAF per scroll ---- */

@@ -216,7 +216,7 @@ mark{background:none;color:inherit;}
 .page.page-active{transform:translate3d(0,0,0);opacity:1;z-index:2;}
 .page.page-prev{transform:translate3d(-100%,0,0);opacity:0;z-index:1;}
 .page.page-next{transform:translate3d(100%,0,0);opacity:0;z-index:1;}
-.page-grid{width:100%;height:100%;display:grid;grid-template-columns:clamp(250px,32%,520px) minmax(0,1fr);}
+.page-grid{width:100%;height:100%;display:grid;grid-template-columns:clamp(220px,22%,360px) minmax(0,1fr);}
 @media(max-width:900px){.page-grid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);}}
 
 /* ============================================================
@@ -836,7 +836,7 @@ html,body{overscroll-behavior:none;}
    V3: THE PAGE ITSELF SCROLLS (native, fastest on every device)
    The side panel, top bar, number rail and social icons stay fixed.
 ============================================================ */
-:root{--side-w:clamp(250px,32vw,520px);}
+:root{--side-w:clamp(220px,22vw,360px);}
 html{height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior-x:none;overscroll-behavior-y:auto;}
 body{height:auto;overflow:visible;overscroll-behavior-x:none;overscroll-behavior-y:auto;}
 #scroller{position:static;inset:auto;overflow:visible;}
@@ -886,3 +886,17 @@ a.rail-num{display:flex;}
 html:not(.js) .page .content-panel,html:not(.js) [data-anim],html:not(.js) [data-sr]{opacity:1!important;transform:none!important;}
 /* nothing may stick out sideways (e.g. cards sliding in from the side): keeps phones at their real width */
 body,.page,.content-panel{overflow-x:hidden;overflow-x:clip;}
+
+/* ============================================================
+   NO BLINK BETWEEN PAGES
+   After the first visit (html.nav-in), every page is drawn complete
+   on its first frame, so the browser's cross-fade goes straight from
+   the old page to the finished new one. No blank frame.
+============================================================ */
+html.nav-in .page.page-current .content-panel,
+html.nav-in .side-panel-inner,
+html.nav-in [data-anim]{opacity:1!important;transform:none!important;transition:none!important;}
+html.nav-in .hl{background-size:100% 45%;transition:none;}
+html.nav-in [data-sr].sr-now{transition:none!important;}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.2s;animation-timing-function:ease-out;}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important;}}
