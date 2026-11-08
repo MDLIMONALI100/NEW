@@ -862,6 +862,7 @@ html:has(body.reader-open){overflow:hidden;} /* an open article stops the page b
 /* ---- projects: 2 per row (1 per row on phones and narrow screens) ---- */
 .proj-list{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(18px,2.4vw,28px);}
 @container (min-width:640px){.proj-list{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@container (min-width:900px){.proj-list{grid-template-columns:repeat(3,minmax(0,1fr));}}
 .proj-list>.proj-row{grid-template-columns:minmax(0,1fr);align-items:stretch;align-content:start;gap:16px;}
 .proj-list>.proj-row:nth-child(even) .proj-media{order:0;}
 .proj-list>.proj-row .proj-info{display:flex;flex-direction:column;padding:2px 4px 4px;}
