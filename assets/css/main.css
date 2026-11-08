@@ -900,3 +900,18 @@ html.nav-in .hl{background-size:100% 45%;transition:none;}
 html.nav-in [data-sr].sr-now{transition:none!important;}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.2s;animation-timing-function:ease-out;}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important;}}
+
+/* ---- project cards: extra details folded away behind "Show details" ---- */
+.js .proj-more{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .35s var(--ease-out),opacity .25s ease;}
+.js .proj-more-in{overflow:hidden;min-height:0;}
+.js .proj-row.more-open .proj-more{grid-template-rows:1fr;opacity:1;}
+.js .proj-row:not(.more-open) .proj-more{visibility:hidden;transition:grid-template-rows .35s var(--ease-out),opacity .25s ease,visibility 0s .35s;}
+.proj-more .proj-stack{margin-bottom:4px;}
+.proj-more-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 4px;background:none;border:0;cursor:pointer;
+  font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);}
+.proj-more-btn:hover span{text-decoration:underline;text-underline-offset:4px;}
+.proj-more-btn:focus-visible{outline:2px solid var(--terracotta);outline-offset:3px;border-radius:4px;}
+.proj-more-btn i{font-size:.8em;transition:transform .3s var(--ease-out);}
+.proj-row.more-open .proj-more-btn i{transform:rotate(180deg);}
+html:not(.js) .proj-more-btn{display:none;}
+@media(prefers-reduced-motion:reduce){.js .proj-more,.proj-more-btn i{transition:none;}}

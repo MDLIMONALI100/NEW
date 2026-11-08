@@ -161,12 +161,11 @@ if(form)form.addEventListener('submit',async e=>{
       pre.src=url;
     }catch(e){/* keep fallback */}
   })();
-  (async function(){
-    try{
-      if(!document.getElementById('projList'))return;           /* projects: only on the Work page */
-      const {data,error}=await sb.from('projects').select('*').eq('published',true).order('sort_order').order('created_at',{ascending:false});
-      if(error||!data)return;
-      const list=document.getElementById('projList');
+  (function(){
+    const list=document.getElementById('projList');
+    if(!list)return;                                            /* projects: only on the Work page */
+    const CACHE='projCache.v1';
+    const apply=function(data){
       list.querySelectorAll('.proj-row').forEach(r=>{if(!data.some(p=>String(p.id)===r.dataset.id))r.remove();});
       data.forEach(p=>{
         let row=list.querySelector('[data-id="'+p.id+'"]');
@@ -179,7 +178,18 @@ if(form)form.addEventListener('submit',async e=>{
       list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr','up');r.querySelector('.proj-info').setAttribute('data-sr','up');});
       {const n=list.querySelectorAll('.proj-row').length,lc=document.getElementById('liveCount'),ll=document.getElementById('liveLabel');if(lc){lc.textContent=n;ll.textContent=n===1?'project live':'projects live';}}
       if(window.srScan){window.srScan();window.srFlush(document.querySelector('.page-active'));}
-    }catch(e){/* keep static fallback */}finally{document.documentElement.classList.add('proj-synced');}
+    };
+    /* show the last known list straight away (no hidden list, no pop-in), then refresh it quietly */
+    let cached=null;try{cached=localStorage.getItem(CACHE);}catch(e){}
+    if(cached){try{apply(JSON.parse(cached));}catch(e){cached=null;}document.documentElement.classList.add('proj-synced');}
+    (async function(){
+      try{
+        const {data,error}=await sb.from('projects').select('*').eq('published',true).order('sort_order').order('created_at',{ascending:false});
+        if(error||!data)return;
+        const fresh=JSON.stringify(data);
+        if(fresh!==cached){apply(data);try{localStorage.setItem(CACHE,fresh);}catch(e){}}
+      }catch(e){/* keep static fallback */}finally{document.documentElement.classList.add('proj-synced');}
+    })();
   })();
 })();
 
@@ -209,11 +219,13 @@ if(form)form.addEventListener('submit',async e=>{
     },{root:root,rootMargin:'0px 0px -8% 0px',threshold:.1});
     ios.set(root,io);return io;
   }
-  window.srScan=function(){
+  var instantNext=false;
+  window.srScan=function(instant){
+    instantNext=!!instant;
     document.querySelectorAll('[data-sr]:not(.sr-in):not([data-sr-bound])').forEach(function(el){
       el.setAttribute('data-sr-bound','1');
       if(reduce||!('IntersectionObserver' in window)){el.classList.add('sr-in');return;}
-      if(navIn&&!navInDone){var r=el.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){el.classList.add('sr-in','sr-now');return;}} /* already on screen: show it now, no pop-in */
+      if(navIn&&(!navInDone||instantNext)){var r=el.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){el.classList.add('sr-in','sr-now');return;}} /* already on screen: show it now, no pop-in */
       ioFor(null).observe(el);
     });
   };
@@ -237,6 +249,14 @@ if(form)form.addEventListener('submit',async e=>{
   }
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll,{passive:true});
+
+  /* ---- project cards: "Show details" opens role, highlights and tech ---- */
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.proj-more-btn');if(!b)return;
+    var row=b.closest('.proj-row'),open=!row.classList.contains('more-open');
+    row.classList.toggle('more-open',open);b.setAttribute('aria-expanded',open);
+    b.querySelector('span').textContent=open?'Hide details':'Show details';
+  });
 
   /* ---- jump chips: smooth scroll inside the page ---- */
   document.addEventListener('click',function(e){
@@ -262,9 +282,15 @@ if(form)form.addEventListener('submit',async e=>{
       '<div class="project-thumb">'+th+'</div><div class="project-body"><div class="project-head"><span class="project-num">'+String(i+1).padStart(2,'0')+'</span><div><h3>'+esc(p.title)+'</h3><span class="project-sub">'+esc(fmt(p.published_at||p.created_at))+' · '+MD.readingTime(p.excerpt||'')+' min</span></div>'+tag+'</div>'+
       (p.excerpt?'<p>'+esc(p.excerpt)+'</p>':'')+'<span class="view-project">Read Article <i class="fas fa-arrow-right"></i></span></div></a>';
   }
+  var BCACHE='blogCache.v1',bcached=null;
+  try{bcached=localStorage.getItem(BCACHE);}catch(e){}
+  if(bcached){try{posts=JSON.parse(bcached);if(posts.length){grid.innerHTML=posts.map(card).join('');window.srScan(true);}}catch(e){bcached=null;posts=[];}}
   function loadList(){
     return sbc.from('blog_posts').select(COLS).eq('published',true).order('published_at',{ascending:false}).then(function(r){
       if(r.error){grid.innerHTML='<div class="blog-empty"><strong>Articles are unavailable right now</strong>Please check back soon.</div>';return;}
+      var fresh=JSON.stringify(r.data||[]);
+      if(fresh===bcached)return;                                  /* nothing changed: keep what is on screen */
+      try{localStorage.setItem(BCACHE,fresh);}catch(e){}
       posts=r.data||[];
       if(!posts.length){grid.innerHTML='<div class="blog-empty"><strong>First articles are on the way</strong>I will share notes on web development, Shopify and WordPress here. Check back soon.</div>';return;}
       grid.innerHTML=posts.map(card).join('');window.srScan();window.srFlush(document.querySelector('.page-active'));
