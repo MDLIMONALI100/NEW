@@ -916,3 +916,6 @@ html.nav-in [data-sr].sr-now{transition:none!important;}
 .proj-row.more-open .proj-more-btn i{transform:rotate(180deg);}
 html:not(.js) .proj-more-btn{display:none;}
 @media(prefers-reduced-motion:reduce){.js .proj-more,.proj-more-btn i{transition:none;}}
+
+/* ---- About hero: keep text and photo together on big monitors (same look as a laptop screen) ---- */
+.about-flex{max-width:1080px;}
