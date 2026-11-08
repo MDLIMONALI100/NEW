@@ -216,7 +216,7 @@ mark{background:none;color:inherit;}
 .page.page-active{transform:translate3d(0,0,0);opacity:1;z-index:2;}
 .page.page-prev{transform:translate3d(-100%,0,0);opacity:0;z-index:1;}
 .page.page-next{transform:translate3d(100%,0,0);opacity:0;z-index:1;}
-.page-grid{width:100%;height:100%;display:grid;grid-template-columns:clamp(220px,22%,360px) minmax(0,1fr);}
+.page-grid{width:100%;height:100%;display:grid;grid-template-columns:clamp(240px,25%,400px) minmax(0,1fr);}
 @media(max-width:900px){.page-grid{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);}}
 
 /* ============================================================
@@ -836,7 +836,7 @@ html,body{overscroll-behavior:none;}
    V3: THE PAGE ITSELF SCROLLS (native, fastest on every device)
    The side panel, top bar, number rail and social icons stay fixed.
 ============================================================ */
-:root{--side-w:clamp(220px,22vw,360px);}
+:root{--side-w:clamp(240px,25vw,400px);}
 html{height:auto;overflow-x:hidden;overflow-y:auto;overscroll-behavior-x:none;overscroll-behavior-y:auto;}
 body{height:auto;overflow:visible;overscroll-behavior-x:none;overscroll-behavior-y:auto;}
 #scroller{position:static;inset:auto;overflow:visible;}
