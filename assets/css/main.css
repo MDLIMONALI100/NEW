@@ -288,7 +288,7 @@ mark{background:none;color:inherit;}
   padding:calc(var(--nav-h) + 36px) calc(44px + var(--follow-w)) 56px 48px;
   -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
 }
-.content-inner{width:100%;max-width:1180px;margin-block:auto;}
+.content-inner{width:100%;max-width:none;margin-block:auto;} /* fills the screen on big desktops (no fixed px cap) */
 @media(max-width:1100px) and (min-width:901px){.content-panel{padding-left:34px;padding-right:calc(28px + var(--follow-w));}}
 @media(max-width:900px){.content-panel{height:auto;padding:30px 22px 100px;}}
 @media(max-width:380px){.content-panel{padding:24px 16px 96px;}}
