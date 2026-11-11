@@ -919,3 +919,21 @@ html:not(.js) .proj-more-btn{display:none;}
 
 /* ---- About hero: keep text and photo together on big monitors (same look as a laptop screen) ---- */
 .about-flex{max-width:1080px;}
+
+/* ===== Project detail page (work/money-tracker) ===== */
+.pd-back{display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-label);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:18px;}
+.pd-back:hover{color:var(--terracotta);}
+.pd-cta{margin:18px 0 26px;}
+.pd-shot{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);background:var(--bg-elev);aspect-ratio:16/10;margin:8px 0 34px;}
+.pd-shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+.pd-shot.img-missing img{display:none;}
+.pd-sec{margin-top:34px;max-width:720px;}
+.pd-sec h2{font-size:clamp(1.4rem,1.15rem + 1vw,1.9rem);margin-bottom:12px;}
+.pd-sec p{color:var(--ink-soft);line-height:1.7;margin-bottom:12px;}
+.pd-features{list-style:none;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.pd-features li{display:flex;gap:14px;align-items:flex-start;padding:16px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-md);}
+.pd-features i{color:var(--terracotta);font-size:1.15rem;margin-top:3px;width:22px;text-align:center;}
+.pd-features h3{font-size:1rem;font-weight:600;margin-bottom:2px;}
+.pd-features p{font-size:var(--fs-small);margin:0;}
+.pd-end{padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:30px;}
+@media(max-width:520px){.pd-cta .btn,.pd-end .btn{width:100%;justify-content:center;}}
