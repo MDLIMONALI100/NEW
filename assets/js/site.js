@@ -165,6 +165,11 @@ if(form)form.addEventListener('submit',async e=>{
     const list=document.getElementById('projList');
     if(!list)return;                                            /* projects: only on the Work page */
     const CACHE='projCache.v1';
+    /* cards made from the admin panel: keep them the same size and style as the hand-written ones */
+    const LIMIT=150;
+    const long=function(t){return String(t||'').length>LIMIT+20;};
+    const short=function(t){t=String(t||'').trim();if(!long(t))return t;const c=t.slice(0,LIMIT),i=c.lastIndexOf(' ');return c.slice(0,i>80?i:LIMIT).replace(/[\s,.;:-]+$/,'')+'\u2026';};
+    const calm=function(t){t=String(t||'').trim();return t&&t===t.toUpperCase()&&/[A-Z]/.test(t)?t.charAt(0)+t.slice(1).toLowerCase():t;};
     const apply=function(data){
       list.querySelectorAll('.proj-row').forEach(r=>{if(!data.some(p=>String(p.id)===r.dataset.id))r.remove();});
       data.forEach(p=>{
@@ -172,8 +177,11 @@ if(form)form.addEventListener('submit',async e=>{
         if(row){const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;list.appendChild(row);return;}
         row=document.createElement('article');row.className='proj-row';row.dataset.id=p.id;
         row.innerHTML='<div class="proj-media" data-sr="up"><a class="proj-shot" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+' (opens in a new tab)"><img src="'+esc(/^https?:/.test(p.image_url||'')?p.image_url:'/'+String(p.image_url||'').replace(/^\//,''))+'" alt="'+esc(p.title)+'" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest(\'.proj-shot\').classList.add(\'img-missing\')"><span class="proj-num"></span></a></div>'+
-          '<div class="proj-info" data-sr="up"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(p.subtitle)+'</p><p class="proj-desc">'+esc(p.description)+'</p><div class="proj-actions"><a class="btn btn-primary" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project</a></div></div>';
-        list.appendChild(row);
+          '<div class="proj-info" data-sr="up"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(calm(p.subtitle))+'</p><p class="proj-desc">'+esc(short(p.description))+'</p>'+
+          (long(p.description)?'<div class="proj-more" id="pm-'+esc(p.id)+'"><div class="proj-more-in"><p class="proj-desc proj-full">'+esc(p.description)+'</p></div></div>':'')+
+          '<div class="proj-actions"><a class="btn btn-primary" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a>'+
+          (long(p.description)?'<button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-'+esc(p.id)+'"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>':'')+'</div></div>';
+list.appendChild(row);
       });
       list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr','up');r.querySelector('.proj-info').setAttribute('data-sr','up');});
       {const n=list.querySelectorAll('.proj-row').length,lc=document.getElementById('liveCount'),ll=document.getElementById('liveLabel');if(lc){lc.textContent=n;ll.textContent=n===1?'project live':'projects live';}}
