@@ -937,3 +937,5 @@ html:not(.js) .proj-more-btn{display:none;}
 .pd-features p{font-size:var(--fs-small);margin:0;}
 .pd-end{padding:24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:30px;}
 @media(max-width:520px){.pd-cta .btn,.pd-end .btn{width:100%;justify-content:center;}}
+.proj-row.more-open .proj-short{display:none;}
+.proj-more .proj-full{margin-top:12px;}
