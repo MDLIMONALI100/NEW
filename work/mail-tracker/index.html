@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Mail Merge &amp; Tracker: Case Study | Md Limon Ali</title>
+<meta name="description" content="Case study: a CSV-to-inbox mail merge tool with open and click tracking on Cloudflare Workers, built by Md Limon Ali. Includes a live demo dashboard."/>
+<link rel="canonical" href="https://mdlimonali.com/work/mail-tracker/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="author" content="Md Limon Ali">
+<meta name="theme-color" content="#F3F1E1">
+<meta property="og:type" content="article"><meta property="og:site_name" content="Md Limon Ali">
+<meta property="og:title" content="Mail Merge &amp; Tracker: Case Study | Md Limon Ali">
+<meta property="og:description" content="Personal bulk email from a CSV file, with privacy-first open and click tracking on Cloudflare Workers.">
+<meta property="og:url" content="https://mdlimonali.com/work/mail-tracker/">
+<meta property="og:image" content="https://mdlimonali.com/images/mail-tracker.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"CreativeWork","name":"Mail Merge & Tracker","url":"https://mdlimonali.com/work/mail-tracker/","author":{"@type":"Person","name":"Md Limon Ali","url":"https://mdlimonali.com/"},"description":"A CSV-to-inbox mail merge tool with open and click tracking on Cloudflare Workers."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mdlimonali.com/"},{"@type":"ListItem","position":2,"name":"Work","item":"https://mdlimonali.com/work/"},{"@type":"ListItem","position":3,"name":"Mail Merge & Tracker","item":"https://mdlimonali.com/work/mail-tracker/"}]}]}</script>
+<style>
+:root{
+  --bg:#F3F1E1;--panel:#FAF8ED;--sand:#EACAAF;--ink:#2A271E;--ink-soft:#6C614F;--ink-faint:#9C917D;
+  --border:rgba(42,39,30,.12);--border-strong:rgba(42,39,30,.22);
+  --terracotta:#C26B38;--clay:#A2592E;--emerald:#5E8253;--hl:rgba(219,141,81,.38);
+  --term:#1E1B15;--term-ink:#EDE6D3;--term-dim:#9C917D;
+  --font-mega:'Anton',Impact,'Arial Narrow',sans-serif;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r-lg:22px;--r-md:14px;--r-sm:9px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{font-family:var(--font-body);font-size:clamp(.95rem,.9rem + .2vw,1.04rem);line-height:1.65;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--terracotta);outline-offset:3px;border-radius:4px}
+::selection{background:var(--terracotta);color:#fff}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+@media(min-width:700px){.wrap{padding:0 32px}}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:10;background:rgba(243,241,225,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font-weight:700;letter-spacing:.08em;font-size:.82rem;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo i{width:9px;height:9px;border-radius:50%;background:var(--terracotta);display:inline-block}
+.nav-links{display:flex;gap:4px}
+.nav-links a{text-decoration:none;font-size:.86rem;font-weight:500;color:var(--ink-soft);padding:6px 10px;border-radius:999px}
+.nav-links a:hover{color:var(--ink);background:rgba(42,39,30,.06)}
+.nav-links a[aria-current]{color:var(--ink);background:rgba(194,107,56,.14)}
+@media(max-width:520px){.nav-links a.hide-sm{display:none}}
+
+/* hero */
+.crumb{font-size:.82rem;color:var(--ink-soft);margin:36px 0 22px}
+.crumb a{text-decoration:none;border-bottom:1px solid var(--border-strong)}
+.crumb a:hover{color:var(--terracotta)}
+.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:600;color:var(--terracotta)}
+h1{font-family:var(--font-mega);font-weight:400;text-transform:uppercase;line-height:.95;font-size:clamp(2.6rem,1.6rem + 5vw,5.4rem);letter-spacing:.01em;margin:10px 0 18px}
+h1 em{font-family:var(--font-display);font-style:italic;text-transform:none;font-weight:500;color:var(--terracotta);letter-spacing:0}
+.lede{font-size:clamp(1.02rem,.95rem + .4vw,1.2rem);color:var(--ink-soft);max-width:62ch}
+mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 2px}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin:30px 0 14px}
+.facts div{background:var(--panel);padding:14px 16px}
+.facts dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint);font-weight:600}
+.facts dd{font-weight:600;font-size:.94rem;margin-top:2px}
+@media(min-width:760px){.facts{grid-template-columns:repeat(4,1fr)}}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:600;font-size:.9rem;text-decoration:none;border:1px solid var(--ink);transition:transform .2s,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--ink);color:var(--bg)}
+.btn-ghost{background:transparent}
+.btn-ghost:hover{background:rgba(42,39,30,.06)}
+
+/* sections */
+section{padding:56px 0 0}
+h2{font-family:var(--font-display);font-weight:600;font-size:clamp(1.6rem,1.2rem + 1.6vw,2.4rem);line-height:1.15;margin:8px 0 14px}
+h3{font-size:1.04rem;font-weight:600;margin-bottom:6px}
+.sec-head p{color:var(--ink-soft);max-width:64ch}
+.two{display:grid;gap:18px;margin-top:22px}
+.two>*{min-width:0}
+@media(min-width:800px){.two{grid-template-columns:1fr 1fr}}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px}
+.card p{color:var(--ink-soft);font-size:.95rem}
+.card ul{margin:8px 0 0 18px;color:var(--ink-soft);font-size:.95rem}
+.card li{margin:4px 0}
+.ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(194,107,56,.14);color:var(--clay);margin-bottom:12px}
+
+/* flow diagram */
+.flow{display:grid;gap:10px;margin-top:24px;grid-template-columns:1fr;counter-reset:step}
+.step{background:var(--panel);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;position:relative}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);font-family:var(--font-mega);font-size:1.4rem;color:var(--terracotta);line-height:1;display:block;margin-bottom:8px}
+.step b{display:block;font-size:.95rem}
+.step span{font-size:.86rem;color:var(--ink-soft);display:block;margin-top:2px}
+.step code,.card code,p code{font-family:var(--mono);font-size:.82em;background:rgba(42,39,30,.07);padding:1px 5px;border-radius:5px}
+.flow-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-faint);font-weight:600;margin:22px 0 -12px}
+@media(min-width:760px){.flow{grid-template-columns:repeat(4,1fr)}.step:not(:last-child)::after{content:"";position:absolute;right:-10px;top:50%;width:10px;height:2px;background:var(--border-strong)}}
+
+/* terminal */
+.term{background:var(--term);color:var(--term-ink);border-radius:var(--r-md);font:12.5px/1.6 var(--mono);overflow:hidden;margin-top:8px}
+.term-bar{display:flex;gap:6px;padding:10px 12px;background:rgba(255,255,255,.05)}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:#5a5345}
+.term pre{padding:14px 16px;overflow-x:auto;white-space:pre}
+.term .p{color:#DB8D51}.term .d{color:var(--term-dim)}.term .ok{color:#A9C99B}
+
+/* demo dashboard */
+.demo{margin-top:24px;background:var(--panel);border:1px solid var(--border-strong);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 24px 60px -30px rgba(42,39,30,.35)}
+.demo-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg)}
+.demo-url{font:12px var(--mono);color:var(--ink-soft);display:flex;align-items:center;gap:8px;min-width:0}
+.demo-url span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(194,107,56,.16);color:var(--clay);padding:4px 9px;border-radius:999px;white-space:nowrap}
+.demo-body{padding:18px 16px 22px}
+@media(min-width:700px){.demo-body{padding:22px 24px 26px}}
+.demo-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.demo-top h3{font-size:1.2rem;margin:0}
+.demo-top small{color:var(--ink-faint);font-size:.8rem}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid var(--border-strong);background:transparent;border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:500}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}
+@media(min-width:700px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:14px}
+.kpi b{display:block;font-family:var(--font-mega);font-weight:400;font-size:2rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi span{font-size:.78rem;color:var(--ink-soft)}
+.kpi.bump b{color:var(--terracotta)}
+.chart{display:grid;gap:10px}
+.chart-row{display:grid;grid-template-columns:104px 1fr 48px;gap:10px;align-items:center;font-size:.82rem}
+.chart-row span{color:var(--ink-soft)}
+.chart-row b{text-align:right;font-variant-numeric:tabular-nums}
+.track{height:12px;border-radius:6px;background:rgba(42,39,30,.08);overflow:hidden}
+.track i{display:block;height:100%;border-radius:6px;transition:width .6s var(--e,cubic-bezier(.16,1,.3,1))}
+.track.o i{background:var(--clay)}.track.c i{background:var(--emerald)}
+.legend{display:flex;gap:16px;font-size:.78rem;color:var(--ink-soft);margin:4px 0 10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.demo-grid{display:grid;gap:16px;margin-top:20px}
+@media(min-width:860px){.demo-grid{grid-template-columns:1.25fr 1fr}}
+.panel{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;min-width:0}
+.panel h4{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-faint);margin-bottom:10px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+th{text-align:left;color:var(--ink-faint);font-weight:500;padding:6px 8px;white-space:nowrap}
+td{padding:7px 8px;border-top:1px solid var(--border);white-space:nowrap;font-variant-numeric:tabular-nums}
+td.code{font-family:var(--mono);font-size:.78rem;color:var(--ink-soft)}
+.pill{display:inline-block;font-size:.72rem;padding:1px 8px;border-radius:999px;background:rgba(94,130,83,.16);color:var(--emerald);font-weight:600}
+.pill.n{background:rgba(42,39,30,.07);color:var(--ink-faint)}
+.toggle{margin-top:10px;font-size:.8rem;display:flex;align-items:center;gap:8px;color:var(--ink-soft)}
+.sim{display:grid;gap:8px}
+.sim p{font-size:.85rem;color:var(--ink-soft)}
+.sim-btns{display:flex;gap:8px;flex-wrap:wrap}
+.sim-btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-weight:600;font-size:.84rem;display:inline-flex;gap:8px;align-items:center}
+.sim-btn.alt{background:transparent;color:var(--ink)}
+.log{font:12px/1.55 var(--mono);background:var(--term);color:var(--term-ink);border-radius:var(--r-sm);padding:10px 12px;height:132px;overflow-y:auto;margin-top:4px}
+.log div{white-space:nowrap}
+.log .t{color:var(--term-dim)}.log .k{color:#DB8D51}.log .g{color:#A9C99B}.log .r{color:#E59A8A}
+label.f{display:block;font-size:.78rem;color:var(--ink-soft);margin:10px 0 4px}
+input.f{width:100%;padding:9px 11px;border-radius:var(--r-sm);border:1px solid var(--border-strong);background:var(--panel);font:inherit;font-size:.88rem;color:var(--ink)}
+.out{font:12px/1.5 var(--mono);background:var(--panel);border:1px dashed var(--border-strong);border-radius:var(--r-sm);padding:10px;word-break:break-all;margin-top:8px;color:var(--ink-soft)}
+.out.err{color:#A23B2A;border-color:rgba(162,59,42,.4)}
+.note{font-size:.78rem;color:var(--ink-faint);margin-top:12px}
+
+/* lessons + stack */
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;list-style:none}
+.stack li{border:1px solid var(--border-strong);border-radius:999px;padding:6px 12px;font-size:.84rem;font-weight:500;background:var(--panel)}
+.cta{margin:64px 0 0;padding:32px 20px;border-radius:var(--r-lg);background:var(--ink);color:var(--bg);text-align:center}
+.cta h2{color:var(--bg);margin-top:0}
+.cta p{color:#CFC6B2;max-width:52ch;margin:0 auto 18px}
+.cta .btn{border-color:var(--bg)}
+.cta .btn-primary{background:var(--terracotta);border-color:var(--terracotta);color:#fff}
+.cta .btn-ghost{color:var(--bg)}
+footer{padding:28px 0 40px;font-size:.82rem;color:var(--ink-faint);text-align:center}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* downloads + setup guide */
+.dl-grid{display:grid;gap:14px;margin-top:22px}
+@media(min-width:700px){.dl-grid{grid-template-columns:1fr 1fr}}
+.dl{display:flex;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--border-strong);border-radius:var(--r-lg);padding:18px;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
+.dl:hover{transform:translateY(-2px);border-color:var(--ink);box-shadow:0 16px 40px -24px rgba(42,39,30,.4)}
+.dl .os{width:52px;height:52px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;background:var(--ink);color:var(--bg)}
+.dl b{display:block;font-size:1.02rem}
+.dl small{display:block;color:var(--ink-soft);font-size:.82rem}
+.dl .go{margin-left:auto;font-size:1.1rem;color:var(--terracotta)}
+.dl .yours{display:none;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--clay);background:rgba(194,107,56,.14);padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:2px}
+.dl.is-yours{border-color:var(--terracotta)}
+.dl.is-yours .yours{display:inline-block}
+.inside{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;list-style:none;font-size:.84rem;color:var(--ink-soft)}
+.inside li{display:flex;gap:6px;align-items:center}
+.inside i{color:var(--emerald)}
+.guide{margin-top:28px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.guide-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg)}
+.guide-tabs button{flex:1;border:0;background:transparent;padding:14px 10px;font-weight:600;font-size:.92rem;color:var(--ink-soft);border-bottom:2px solid transparent;display:flex;gap:8px;align-items:center;justify-content:center}
+.guide-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--terracotta);background:var(--panel)}
+.guide-panel{padding:20px 18px 24px}
+@media(min-width:700px){.guide-panel{padding:24px 28px 28px}}
+.guide-panel[hidden]{display:none}
+ol.steps{list-style:none;counter-reset:s;display:grid;gap:14px}
+ol.steps>li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+ol.steps>li::before{content:counter(s);width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+ol.steps b{display:block}
+ol.steps p,ol.steps li li{color:var(--ink-soft);font-size:.93rem}
+ol.steps code,.guide code,.inside code{font-family:var(--mono);font-size:.82em;background:rgba(42,39,30,.07);padding:1px 5px;border-radius:5px;color:var(--ink)}
+.tip{margin-top:6px;font-size:.85rem;background:rgba(194,107,56,.1);border-left:3px solid var(--terracotta);padding:8px 12px;border-radius:0 8px 8px 0;color:var(--ink-soft)}
+.envtbl{margin-top:8px;font-size:.84rem}
+.envtbl td{white-space:normal;vertical-align:top}
+.envtbl td:first-child{font-family:var(--mono);font-size:.8rem;white-space:nowrap;color:var(--ink)}
+details.more{margin-top:18px;border-top:1px solid var(--border);padding-top:14px}
+details.more summary{cursor:pointer;font-weight:600}
+details.more summary::marker{color:var(--terracotta)}
+.cmd{font:12.5px/1.7 var(--mono);background:var(--term);color:var(--term-ink);border-radius:var(--r-sm);padding:12px 14px;overflow-x:auto;white-space:pre;margin-top:10px}
+.cmd .d{color:var(--term-dim)}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="/"><i aria-hidden="true"></i>LIMON.DEVELOPER</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="/" class="hide-sm">About</a>
+      <a href="/work/" aria-current="page">Work</a>
+      <a href="/blog/" class="hide-sm">Blog</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="/work/">Work</a> &nbsp;/&nbsp; Case study</p>
+  <p class="eyebrow">Tooling · Cloudflare Workers · Node.js</p>
+  <h1>Mail Merge <em>&amp;</em> Tracker</h1>
+  <p class="lede">A small business needed to send <mark>one personal email to every customer</mark> and see who opened it and who clicked, without paying for a monthly email platform. I built a mail-merge script and a tracking service on Cloudflare's edge network to do it.</p>
+
+  <dl class="facts">
+    <div><dt>Client</dt><dd>Clothing retailer</dd></div>
+    <div><dt>My role</dt><dd>Solo: design &amp; build</dd></div>
+    <div><dt>Built</dt><dd>October 2026</dd></div>
+    <div><dt>Hosting cost</dt><dd>Cloudflare free tier</dd></div>
+  </dl>
+
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#demo"><i class="fas fa-chart-simple" aria-hidden="true"></i>Try the demo dashboard</a>
+    <a class="btn btn-ghost" href="#download"><i class="fas fa-download" aria-hidden="true"></i>Download the kit</a>
+    <a class="btn btn-ghost" href="#how"><i class="fas fa-diagram-project" aria-hidden="true"></i>How it works</a>
+  </div>
+
+  <!-- PROBLEM -->
+  <section aria-labelledby="h-problem">
+    <div class="sec-head">
+      <p class="eyebrow">The problem</p>
+      <h2 id="h-problem">Personal emails, real numbers, no subscription</h2>
+    </div>
+    <div class="two">
+      <div class="card">
+        <div class="ic"><i class="fas fa-user-pen" aria-hidden="true"></i></div>
+        <h3>What the owner wanted</h3>
+        <ul>
+          <li>Emails that greet each customer by name, sent from their own address</li>
+          <li>To know which campaign got opened and which links got clicked</li>
+          <li>Something a non-technical team member could run alone</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ic"><i class="fas fa-triangle-exclamation" aria-hidden="true"></i></div>
+        <h3>Constraints</h3>
+        <ul>
+          <li>No monthly fee for a full marketing platform</li>
+          <li>Customer email addresses must not sit on someone else's server</li>
+          <li>Tracked links must only ever go to the store's own website</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section id="how" aria-labelledby="h-how">
+    <div class="sec-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="h-how">Two pieces: a sender and a tracker</h2>
+      <p>The sender runs on the owner's computer. The tracker is a tiny Cloudflare Worker that counts events. The two share only anonymous codes, never addresses.</p>
+    </div>
+
+    <p class="flow-label">Sending</p>
+    <div class="flow">
+      <div class="step"><b>Contacts + template</b><span><code>contacts.csv</code> and an HTML email with <code>{{name}}</code> placeholders</span></div>
+      <div class="step"><b>Dry run</b><span>Renders every email and writes <code>preview.html</code>, sending nothing</span></div>
+      <div class="step"><b>Personalise + tag</b><span>Each person gets an HMAC-SHA256 code, a tracking pixel and wrapped links</span></div>
+      <div class="step"><b>Send over SMTP</b><span>Nodemailer with a pause between sends; failures go to <code>failed.txt</code></span></div>
+    </div>
+
+    <p class="flow-label">Tracking</p>
+    <div class="flow">
+      <div class="step"><b>Email opened</b><span>The 1×1 pixel loads from <code>/o</code></span></div>
+      <div class="step"><b>Link clicked</b><span><code>/c</code> checks the target against an allow-list, then redirects</span></div>
+      <div class="step"><b>Counted in KV</b><span>Per campaign and per anonymous code, with a timestamp</span></div>
+      <div class="step"><b>Dashboard</b><span>Key-protected; matches codes to names in the browser only</span></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>The sender in action</h3>
+        <div class="term" role="img" aria-label="Terminal output of a dry run sending to three sample contacts">
+          <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+<pre><span class="p">$</span> node mailmerge.js --dry-run
+<span class="d">Tracking campaign:</span> winter-drop
+<span class="ok">[1/3]</span> Would send to ayesha@example.com <span class="d">(subject: "Hi Ayesha, the winter drop is here")</span>
+<span class="ok">[2/3]</span> Would send to tanvir@example.com <span class="d">(subject: "Hi Tanvir, the winter drop is here")</span>
+<span class="ok">[3/3]</span> Would send to nusrat@example.com <span class="d">(subject: "Hi Nusrat, the winter drop is here")</span>
+
+<span class="ok">Done.</span> Rendered: 3, failed: 0.</pre>
+        </div>
+        <p class="note">Sample contacts. The first email is also saved to <code>preview.html</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Decisions I'm proud of</h3>
+        <ul>
+          <li><strong>Privacy by design.</strong> The tracker only sees short codes made with HMAC-SHA256 and a secret salt that stays on the sender's computer. Matching codes to people happens in the dashboard viewer's browser from a local file, which is never uploaded.</li>
+          <li><strong>No open redirect.</strong> Click links only redirect to hosts on an allow-list, so spammers can't borrow the tracker.</li>
+          <li><strong>Safe by default.</strong> A dry run and a preview file come before every real send.</li>
+          <li><strong>Hand-off ready.</strong> Shipped as a downloadable kit with plain-English setup steps for Mac and Windows.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo" aria-labelledby="h-demo">
+    <div class="sec-head">
+      <p class="eyebrow">Interactive demo</p>
+      <h2 id="h-demo">Play with the dashboard</h2>
+      <p>This is a copy of the real dashboard running on <strong>made-up sample data</strong> in your browser. Switch campaigns, simulate opens and clicks, and try the link builder.</p>
+    </div>
+
+    <div class="demo">
+      <div class="demo-bar">
+        <div class="demo-url"><i class="fas fa-lock" aria-hidden="true"></i><span>mail-tracker.workers.dev/dashboard</span></div>
+        <span class="badge">Demo · sample data</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div><h3>Mail Tracker</h3><small id="upd">Updated just now</small></div>
+          <div class="tabs" role="group" aria-label="Campaign" id="tabs"></div>
+        </div>
+
+        <div class="kpis" aria-live="polite">
+          <div class="kpi" id="k-sent"><b>0</b><span>Emails sent</span></div>
+          <div class="kpi" id="k-open"><b>0</b><span>Opens</span></div>
+          <div class="kpi" id="k-click"><b>0</b><span>Clicks</span></div>
+          <div class="kpi" id="k-rate"><b>0%</b><span>Click rate (of opens)</span></div>
+        </div>
+
+        <div class="panel">
+          <h4>All campaigns</h4>
+          <div class="legend"><span><i style="background:var(--clay)"></i>Opens</span><span><i style="background:var(--emerald)"></i>Clicks</span></div>
+          <div class="chart" id="chart"></div>
+        </div>
+
+        <div class="demo-grid">
+          <div class="panel">
+            <h4>People in this campaign</h4>
+            <div class="tbl-wrap"><table>
+              <thead><tr><th>Person</th><th>Opens</th><th>Clicks</th><th>Last activity</th></tr></thead>
+              <tbody id="ppl"></tbody>
+            </table></div>
+            <label class="toggle"><input type="checkbox" id="showNames" checked> Match codes to names (done locally, like the real <code>recipients.csv</code> step)</label>
+          </div>
+          <div class="panel sim">
+            <h4>Simulate activity</h4>
+            <p>Pretend a random person in this campaign opens the email or clicks a link.</p>
+            <div class="sim-btns">
+              <button class="sim-btn" id="simOpen" type="button"><i class="fas fa-envelope-open" aria-hidden="true"></i>Open</button>
+              <button class="sim-btn alt" id="simClick" type="button"><i class="fas fa-arrow-pointer" aria-hidden="true"></i>Click</button>
+              <button class="sim-btn alt" id="simBad" type="button"><i class="fas fa-shield-halved" aria-hidden="true"></i>Bad link</button>
+            </div>
+            <div class="log" id="log" aria-live="polite" aria-label="Worker request log"></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:16px">
+          <h4>Link builder</h4>
+          <div class="two" style="margin-top:0;gap:12px">
+            <div><label class="f" for="lbC">Campaign name</label><input class="f" id="lbC" value="winter-drop"></div>
+            <div><label class="f" for="lbU">Page the button should open</label><input class="f" id="lbU" value="https://shop.example.com/new-in"></div>
+          </div>
+          <div class="out" id="lbOut" aria-live="polite"></div>
+          <p class="note">Allowed hosts in this demo: shop.example.com. Try another site to see it refused.</p>
+        </div>
+      </div>
+    </div>
+    <p class="note">The real dashboard is private and protected by a secret key, so this demo never touches it.</p>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section id="download" aria-labelledby="h-dl">
+    <div class="sec-head">
+      <p class="eyebrow">Free download</p>
+      <h2 id="h-dl">Get the kit and use it yourself</h2>
+      <p>The whole project, ready to run: the mail-merge sender, double-click launchers and the optional tracker. Pick the version for your computer. Each one is about 15&nbsp;KB, free, MIT licensed.</p>
+    </div>
+
+    <div class="dl-grid">
+      <a class="dl" id="dl-win" href="/downloads/MailMerge-Kit-Windows.zip" download>
+        <span class="os" aria-hidden="true"><i class="fab fa-windows"></i></span>
+        <span><b>Windows<span class="yours">Your computer</span></b><small>MailMerge-Kit-Windows.zip · .bat launchers</small></span>
+        <i class="fas fa-download go" aria-hidden="true"></i>
+      </a>
+      <a class="dl" id="dl-mac" href="/downloads/MailMerge-Kit-Mac.zip" download>
+        <span class="os" aria-hidden="true"><i class="fab fa-apple"></i></span>
+        <span><b>Mac<span class="yours">Your computer</span></b><small>MailMerge-Kit-Mac.zip · .command launchers</small></span>
+        <i class="fas fa-download go" aria-hidden="true"></i>
+      </a>
+    </div>
+    <ul class="inside" aria-label="What's inside">
+      <li><i class="fas fa-check" aria-hidden="true"></i>Mail-merge sender</li>
+      <li><i class="fas fa-check" aria-hidden="true"></i>Sample contacts and email template</li>
+      <li><i class="fas fa-check" aria-hidden="true"></i>Setup, Preview and Send launchers</li>
+      <li><i class="fas fa-check" aria-hidden="true"></i>Optional Cloudflare tracker with dashboard</li>
+      <li><i class="fas fa-check" aria-hidden="true"></i>Step-by-step README</li>
+    </ul>
+
+    <div class="guide" id="setup">
+      <div class="guide-tabs" role="tablist" aria-label="Setup guide">
+        <button role="tab" id="tab-win" aria-controls="pane-win" aria-selected="true" type="button"><i class="fab fa-windows" aria-hidden="true"></i>Windows setup</button>
+        <button role="tab" id="tab-mac" aria-controls="pane-mac" aria-selected="false" tabindex="-1" type="button"><i class="fab fa-apple" aria-hidden="true"></i>Mac setup</button>
+      </div>
+
+      <div class="guide-panel" role="tabpanel" id="pane-win" aria-labelledby="tab-win">
+        <ol class="steps">
+          <li><div><b>Install Node.js</b><p>Download the <strong>LTS</strong> version from <a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a> and install it with the default options. You only do this once.</p></div></li>
+          <li><div><b>Unzip the kit</b><p>Right-click <code>MailMerge-Kit-Windows.zip</code> &gt; <strong>Extract All</strong>. It won't run from inside the zip.</p></div></li>
+          <li><div><b>Double-click <code>1 - Setup.bat</code></b><p>It installs what the kit needs and opens your settings in Notepad.</p>
+            <p class="tip">If you see "Windows protected your PC", click <strong>More info</strong> &gt; <strong>Run anyway</strong>. The script only works inside the kit folder.</p></div></li>
+          <li><div><b>Fill in your settings and save</b><p>See <a href="#settings-win">the settings table</a> below. Change them later with <code>Edit settings.bat</code>.</p></div></li>
+          <li><div><b>Add your people and your message</b><p>Open <code>sender\contacts.csv</code> in Excel or Notepad (columns: <code>name,email,business</code>) and edit <code>sender\template.html</code>.</p></div></li>
+          <li><div><b>Preview, then send</b><p>Double-click <code>2 - Preview.bat</code>: nothing is sent, and the first email opens in your browser. When it looks right, double-click <code>3 - Send.bat</code> and type <code>SEND</code>.</p></div></li>
+        </ol>
+        <h3 id="settings-win" style="margin-top:24px">Your settings</h3>
+        <div class="tbl-wrap"><table class="envtbl"><tbody class="env-rows"></tbody></table></div>
+      </div>
+
+      <div class="guide-panel" role="tabpanel" id="pane-mac" aria-labelledby="tab-mac" hidden>
+        <ol class="steps">
+          <li><div><b>Install Node.js</b><p>Download the <strong>LTS</strong> version from <a href="https://nodejs.org/" target="_blank" rel="noopener">nodejs.org</a> and run the installer. You only do this once.</p></div></li>
+          <li><div><b>Unzip the kit</b><p>Double-click <code>MailMerge-Kit-Mac.zip</code> in Downloads. You'll get a <code>MailMerge-Kit-Mac</code> folder.</p></div></li>
+          <li><div><b>Open <code>1 - Setup.command</code></b><p>It installs what the kit needs and opens your settings in TextEdit.</p>
+            <p class="tip">The first time, macOS may say it's from an unidentified developer. <strong>Right-click</strong> the file &gt; <strong>Open</strong> &gt; <strong>Open</strong>. You do this once per file. On newer macOS versions, go to System Settings &gt; Privacy &amp; Security and click <strong>Open Anyway</strong>.</p></div></li>
+          <li><div><b>Fill in your settings and save</b><p>See <a href="#settings-mac">the settings table</a> below. Your settings file is hidden in Finder, so change it later with <code>Edit settings.command</code>.</p></div></li>
+          <li><div><b>Add your people and your message</b><p>Open <code>sender/contacts.csv</code> in Numbers, Excel or TextEdit (columns: <code>name,email,business</code>) and edit <code>sender/template.html</code>.</p></div></li>
+          <li><div><b>Preview, then send</b><p>Open <code>2 - Preview.command</code>: nothing is sent, and the first email opens in your browser. When it looks right, open <code>3 - Send.command</code> and type <code>SEND</code>.</p></div></li>
+        </ol>
+        <h3 id="settings-mac" style="margin-top:24px">Your settings</h3>
+        <div class="tbl-wrap"><table class="envtbl"><tbody class="env-rows"></tbody></table></div>
+      </div>
+
+      <div class="guide-panel" style="padding-top:0">
+        <details class="more">
+          <summary>Optional: turn on open &amp; click tracking</summary>
+          <p style="margin-top:10px;color:var(--ink-soft);font-size:.93rem">Tracking is off until you deploy your own tracker, so your data never goes to anyone else. You need a free Cloudflare account. Open a terminal (Windows: Command Prompt, Mac: Terminal) in the kit's <code>tracker</code> folder and run:</p>
+<div class="cmd"><span class="d"># sign in to Cloudflare</span>
+npx wrangler login
+<span class="d"># create storage, then paste the printed id into wrangler.toml</span>
+npx wrangler kv namespace create TRACK
+<span class="d"># set ALLOWED_HOSTS in wrangler.toml to your own website, then pick a dashboard password</span>
+npx wrangler secret put STATS_KEY
+<span class="d"># publish it: this prints your tracker address</span>
+npx wrangler deploy</div>
+          <p style="margin-top:10px;color:var(--ink-soft);font-size:.93rem">Then set <code>TRACKER_URL</code> and <code>TRACKED_HOSTS</code> in your settings. Your dashboard is at <code>https://mail-tracker.YOUR-NAME.workers.dev/dashboard?key=YOUR_PASSWORD</code>.</p>
+        </details>
+        <p class="note">Only email people who agreed to hear from you, and keep the unsubscribe line in the template. A normal Gmail account can send about 500 emails a day. Never share your settings file: it holds your email password.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS / LESSONS -->
+  <section aria-labelledby="h-learn">
+    <div class="sec-head">
+      <p class="eyebrow">What I learned</p>
+      <h2 id="h-learn">Honest numbers beat pretty numbers</h2>
+    </div>
+    <div class="two">
+      <div class="card">
+        <h3>Opens are a hint, clicks are evidence</h3>
+        <p>Apple Mail and Gmail pre-load or proxy images, so open counts can be inflated or hidden. I made the dashboard lead with click rate and said so plainly in the kit's guide.</p>
+      </div>
+      <div class="card">
+        <h3>Design for the person who runs it</h3>
+        <p>The hardest part wasn't code but making setup work for someone who had never opened a terminal: drag-the-folder instructions, an App Password guide and clear error files.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:28px">Built with</h3>
+    <ul class="stack" aria-label="Built with">
+      <li>Node.js</li><li>Nodemailer (SMTP)</li><li>Cloudflare Workers</li><li>Workers KV</li><li>Wrangler</li><li>Vanilla JS dashboard</li><li>HTML email</li>
+    </ul>
+  </section>
+
+  <div class="cta">
+    <h2>Need a tool like this?</h2>
+    <p>I build small, focused tools that save businesses money, from email and tracking to stores and dashboards.</p>
+    <div class="hero-actions" style="justify-content:center;margin:0">
+      <a class="btn btn-primary" href="/contact/">Start a project</a>
+      <a class="btn btn-ghost" href="/work/">See more work</a>
+    </div>
+  </div>
+</main>
+
+<footer>© Md Limon Ali · <a href="/">mdlimonali.com</a></footer>
+
+<script>
+(function(){
+  /* ---------- sample data (made up) ---------- */
+  var FIRST=["Ayesha","Tanvir","Nusrat","Rafi","Mim","Sabbir","Farhana","Imran","Sadia","Arif","Tania","Rakib"];
+  var LAST=["Rahman","Hasan","Jahan","Ahmed","Akter","Hossain","Islam","Karim","Sultana","Chowdhury"];
+  var seed=7;function rnd(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}
+  function code(){var s="",h="0123456789abcdef";for(var i=0;i<10;i++)s+=h[Math.floor(rnd()*16)];return s}
+  function people(n,openP,clickP){var a=[];for(var i=0;i<n;i++){var o=rnd()<openP?1+Math.floor(rnd()*3):0,c=o&&rnd()<clickP?1+Math.floor(rnd()*2):0;
+    a.push({name:FIRST[Math.floor(rnd()*FIRST.length)]+" "+LAST[Math.floor(rnd()*LAST.length)],code:code(),o:o,c:c,t:o?Date.now()-Math.floor(rnd()*72)*36e5:0})}return a}
+  var camps=[
+    {id:"winter-drop",sent:120,people:people(120,.46,.32)},
+    {id:"eid-sale",sent:180,people:people(180,.52,.38)},
+    {id:"back-in-stock",sent:64,people:people(64,.61,.44)}
+  ];
+  var cur=0;
+  function sum(c,k){return c.people.reduce(function(s,p){return s+p[k]},0)}
+
+  /* ---------- render ---------- */
+  var $=function(id){return document.getElementById(id)};
+  function el(t,txt,cls){var e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
+  function ago(t){if(!t)return"—";var m=Math.round((Date.now()-t)/6e4);if(m<1)return"just now";if(m<60)return m+" min ago";var h=Math.round(m/60);if(h<24)return h+" h ago";return Math.round(h/24)+" d ago"}
+
+  var tabs=$("tabs");
+  camps.forEach(function(c,i){var b=el("button",c.id,"tab");b.type="button";b.setAttribute("aria-pressed",i===cur);b.onclick=function(){cur=i;render()};tabs.appendChild(b)});
+
+  function setKpi(id,v,bump){var k=$(id);k.querySelector("b").textContent=v;if(bump){k.classList.add("bump");clearTimeout(k._t);k._t=setTimeout(function(){k.classList.remove("bump")},700)}}
+  function render(bumpKey){
+    var c=camps[cur],o=sum(c,"o"),cl=sum(c,"c");
+    Array.prototype.forEach.call(tabs.children,function(b,i){b.setAttribute("aria-pressed",i===cur)});
+    setKpi("k-sent",c.sent);setKpi("k-open",o,bumpKey==="o");setKpi("k-click",cl,bumpKey==="c");
+    setKpi("k-rate",(o?Math.round(cl/o*100):0)+"%",bumpKey==="c");
+    var max=Math.max.apply(null,camps.map(function(x){return sum(x,"o")}));
+    var ch=$("chart");ch.textContent="";
+    camps.forEach(function(x){
+      [["o","Opens"],["c","Clicks"]].forEach(function(p){
+        var r=el("div",null,"chart-row");var lab=el("span",p[0]==="o"?x.id:"");lab.title=x.id;r.appendChild(lab);
+        var tr=el("div",null,"track "+p[0]);var i=el("i");i.style.width=(max?sum(x,p[0])/max*100:0)+"%";tr.appendChild(i);r.appendChild(tr);
+        r.appendChild(el("b",sum(x,p[0])));ch.appendChild(r);
+      });
+    });
+    var show=$("showNames").checked,tb=$("ppl");tb.textContent="";
+    c.people.slice().sort(function(a,b){return b.t-a.t}).slice(0,8).forEach(function(p){
+      var tr=el("tr");var td=el("td",show?p.name:p.code,show?"":"code");tr.appendChild(td);
+      tr.appendChild(el("td",p.o));var tc=el("td");tc.appendChild(el("span",p.c?p.c+" click"+(p.c>1?"s":""):"none","pill"+(p.c?"":" n")));tr.appendChild(tc);
+      tr.appendChild(el("td",ago(p.t)));tb.appendChild(tr);
+    });
+    $("upd").textContent="Updated "+new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  }
+  $("showNames").onchange=function(){render()};
+
+  /* ---------- simulated worker log ---------- */
+  var log=$("log");
+  function line(parts){var d=el("div");var ts=el("span",new Date().toLocaleTimeString([], {hour12:false})+" ","t");d.appendChild(ts);
+    parts.forEach(function(p){d.appendChild(el("span",p[0],p[1]||""))});log.appendChild(d);log.scrollTop=log.scrollHeight;while(log.children.length>40)log.removeChild(log.firstChild)}
+  line([["worker ready · ",""],["KV: TRACK","k"]]);
+  function pick(){var ps=camps[cur].people;return ps[Math.floor(Math.random()*ps.length)]}
+  $("simOpen").onclick=function(){var p=pick();p.o++;p.t=Date.now();
+    line([["GET ",""],["/o?id="+camps[cur].id+"&r="+p.code,"k"],[" → 200 gif","g"]]);render("o")};
+  $("simClick").onclick=function(){var p=pick();if(!p.o)p.o=1;p.c++;p.t=Date.now();
+    line([["GET ",""],["/c?id="+camps[cur].id+"&r="+p.code,"k"],[" → 302 shop.example.com","g"]]);render("c")};
+  $("simBad").onclick=function(){line([["GET ",""],["/c?id="+camps[cur].id+"&u=https://evil.example.net","k"],[" → 403 host not allowed","r"]])};
+
+  /* ---------- link builder ---------- */
+  var ALLOWED=["shop.example.com","www.shop.example.com"];
+  function build(){
+    var out=$("lbOut"),c=$("lbC").value.trim().toLowerCase().replace(/[^a-z0-9-]+/g,"-").replace(/^-|-$/g,"")||"campaign",u;
+    try{u=new URL($("lbU").value.trim())}catch(e){out.className="out err";out.textContent="That doesn't look like a full web address (it should start with https://).";return}
+    if(u.protocol!=="https:"||ALLOWED.indexOf(u.hostname)<0){out.className="out err";out.textContent="Refused: "+u.hostname+" is not on the allow-list. The real tracker blocks this too, so nobody can use it to redirect people to other sites.";return}
+    out.className="out";
+    out.textContent='<a href="https://mail-tracker.workers.dev/c?id='+encodeURIComponent(c)+'&u='+encodeURIComponent(u.href)+'">Shop now</a>';
+  }
+  $("lbC").oninput=build;$("lbU").oninput=build;
+  render();build();
+})();
+
+/* ---------- downloads: settings table, OS tabs, highlight the visitor's OS ---------- */
+(function(){
+  var ENV=[
+    ["SMTP_HOST","Your provider's mail server. Gmail: smtp.gmail.com"],
+    ["SMTP_PORT","587 (most providers)"],
+    ["SMTP_USER","Your email address"],
+    ["SMTP_PASS","An App Password, not your normal password. Gmail: turn on 2-Step Verification, then Google Account > Security > App passwords"],
+    ["FROM_NAME","The name people see, e.g. Rahim from Sample Shop"],
+    ["SUBJECT","The subject line. {{name}} becomes each person's name"],
+    ["CAMPAIGN","A name for this send, e.g. winter-sale"],
+    ["TRACKER_URL","Leave empty unless you set up tracking (below)"]
+  ];
+  document.querySelectorAll(".env-rows").forEach(function(tb){
+    ENV.forEach(function(r){var tr=document.createElement("tr");r.forEach(function(v){var td=document.createElement("td");td.textContent=v;tr.appendChild(td)});tb.appendChild(tr)});
+  });
+  var tabs=[document.getElementById("tab-win"),document.getElementById("tab-mac")];
+  function select(i,focus){tabs.forEach(function(t,j){var on=i===j;t.setAttribute("aria-selected",on);t.tabIndex=on?0:-1;document.getElementById(t.getAttribute("aria-controls")).hidden=!on});if(focus)tabs[i].focus()}
+  tabs.forEach(function(t,i){
+    t.addEventListener("click",function(){select(i)});
+    t.addEventListener("keydown",function(e){if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.preventDefault();select(1-i,true)}});
+  });
+  var p=((navigator.userAgentData&&navigator.userAgentData.platform)||navigator.platform||navigator.userAgent||"").toLowerCase();
+  var mobile=/iphone|ipad|android/.test((navigator.userAgent||"").toLowerCase());
+  if(!mobile&&/mac/.test(p)){document.getElementById("dl-mac").classList.add("is-yours");select(1)}
+  else if(!mobile&&/win/.test(p)){document.getElementById("dl-win").classList.add("is-yours")}
+  document.getElementById("dl-win").addEventListener("click",function(){select(0)});
+  document.getElementById("dl-mac").addEventListener("click",function(){select(1)});
+})();
+</script>
+</body>
+</html>
