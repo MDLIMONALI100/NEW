@@ -97,8 +97,16 @@
           <h1 class="page-h1 h-stack d2" data-anim id="proj-h"><span class="h-top">Selected</span><span class="h-big">Projects</span></h1>
           <p class="lede d3" data-anim>A curated selection of recent builds — <mark class="hl">real stores and business sites</mark>, live on the web.</p>
           <div class="live-count d4" data-anim role="status"><span class="live-dot" aria-hidden="true"></span><strong id="liveCount">9</strong><span class="live-text"><span id="liveLabel">projects live</span> on this website right now</span></div>
+          <div class="proj-filter d4" data-anim role="group" aria-label="Filter projects by type" id="projFilter">
+            <button type="button" class="pf-btn active" data-cat="all" aria-pressed="true">All</button>
+            <button type="button" class="pf-btn" data-cat="ecommerce" aria-pressed="false">E-commerce</button>
+            <button type="button" class="pf-btn" data-cat="custom" aria-pressed="false">Custom Coded</button>
+            <button type="button" class="pf-btn" data-cat="wpshopify" aria-pressed="false">WordPress / Shopify</button>
+            <button type="button" class="pf-btn" data-cat="game" aria-pressed="false">Game</button>
+          </div>
+          <p class="proj-empty" id="projEmpty" hidden>No projects in this section yet.</p>
           <div class="proj-list" id="projList">
-            <article class="proj-row" data-id="9">
+            <article class="proj-row" data-category="custom" data-id="9">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Streetwear: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791785909571.jpg" alt="Streetwear online store home page with leather jackets, denim and boots" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">01</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">Full-stack e-commerce</span></div>
@@ -109,7 +117,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://my-store.mdlimonali.workers.dev" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-9"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div>
               </div>
             </article>
-            <article class="proj-row" data-id="3">
+            <article class="proj-row" data-category="wpshopify" data-id="3">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://parfumerep.com" target="_blank" rel="noopener" aria-label="Parfume Store: visit live project (opens in a new tab)"><img src="/images/parfume.jpg" alt="Parfume Store fragrance e-commerce website built on WooCommerce" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">02</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WooCommerce online store</span></div>
@@ -120,7 +128,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://parfumerep.com" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-3"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div>
               </div>
             </article>
-            <article class="proj-row" data-id="7">
+            <article class="proj-row" data-category="wpshopify" data-id="7">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://footseason.com" target="_blank" rel="noopener" aria-label="FootSeason: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791353805498.jpg" alt="FootSeason football jersey online store with team collections" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">03</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WooCommerce online store</span></div>
@@ -131,7 +139,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://footseason.com" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-7"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div>
               </div>
             </article>
-            <article class="proj-row" data-id="12">
+            <article class="proj-row" data-category="game" data-id="12">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="Extraction: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792304829587.jpg" alt="Extraction top-down shooter game screenshot with loot crates and enemies" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">04</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Apps &amp; Games</span><span class="proj-kind">Browser and Android game</span></div>
@@ -142,7 +150,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://extraction-game.mdlimonali.workers.dev" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-12"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div>
               </div>
             </article>
-            <article class="proj-row" data-id="10">
+            <article class="proj-row" data-category="custom" data-id="10">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener" aria-label="3D 360° Viewer: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791801274057.jpg" alt="3D portfolio website with a 360 degree viewer and curved photo gallery" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">05</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">3D web experience</span></div>
@@ -153,7 +161,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://portal-3d.mdlimonali.workers.dev" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-10"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><span class="proj-note">Under development</span></div>
               </div>
             </article>
-            <article class="proj-row" data-id="1">
+            <article class="proj-row" data-category="wpshopify" data-id="1">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener" aria-label="Vira Skin Care: visit live project (opens in a new tab)"><img src="/images/skin-care.jpg" alt="Vira Skin Care Shopify storefront for a premium skin care brand" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">06</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Shopify</span><span class="proj-kind">Shopify storefront</span></div>
@@ -164,7 +172,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://premium-clothing-store-3.myshopify.com/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-1"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button><span class="proj-note">Preview store password: <strong>limon</strong></span></div>
               </div>
             </article>
-            <article class="proj-row" data-id="8">
+            <article class="proj-row" data-category="custom" data-id="8">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://mdlimonali100.github.io/e-com/" target="_blank" rel="noopener" aria-label="Baaizgar: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/library/1791451838322-screenshot-2026-10-08-at-3-30-22-pm.webp" alt="Baaizgar clothing store front end for men, women and kids" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">07</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Custom Code</span><span class="proj-kind">Hand-coded storefront front end</span></div>
@@ -175,7 +183,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="https://mdlimonali100.github.io/e-com/" target="_blank" rel="noopener"><i class="fas fa-arrow-up-right-from-square"></i>Visit live project<span class="sr-only"> (opens in a new tab)</span></a><button class="proj-more-btn" type="button" aria-expanded="false" aria-controls="pm-8"><span>Show details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button></div>
               </div>
             </article>
-            <article class="proj-row" data-id="11">
+            <article class="proj-row" data-category="game" data-id="11">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="/work/money-tracker/" aria-label="Money Tracker: view project details"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1792234760196.jpg" alt="Money Tracker budgeting app screens showing weekly budget and charts" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">08</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">Apps &amp; Games</span><span class="proj-kind">Mobile app with cloud sync</span></div>
@@ -186,7 +194,7 @@
                 <div class="proj-actions"><a class="btn btn-primary" href="/work/money-tracker/"><i class="fas fa-arrow-right"></i>View project</a><a class="btn btn-outline" href="https://expo.dev/artifacts/eas/2Rfalp02pObdPdmRc4iNHzGFVToBwK36sc_WrrzCCdw.apk" download><i class="fas fa-download"></i>Download</a></div>
               </div>
             </article>
-            <article class="proj-row" data-id="2">
+            <article class="proj-row" data-category="wpshopify" data-id="2">
               <div class="proj-media" data-sr="up"><a class="proj-shot" href="https://dev-home-cleaning-from-bd.pantheonsite.io/" target="_blank" rel="noopener" aria-label="Home Cleaning Service: visit live project (opens in a new tab)"><img src="https://ppxloknpydrodtfclowh.supabase.co/storage/v1/object/public/images/projects/1791602939125.jpg" alt="Home cleaning service website with service list and contact call to action" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest('.proj-shot').classList.add('img-missing')"><span class="proj-num">09</span></a></div>
               <div class="proj-info" data-sr="up">
                 <div class="proj-top"><span class="platform-tag">WordPress</span><span class="proj-kind">WordPress business website</span></div>
