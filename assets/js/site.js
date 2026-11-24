@@ -80,6 +80,25 @@ if(form)form.addEventListener('submit',async e=>{
   }catch{fmsg.textContent='Error. Please try again.';fmsg.style.display='block';}
 });
 
+/* ===== Work page section filter (works without Supabase) ===== */
+(function(){
+  const list=document.getElementById('projList');
+  if(!list)return;
+  const bar=document.getElementById('projFilter'),emptyMsg=document.getElementById('projEmpty');
+  let cur='all';try{const h=location.hash.slice(1);if(bar&&bar.querySelector('[data-cat="'+h+'"]'))cur=h;}catch(e){}
+  const filter=function(){
+    let n=0;
+    list.querySelectorAll('.proj-row').forEach(function(r){
+      const show=cur==='all'||r.dataset.category===cur;r.hidden=!show;
+      if(show){n++;r.querySelector('.proj-num').textContent=String(n).padStart(2,'0');r.querySelectorAll('[data-sr]').forEach(function(x){x.classList.add('sr-in');});}
+    });
+    if(emptyMsg)emptyMsg.hidden=n>0;
+    if(bar)bar.querySelectorAll('.pf-btn').forEach(function(b){const on=b.dataset.cat===cur;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
+  };
+  if(bar)bar.addEventListener('click',function(e){const b=e.target.closest('.pf-btn');if(!b)return;cur=b.dataset.cat;try{history.replaceState(null,'',cur==='all'?location.pathname:'#'+cur);}catch(x){}filter();});
+  window.applyProjFilter=filter;filter();
+})();
+
 /* ============================== live content from Supabase (admin panel) ============================== */
 (function(){
   const SUPABASE_URL='https://ppxloknpydrodtfclowh.supabase.co';
@@ -176,23 +195,11 @@ if(form)form.addEventListener('submit',async e=>{
       if(/game|app/.test(pl))return 'game';
       if(/wordpress|shopify|woo/.test(pl))return 'wpshopify';
       return 'custom';};
-    const bar=document.getElementById('projFilter'),emptyMsg=document.getElementById('projEmpty');
-    let cur='all';try{const h=location.hash.slice(1);if(bar&&bar.querySelector('[data-cat="'+h+'"]'))cur=h;}catch(e){}
-    const filter=function(){
-      let n=0;
-      list.querySelectorAll('.proj-row').forEach(function(r){
-        const show=cur==='all'||r.dataset.category===cur;r.hidden=!show;
-        if(show){n++;r.querySelector('.proj-num').textContent=String(n).padStart(2,'0');r.querySelectorAll('[data-sr]').forEach(function(x){x.classList.add('sr-in');});}
-      });
-      if(emptyMsg)emptyMsg.hidden=n>0;
-      if(bar)bar.querySelectorAll('.pf-btn').forEach(function(b){const on=b.dataset.cat===cur;b.classList.toggle('active',on);b.setAttribute('aria-pressed',on);});
-    };
-    if(bar)bar.addEventListener('click',function(e){const b=e.target.closest('.pf-btn');if(!b)return;cur=b.dataset.cat;try{history.replaceState(null,'',cur==='all'?location.pathname:'#'+cur);}catch(x){}filter();});
     const apply=function(data){
       list.querySelectorAll('.proj-row').forEach(r=>{if(!data.some(p=>String(p.id)===r.dataset.id))r.remove();});
       data.forEach(p=>{
         let row=list.querySelector('[data-id="'+p.id+'"]');
-        if(row){row.dataset.category=catOf(p.platform);const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;list.appendChild(row);return;}
+        if(row){row.dataset.category=catOf(p.platform);{const t=row.querySelector('.platform-tag');if(t&&p.platform)t.textContent=p.platform;}const im=row.querySelector('img');if(im&&p.image_url&&/^https?:/.test(p.image_url)&&im.getAttribute('src')!==p.image_url)im.src=p.image_url;list.appendChild(row);return;}
         row=document.createElement('article');row.className='proj-row';row.dataset.id=p.id;row.dataset.category=catOf(p.platform);
         row.innerHTML='<div class="proj-media" data-sr="up"><a class="proj-shot" href="'+esc(safeUrl(p.url))+'" target="_blank" rel="noopener" aria-label="'+esc(p.title)+' (opens in a new tab)"><img src="'+esc(/^https?:/.test(p.image_url||'')?p.image_url:'/'+String(p.image_url||'').replace(/^\//,''))+'" alt="'+esc(p.title)+'" width="1280" height="720" loading="lazy" decoding="async" onerror="this.closest(\'.proj-shot\').classList.add(\'img-missing\')"><span class="proj-num"></span></a></div>'+
           '<div class="proj-info" data-sr="up"><div class="proj-top"><span class="platform-tag">'+esc(p.platform)+'</span></div><h3>'+esc(p.title)+'</h3><p class="proj-sub">'+esc(calm(p.subtitle))+'</p><p class="proj-desc'+(long(p.description)?' proj-short':'')+'">'+esc(short(p.description))+'</p>'+
@@ -204,10 +211,9 @@ list.appendChild(row);
       list.querySelectorAll('.proj-row').forEach((r,i)=>{r.querySelector('.proj-num').textContent=String(i+1).padStart(2,'0');r.querySelector('.proj-media').setAttribute('data-sr','up');r.querySelector('.proj-info').setAttribute('data-sr','up');});
       {const n=list.querySelectorAll('.proj-row').length,lc=document.getElementById('liveCount'),ll=document.getElementById('liveLabel');if(lc){lc.textContent=n;ll.textContent=n===1?'project live':'projects live';}}
       if(window.srScan){window.srScan();window.srFlush(document.querySelector('.page-active'));}
-      filter();
+      if(window.applyProjFilter)window.applyProjFilter();
     };
     /* show the last known list straight away (no hidden list, no pop-in), then refresh it quietly */
-    filter();
     let cached=null;try{cached=localStorage.getItem(CACHE);}catch(e){}
     if(cached){try{apply(JSON.parse(cached));}catch(e){cached=null;}document.documentElement.classList.add('proj-synced');}
     (async function(){
